@@ -25,4 +25,19 @@ client.onerror = ( event ) => {
 // 4) onmessage() : 서버소켓으로부터 메시지를 받았을 때 실행되는 메소드
 client.onmessage = ( event ) => {
     console.log('[클라이언트] 서버소켓으로부터 메시지 수신!');
+    console.log( event );       // 서버로부터 받은 이벤트 정보객체 출력
+    console.log( event.data );  // 서버로부터 받은 메시지 출력
+    // 1. 서버로부터 받은 메시지를 HTML에 띄우기
+    const msgBox = document.querySelector('.msgBox');
+    let html = `<div>${ event.data }</div>`
+    msgBox.innerHTML += html;
+} // func end
+
+// 5) onSend() : '전송' 버튼을 클릭했을 때 실행되는 메소드
+const onSend = async ( ) => {
+    console.log('onSend func exe');
+    // 1. Input value
+    const msg = document.querySelector('.msg').value;
+    // 2. send : 서버소켓에게 메시지 보내기
+    client.send( msg );
 } // func end

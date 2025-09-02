@@ -20,10 +20,5 @@ public class WebSocketConfig implements WebSocketConfigurer {      // ws 프로�
         // 1. 개발자가 만든 서버웹소켓을 주소와 함께 등록한다.
         // registry.addHandler( 서버웹소켓객체, "경로" );
         registry.addHandler( chatHandler, "/chat" );
-
     } // func end
-
-
-
-
 } // class end

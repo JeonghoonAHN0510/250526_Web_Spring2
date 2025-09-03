@@ -28,6 +28,19 @@ public class ChatSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed( WebSocketSession session, CloseStatus status ) throws Exception {
         System.out.println("[서버] 클라이언트 소켓과 연동 종료");
+        // 2-1. 접속이 종료된 세션 정보를 확인하기(클라이언트 소켓)
+        // 세션 정보는 Object 타입이기 때문에, 타입 변환 필요
+        String room = (String) session.getAttributes().get("room");
+        String nickname = (String) session.getAttributes().get("nickname");
+        // 2-2. 만약에 방, 닉네임과 일치하는 데이터가 접속명단에 존재하면
+        if ( room != null || nickname != null ){
+            // 2-3. 해당 방의 접속목록 꺼내서
+            List< WebSocketSession > list = 접속명단.get( room );
+            // 2-4. 해당 세션을 삭제한다.
+            list.remove( session );
+            // 2-5. 접속을 종료했을 때, 알림 메시지 보내기
+            alarmMessage( room, nickname + "이 접속을 종료했습니다.");
+        } // if end
     } // func end
 
     // 3. 클라이언트 소켓으로부터 메시지를 수신했을 때, 실행되는 메소드
@@ -59,12 +72,31 @@ public class ChatSocketHandler extends TextWebSocketHandler {
                 // 3-10. 새로운 방에 새로운 목록 추가
                 접속명단.put( room, list );
             } // if end
-        }
+            // 3-11. 접속한 닉네임을 알림을 통해 보내기
+            alarmMessage( room, nickname + "이 입장했습니다. ");
+        } // if end
         System.out.println("접속명단 = " + 접속명단);   // 확인용 프린트
+    } // func end
+
+    // 4. 입/퇴장 알림 메시지 -> 접속/퇴장했을 때, 실행
+    public void alarmMessage( String room, String message ) throws Exception {
+        // throws : 예외처리 던지기, 해당 메소드에서 발생한 모든 예외를 해당 메소드를 호출한 곳으로 반환
+        // String room : 어떤 방에, String message : 어떤 내용을
+        // 4-1. 보내려는 정보를 Map 타입으로 구성
+        Map< String, String > msg = new HashMap<>();
+        msg.put( "type", "alarm" );
+        msg.put( "message", message );
+        // 4-2. Map 타입을 JSON 형식으로 변환 -> ObjectMapper
+        String sendMessage = objectMapper.writeValueAsString( msg );
+        // 4-3. 접속되어있는 방의 모든 세션에게 '알림' 메시지
+        for( WebSocketSession session : 접속명단.get( room ) ){
+            session.sendMessage( new TextMessage( sendMessage ) );
+        } // for end
     } // func end
 
     // * JSON 타입을 자바 타입으로 변환해주는 라이브러리 객체 : ObjectMapper -> Python, C와 통신할 때, 주로 사용
     // [ 주요 메소드 ]
-    // 1. .readValue( JSON형식, 변환할클래스명.class )
+    // 1. .readValue( JSON형식, 변환할클래스명.class ) : 문자열(JSON) ---> 변환할클래스
+    // 2. .writeValueAsString( 변환될객체 )          : 변환될객체 ---> 문자열(JSON)
     private final ObjectMapper objectMapper = new ObjectMapper();
 } // class end

@@ -33,5 +33,18 @@ client.onerror = ( event ) => {
 // [5] .onmessage()
 client.onmessage = ( event ) => {
     console.log( '[클라이언트] 서버소켓으로부터 메시지 수신');
+    event; // 해당 메소드가 왜 실행되었는지에 대한 여러 정보가 들어있는 객체
+    // 5-1. 서버로부터 받은 메시지 확인
     console.log( event.data );
+    // 5-2. 받은 메시지를 JSON 타입으로 변환
+    const message = JSON.parse( event.data );
+    // 5-3. 받은 메시지의 type을 확인하여, 서로 다른 html 만들어주기
+    let html = ``;
+    if ( message.type == 'alarm' ){
+        html += `<div class="alarm">
+                    <span> ${ message.message } </span>
+                 </div>`
+    } // if end
+    // 5-4. 구성한 html을 div에 추가하기( += ) <---> 대입( = )
+    document.querySelector('.msgbox').innerHTML += html;
 } // func end

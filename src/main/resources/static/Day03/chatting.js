@@ -41,10 +41,63 @@ client.onmessage = ( event ) => {
     // 5-3. 받은 메시지의 type을 확인하여, 서로 다른 html 만들어주기
     let html = ``;
     if ( message.type == 'alarm' ){
+        // 5-4. type이 alarm이면, alarm html 구성
         html += `<div class="alarm">
                     <span> ${ message.message } </span>
                  </div>`
+    } else if ( message.type == 'msg' ){
+        // 5-5. type이 msg면, msg html 구성
+        if ( message.from == nickname ){
+            // 5-6. 내가 보낸 메시지 html
+            html += `<div class="secontent">
+                        <div class="date"> ${ message.date } </div>
+                        <div class="content"> ${ message.message } </div>
+                     </div>`
+        } else {
+            // 5-7. 남이 보낸 메시지 html
+            html += `<div class="receiveBox">
+                        <div class="profileImg">
+                            <img src="default.jpg"/>
+                        </div>
+                        <div>
+                            <div class="recontent">
+                                <div class="memberNic"> ${ message.from } </div>
+                                <div class="subcontent">
+                                    <div class="content"> ${ message.message } </div>
+                                    <div class="date"> ${ message.date } </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>`
+        } // if end
     } // if end
-    // 5-4. 구성한 html을 div에 추가하기( += ) <---> 대입( = )
+    // 5-8. 구성한 html을 div에 추가하기( += ) <---> 대입( = )
     document.querySelector('.msgbox').innerHTML += html;
+} // func end
+
+// [6] 메시지 전송 기능 - 클라이언트 ---> 서버
+const onMsgSend = ( ) => {
+    console.log('onMsgSend func exe');
+    // 6-1. Input value 가져오기
+    const msginput = document.querySelector('.msginput');
+    const message = msginput.value;
+    // 6-2. 만약에 입력값이 없으면 종료
+    if ( message == '' ) return;
+    // 6-3. 메시지 구성하기 
+    // type : 메시지 종류(msg/join/alarm), message : 메시지 내용, from : 메시지 보내는사람, date : 보내는 날짜/시간
+    const msg = { type : "msg", message : message, from : nickname, date : new Date().toLocaleString() };
+    // 6-4. 구성한 메시지를 서버에게 보내기
+    client.send( JSON.stringify( msg ) );
+    // 6-5. Input 마크업 초기화
+    msginput.value = '';
+} // func end
+
+// [7] 엔터 입력 시, 메시지 전송
+const enterKey = ( ) => {
+    // 7-1. 만약 엔터를 입력한다면,
+    if ( window.event.keyCode == 13 ){
+        // keyCode : 키보드의 입력값을 코드로 표현, 13 == enter
+        // 7-2. 메시지 전송 함수 실행
+        onMsgSend();
+    } // if end
 } // func end

@@ -54,7 +54,7 @@ public class ChatSocketHandler extends TextWebSocketHandler {
         Map< String, String > msg = objectMapper.readValue( message.getPayload(), Map.class );
         // 3-3. 만약 message의 'type'이 'join'이면
         if ( msg.get("type").equals("join") ){
-            String room = msg.get("room");          // 방번호
+            String room = msg.get("room");          // 접속한 방번호
             String nickname = msg.get("nickname");  // 접속자
             // 3-4. 메시지를 보내온 클라이언트 소켓 세션에 부가정보(방번호, 접속자) 추가 -> HTTP 세션과 비슷
             session.getAttributes().put( "room", room );
@@ -74,6 +74,14 @@ public class ChatSocketHandler extends TextWebSocketHandler {
             } // if end
             // 3-11. 접속한 닉네임을 알림을 통해 보내기
             alarmMessage( room, nickname + "이 입장했습니다. ");
+        // 3-12. 만약 message의 'type'이 'msg'면
+        } else if ( msg.get("type").equals("msg") ){
+            // 3-13. 메시지를 보낸 세션의 방번호 가져오기
+            String room = (String) session.getAttributes().get("room");
+            // 3-14. 같은 방에 위치한 모든 세션들에게 받은 메시지 보내기
+            for ( WebSocketSession client : 접속명단.get( room ) ){
+                client.sendMessage( message );
+            } // for end
         } // if end
         System.out.println("접속명단 = " + 접속명단);   // 확인용 프린트
     } // func end

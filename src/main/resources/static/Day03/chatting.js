@@ -72,7 +72,12 @@ client.onmessage = ( event ) => {
         } // if end
     } // if end
     // 5-8. 구성한 html을 div에 추가하기( += ) <---> 대입( = )
-    document.querySelector('.msgbox').innerHTML += html;
+    const msgbox = document.querySelector('.msgbox');
+    msgbox.innerHTML += html;
+    // 5-9. 만약에 div의 내용물이 고정 사이즈보다 커지면, 자동 스크롤 내리기
+    msgbox.scrollTop = msgbox.scrollHeight;
+    // DOM객체.scrollTop : 현재 마크업의 스크롤 상단 꼭지점 위치
+    // DOM객체.scrollHeight : 현재 마크업의 스크롤 전체 길이
 } // func end
 
 // [6] 메시지 전송 기능 - 클라이언트 ---> 서버

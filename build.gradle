@@ -25,7 +25,7 @@ dependencies {
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"            // JSP 라이브러리 설치
     compileOnly 'org.projectlombok:lombok'                                  // Lombok 라이브러리 설치
     annotationProcessor 'org.projectlombok:lombok'                          // Lombok 라이브러리 설치
-
+    implementation 'org.jsoup:jsoup:1.21.2'                                 // Jsoup 라이브러리 설치
 }
 
 tasks.named('test') {

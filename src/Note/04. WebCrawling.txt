@@ -19,3 +19,5 @@
     3) 마크업의 데이터 가져오기
        -> String text = element.text();
        -> String src = element.attr( "src" );
+
+[ Selenium ]

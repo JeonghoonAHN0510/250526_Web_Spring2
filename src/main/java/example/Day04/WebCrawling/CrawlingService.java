@@ -48,29 +48,51 @@ public class CrawlingService {
     public List<Map<String, String>> task2(){
         List<Map<String, String>> list = new ArrayList<>();
         try {
-            // 2-1. 크롤링할 웹페이지 주소
-            String URL = "https://www.yes24.com/product/category/daybestseller?categoryNumber=001&pageNumber=1&pageSize=24&type=day";
-            // 2-2. Jsoup을 이용한 웹페이지의 HTML 문서 가져오기
-            // Jsoup.connect( URL ).get();
-            Document document = Jsoup.connect( URL ).get();
-            // 2-3. 크롤링할 마크업 가져오기 -> 책제목, 가격
-            Elements titleList = document.select( ".info_name > .gd_name" );
-            Elements priceList = document.select( ".info_price > .txt_num > .yes_b" );
-            Elements imgList = document.select( ".img_bdr > .lazy" );
-            // 2-4. 가져온 마크업들을 반복하여, 텍스트만 추출 -> .text()
-            for ( int i = 0; i < titleList.size(); i++ ){
-                String title = titleList.get( i ).text();               // i번째 제목 추출
-                String price = priceList.get( i ).text();               // i번째 가격 추출
-                String img = imgList.get( i ).attr( "data-original" );  // i번째 data-original 추출
-                Map<String, String> map = new HashMap<>();
-                map.put( "title", title );
-                map.put( "price", price );
-                map.put( "img", img );
-                list.add( map );
-            } // for end
+            // 2-0. 페이징처리된 페이지를 반복문을 통해서 크롤링하기
+            for ( int page = 1; page <= 3; page++ ){
+                // 2-1. 크롤링할 웹페이지 주소
+                String URL = "https://www.yes24.com/product/category/daybestseller?categoryNumber=001&pageNumber=" + page + "&pageSize=24&type=day";
+                // 2-2. Jsoup을 이용한 웹페이지의 HTML 문서 가져오기
+                // Jsoup.connect( URL ).get();
+                Document document = Jsoup.connect( URL ).get();
+                // 2-3. 크롤링할 마크업 가져오기 -> 책제목, 가격
+                Elements titleList = document.select( ".info_name > .gd_name" );
+                Elements priceList = document.select( ".info_price > .txt_num > .yes_b" );
+                Elements imgList = document.select( ".img_bdr > .lazy" );
+                // 2-4. 가져온 마크업들을 반복하여, 텍스트만 추출 -> .text()
+                for ( int i = 0; i < titleList.size(); i++ ){
+                    String title = titleList.get( i ).text();               // i번째 제목 추출
+                    String price = priceList.get( i ).text();               // i번째 가격 추출
+                    String img = imgList.get( i ).attr( "data-original" );  // i번째 data-original 추출
+                    Map<String, String> map = new HashMap<>();
+                    map.put( "title", title );
+                    map.put( "price", price );
+                    map.put( "img", img );
+                    list.add( map );
+                } // for i end
+            } // for page end
         } catch ( Exception e ) {
             System.out.println( e );
         } // try-catch end
         return list;
+    } // func end
+
+    // 3. 날씨정보 크롤링 -> https://weather.daum.net/ -> 동적 페이지라서 Jsoup으로 크롤링할 수 없음.
+    public Map<String, String> task3(){
+        Map<String, String> map = new HashMap<>();
+        try {
+            // 3-1. 크롤링할 웹페이지 주소
+            String URL = "https://weather.daum.net/";
+            // 3-2. Jsoup을 이용한 HTML 문서 가져오기
+            Document document = Jsoup.connect( URL ).get();
+            // 3-3. 문서의 마크업 가져오기
+            Elements elements = document.select( ".info_weather > .num_deg" );
+            System.out.println("elements = " + elements);
+            // -> 데이터가 출력되지않음. -> 마크업은 JS가 데이터를 표시하는 방법이므로 크롤링할 수 없다.
+
+        }catch ( Exception e ){
+            System.out.println( e );
+        } // try-catch end
+        return map;
     } // func end
 } // class end

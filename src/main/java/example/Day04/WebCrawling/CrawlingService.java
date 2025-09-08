@@ -77,7 +77,8 @@ public class CrawlingService {
         return list;
     } // func end
 
-    // 3. 날씨정보 크롤링 -> https://weather.daum.net/ -> 동적 페이지라서 Jsoup으로 크롤링할 수 없음.
+    // 3. 날씨정보 크롤링 -> https://weather.daum.net/
+    // -> 동적 페이지라서 Jsoup으로 크롤링할 수 없음. -> Selenium으로 크롤링
     public Map<String, String> task3(){
         Map<String, String> map = new HashMap<>();
         try {
@@ -86,8 +87,8 @@ public class CrawlingService {
             // 3-2. Jsoup을 이용한 HTML 문서 가져오기
             Document document = Jsoup.connect( URL ).get();
             // 3-3. 문서의 마크업 가져오기
-            Elements elements = document.select( ".info_weather > .num_deg" );
-            System.out.println("elements = " + elements);
+            Element element = document.selectFirst( ".info_weather > .num_deg" );
+            System.out.println("element = " + element);
             // -> 데이터가 출력되지않음. -> 마크업은 JS가 데이터를 표시하는 방법이므로 크롤링할 수 없다.
 
         }catch ( Exception e ){

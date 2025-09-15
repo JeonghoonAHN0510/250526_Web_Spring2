@@ -37,3 +37,57 @@
 3. react 설치
     - 강의기준 : project -> src -> main 폴더에 설치
         1) main 폴더 우클릭 후, [통합 터미널에서 열기]
+        2) npm create vite@latest reactapp --template react
+            - 'npm create vite@latest 프로젝트명 --template react'
+            - 첫 설치 문제점: node.js를 처음설치한 pc에서 오류가 발생
+                1. node -v 에서 오류 발생시 : vscode를 종료후 재실행
+                2. npm -v 에서 오류 발생시 : 터미널 강력 권한 변경 :
+                    'Get-ExecutionPolicy' 입력후 엔터 --> 'Restricted' 출력됨
+                    'Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned' 입력후 엔터
+                    'Get-ExecutionPolicy' 입력후 엔터 --> 'RemoteSigned' 출력됨
+        3) 설치여부
+        Need to install the following packages:
+        create-vite@7.1.1
+        Ok to proceed? (y)              <-------- y 입력후 엔터
+
+        4) 키보드 방향키를 이동하여 'React' 에서 엔터
+        ◆  Select a framework:
+        │  ○ Vanilla
+        │  ○ Vue
+        │  ● React
+        │  ○ Preact
+        │  ○ Lit
+        │  ○ Svelte
+        │  ○ Solid
+        │  ○ Qwik
+        │  ○ Angular
+        │  ○ Marko
+        │  ○ Others
+
+        5) 키보드 방향키를 이동하여 'JavaScript + SWC' 에서 엔터
+        ◆  Select a variant:
+        │  ○ TypeScript
+        │  ○ TypeScript + SWC
+        │  ○ JavaScript
+        │  ● JavaScript + SWC
+        │  ○ React Router v7 ↗
+        │  ○ TanStack Router ↗
+        │  ○ RedwoodSDK ↗
+        │  ○ RSC ↗
+
+        6) 최초 리액트 실행시 아래와 같이 입력후 엔터
+            1. 'cd reactapp'     : cd 폴더명
+            2. 'npm install'     : 현재 폴더내 라이브러리 전체 설치
+            3. 'npm run dev'     : 현재 폴더의 리액트 실행
+                ---> http://localhost:5173/
+
+
+        7) 리액트 종료
+            방법1) vscode 종료
+            방법2) 터미널 종료
+            방법3) 터미널에 'ctrl+c' 입력후 종료
+
+        ** 이미 설치된 리액트 재 실행
+            1. src-> main -> reactapp (리액트 최상위 폴더) 를 오른쪽클릭 ->  -> [ 통합 터미널 열기 ] 클릭
+            2. npm run dev
+            ** 리액트 코드 변경시 현재 서버가 실행중이라면 자동 리빌딩 된다.

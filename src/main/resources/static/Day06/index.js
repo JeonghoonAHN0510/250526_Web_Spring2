@@ -77,3 +77,78 @@ let newArray2 = array.filter( (value) => {
     return value > 20;
 }) // filter end
 console.log( newArray2 );
+
+// [5-1] 함수 - 선언적 함수
+function func1( param1, param2 ){ };            // 선언적 함수 선언
+func1( 4, 10 );                                 // 선언적 함수 호출
+
+// [5-2] 함수 - 익명 함수
+const func2 = function( param1, param2 ){ };    // 익명 함수 선언
+func2( "param1", { name : "name1" } );          // 익명 함수 호출
+
+// [5-3] 함수 - 람다식 함수
+const func3 = ( param1, param2 ) => { };        // 람다식 함수 선언
+func3( 10, "param2" );                          // 람다식 함수 호출
+
+const func4 = ( param1, param2 = "name" ) => { };// 람다식 함수 선언 + 매개변수 기본값
+func4( 20 );
+
+// [6] 객체 - 여러개의 값을 가진 하나의 값
+const obj1 = { name : "유재석", age : 40 };
+const obj2 = [ "유재석", 40 ];
+const name3 = "강호동";
+const age3 = 30;
+const obj3 = { name3, age3 };
+console.log( obj1.name );
+console.log( obj2[0] );
+console.log( obj3.name3 );
+
+// [*] 스프레드 연산자 : ...
+// 배열이나 객체를 복사할 때 사용 -> 주소값을 변경하기 위해서
+const obj4 = { ...obj1, phone : "010" };    // obj1 + phone
+console.log( obj4 );
+const obj5 = { ...obj3 };                   // ojb3
+console.log( obj5 );
+// 값은 똑같지만, 새로운 주소로 복사됨
+const obj6 = [ 6, 7, ...obj2 ];
+console.log( obj6 );
+
+// [7] 구조 분해 할당 : 객체나 배열에서 값을 분해하는 방법
+const user = { name : "유재석", age : 40 };
+// 객체의 속성명(key)과 동일한 이름으로 선언해야한다.
+const { name, age } = user;
+console.log( name, age );
+
+// [8] 비구조화 할당과 나머지 연산자
+const [ num1, num2, ...intArray ] = [ 1, 2, 3, 4 ];
+console.log( num1 );        // 인덱스 순서대로 분해 후
+console.log( num2 );
+console.log( intArray );    // 나머지를 ...에 저장한다.
+
+// [9] async / await - 동기화
+// [9-1] 비동기 fetch
+// fetch는 원래 비동기 함수
+const method1 = ( ) => {
+    fetch( "url" )
+    .then( response => response.json() )
+    .then( data => console.log( data ) );
+} // func end
+// [9-2] 동기 fetch
+const method2 = async ( ) => {
+    const response = await fetch( "url" );
+    const data = await response.json();
+    console.log( data );
+} // func end
+
+// [*] Promise - await은 promise를 사용하는 함수에만 사용할 수 있다.
+const promiseFunc = async ( ) => {
+    // resolve : 성공, reject : 실패
+    return await new Promise( ( resolve, reject ) => {
+        if ( 10 > 13 ){
+            resolve("10이 13보다 크다.");
+        } else {
+            reject("10이 13보다 작다.");
+        } // if end
+    })
+} // func end
+promiseFunc();

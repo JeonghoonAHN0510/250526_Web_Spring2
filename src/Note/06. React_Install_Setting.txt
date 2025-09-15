@@ -91,3 +91,40 @@
             1. src-> main -> reactapp (리액트 최상위 폴더) 를 오른쪽클릭 ->  -> [ 통합 터미널 열기 ] 클릭
             2. npm run dev
             ** 리액트 코드 변경시 현재 서버가 실행중이라면 자동 리빌딩 된다.
+4. react 프로젝트(패키지) 구조
+    1) node_modules : 현재 프로젝트가 설치된 라이브러리( 주로 Git 저장소에 commit 되지않는다. )
+        -> 만약에 해당 폴더가 없을 경우, 터미널에서 'npm install'하면 자동으로 설치된다.
+        -> **react 프로젝트 내에서 설치하기**
+    2) public       : 주로 정적파일( 로고, favicon ··· )
+    3) src          : 주로 코드파일
+        -> App.jsx : 최상위 컴포넌트
+        -> App.css : 컴포넌트 CSS
+        -> index.css : 최상위 CSS
+        -> **main.jsx : 최상위 컴포넌트를 렌더링하는 파일**
+        - 추후에 역할에 따라 하위 패키지를 구성할 예정
+        -> components 폴더
+        -> pages 폴더
+        -> api 폴더
+    4) **index.html   : react 전용 SPA, react의 최상위 HTML 파일**
+    5) **package.json : 현재 프로젝트의 설정과 라이브러리 의존성이 들어있는 파일**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

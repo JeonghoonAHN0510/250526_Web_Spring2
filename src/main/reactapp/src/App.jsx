@@ -1,35 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
 function App() {
-    const [count, setCount] = useState(0)
+
+    let a = 10;
 
     return (
         <>
-            <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.jsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
+            <h1> 안녕하세요 리액트 시작합니다. </h1>
+            <h3> 최초 렌더링되는 컴포넌트 (App.jsx) 입니다. </h3>
+            <h5> { a } : App 컴포넌트 안에서 선언한 변수 </h5>
         </>
     )
 }
-
+// default export로 App 내보내기
 export default App

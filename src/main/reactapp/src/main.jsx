@@ -1,3 +1,6 @@
+/*
+** 아래 함수를 변수 선언없이 작성하면 이러한 코드 **
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -8,3 +11,24 @@ createRoot(document.getElementById('root')).render(
         <App />
     </StrictMode>,
 )
+*/
+
+// main.jsx에서 index.html의 id=root 마크업에 최초의 화면함수(컴포넌트)를 렌더링하는 곳
+// 1. 리액트 root 함수 호출
+// -> react 라이브러리의 createRoot 함수를 import
+import { createRoot } from 'react-dom/client'
+// -> createRoot는 named export된 듯??
+
+// 2. index.html(SPA)에서 root 마크업 가져오기      -> where
+const root = document.querySelector('#root');
+
+// 3. 가져온 root 마크업을 createRoot 함수의 매개변수로 전달한다.
+const create = createRoot( root );
+
+// 4. 최종적으로 렌더링하기
+// 4-1. 렌더링할 컴포넌트(함수) 가져오기             -> what
+import App from './App.jsx';
+// -> App은 default export된 듯??
+
+// 4-2. 렌더링하기                                 -> render
+create.render( <App /> );

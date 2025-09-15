@@ -10,7 +10,7 @@ import java.util.Map;
 public interface BatisMapper {
     // 1. 학생 등록
     // dao : insert into student( name, kor, math ) values ( ?, ?, ? )
-    // MyBatis : insert into student( name, kor, math ) values ( ${매개변수1}, ${매개변수2}, ${매개변수3} )
+    // MyBatis : insert into student( name, kor, math ) values ( #{매개변수1}, #{매개변수2}, #{매개변수3} )
     @Insert("insert into student( name, kor, math ) values ( #{name}, #{kor}, #{math} )")
     int save( StudentDto studentDto );
     // int : 1 성공, 0 실패

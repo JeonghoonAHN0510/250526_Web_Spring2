@@ -17,4 +17,8 @@
     -> DBMS 라이브러리도 같이 존재해야한다.
 - Java와 DB 연동 설정하기 : application.properties에서 자동 연동
     1) application.properties는 resources 폴더 내에 존재한다
-    2) 한글이 깨지는 경우 : 설정 -> '파일 인코딩' ->
+    2) 한글이 깨지는 경우 : 설정 -> '파일 인코딩' -> '프로퍼티에 대한 디폴트 인코딩' : uft-8
+    JDBC 연동 - application.properties에서
+    spring.datasource.url=jdbc:mysql://localhost:3306/DB명
+    spring.datasource.username=계정명
+    spring.datasource.password=비밀번호

@@ -1,0 +1,20 @@
+[ Dao ]
+- 순수 JDBC 방식
+- 자바에서 DB와 직접 연결하고 SQL을 실행을 담당
+- 주요 인터페이스
+    1. Connection
+    2. PreparedStatement
+    3. ResultSet
+
+[ MyBatis ]
+- JDBC보다 편리한 기능 제공, 객체를 자동으로 매핑(연결)
+- 특징
+    1) SQL 매핑
+    2) 결과 매핑
+    3) 유연성
+    4) Spring에서 공식 지원
+- 설치 : Spring에서 의존성 추가
+    -> DBMS 라이브러리도 같이 존재해야한다.
+- Java와 DB 연동 설정하기 : application.properties에서 자동 연동
+    1) application.properties는 resources 폴더 내에 존재한다
+    2) 한글이 깨지는 경우 : 설정 -> '파일 인코딩' ->

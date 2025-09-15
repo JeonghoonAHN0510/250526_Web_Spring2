@@ -28,3 +28,12 @@
     -> 장점 : 필요한 데이터만 사용할 수 있다.
     -> 단점 : 새로고침이 발생한다.
     -> 예시 : JSP
+
+[ React 환경 준비 ]
+- node.js란? 크롬 엔진을 사용하여 HTML에 종속되지않고 자체적인 자바스크립트를 실행하는 라이브러리
+- npm(node package manager)이란? node.js 기반의 라이브러리를 설치/관리해주는 프로그램( gradle과 비슷 )
+1. node.js 접속 후 설치 - v22.19.0
+2. node.js 버전 확인 - cmd에 node -v, npm -v
+3. react 설치
+    - 강의기준 : project -> src -> main 폴더에 설치
+        1) main 폴더 우클릭 후, [통합 터미널에서 열기]

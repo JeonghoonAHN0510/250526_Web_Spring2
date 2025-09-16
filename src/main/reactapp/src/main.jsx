@@ -13,6 +13,7 @@ createRoot(document.getElementById('root')).render(
 )
 */
 
+// ================================= 고정 =================================
 // main.jsx에서 index.html의 id=root 마크업에 최초의 화면함수(컴포넌트)를 렌더링하는 곳
 // 1. 리액트 root 함수 호출
 // -> react 라이브러리의 createRoot 함수를 import
@@ -25,10 +26,17 @@ const root = document.querySelector('#root');
 // 3. 가져온 root 마크업을 createRoot 함수의 매개변수로 전달한다.
 const create = createRoot( root );
 
-// 4. 최종적으로 렌더링하기
-// 4-1. 렌더링할 컴포넌트(함수) 가져오기             -> what
-import App from './App.jsx';
-// -> App은 default export된 듯??
+// ================================= 기본 예제 =================================
+// // 4. 최종적으로 렌더링하기
+// // 4-1. 렌더링할 컴포넌트(함수) 가져오기             -> what
+// import App from './App.jsx';
+// // -> App은 default export된 듯??
 
-// 4-2. 렌더링하기                                 -> render
-create.render( <App /> );
+// // 4-2. 렌더링하기                                 -> render
+// create.render( <App /> );
+
+// ================================= Day01 =================================
+// 4. 렌더링할 컴포넌트 import하기
+import Component1 from './example/Day01/Component1';
+// 5. 렌더링하기 -> create.render()
+create.render( <Component1></Component1> )

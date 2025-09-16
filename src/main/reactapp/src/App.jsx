@@ -1,4 +1,4 @@
-function App() {
+const App = () => {
 
     let a = 10;
 

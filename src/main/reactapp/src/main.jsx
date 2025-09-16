@@ -36,15 +36,16 @@ const create = createRoot( root );
 // create.render( <App /> );
 
 // ================================= Day01 =================================
-// // 4. 렌더링할 컴포넌트 import하기
-// import Component1 from './example/Day01/Component1';
-// // 5. 렌더링하기 -> create.render()
-// create.render( <Component1/> );
-// // 4. 렌더링할 컴포넌트 import하기
-// import Component2 from './example/Day01/Component2';
-// // 5. 렌더링하기 -> create.render()
-// create.render( <Component2/> );
 // 4. 렌더링할 컴포넌트 import하기
-import Component3 from './example/Day01/Component3';
+import Component1 from './example/Day01/Component1.jsx';
+import Component2 from './example/Day01/Component2.jsx';
+import Component3 from './example/Day01/Component3.jsx';
+import Task1 from './example/Day01/Task1.jsx';
+import Task2 from './example/Day01/Task2.jsx';
+
 // 5. 렌더링하기 -> create.render()
-create.render( <Component3/> );
+// create.render( <Component1/> );
+// create.render( <Component2/> );
+// create.render( <Component3/> );
+// create.render( <Task1/> );
+create.render( <Task2/> );

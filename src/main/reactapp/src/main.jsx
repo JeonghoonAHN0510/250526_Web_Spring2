@@ -40,7 +40,11 @@ const create = createRoot( root );
 // import Component1 from './example/Day01/Component1';
 // // 5. 렌더링하기 -> create.render()
 // create.render( <Component1/> );
+// // 4. 렌더링할 컴포넌트 import하기
+// import Component2 from './example/Day01/Component2';
+// // 5. 렌더링하기 -> create.render()
+// create.render( <Component2/> );
 // 4. 렌더링할 컴포넌트 import하기
-import Component2 from './example/Day01/Component2';
+import Component3 from './example/Day01/Component3';
 // 5. 렌더링하기 -> create.render()
-create.render( <Component2/> );
+create.render( <Component3/> );

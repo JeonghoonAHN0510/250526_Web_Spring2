@@ -1,0 +1,15 @@
+[ Component ]
+- React에서의 독립적이고 재사용 가능한 함수
+- HTML + JS + CSS를 하나의 컴포넌트로 구성할 수 있다.
+- 만드는 방법
+    1) 컴포넌트 생성
+        function 컴포넌트명( props ){ return };
+    2) 컴포넌트 내보내기
+        export default 컴포넌트명;
+- 컴포넌트 불러오기
+    1) 다른 jsx일 때
+        import 컴포넌트명 from 'jsx 파일경로'
+        < 컴포넌트명 />
+    2) 같은 jsx일 때
+        < 컴포넌트명 />
+- return에서의 여러줄 : ( )와 <>로 감싸 작성한다.

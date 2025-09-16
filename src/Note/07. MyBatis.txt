@@ -34,4 +34,4 @@
 4. 반환타입은 SQL 결과가 자동으로 매핑된다.
     int : Insert/Update/Delete에 의해 처리된 레코드 수 반환
     Map/Dto/List : Select에 의해 조회된 레코드 반환
-5. 자바의 속성명과 DB의 컬럼명은 항상 일치해야한다.
+5. Dto의 멤버변수명과 SQL의 속성명은 일치해야한다.

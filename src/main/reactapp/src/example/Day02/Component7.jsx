@@ -23,6 +23,17 @@ export default function Component7( props ){
         // 스프레드 연산자를 통해서 객체 복사 진행
     } // func end
 
+    // input value 가져오기
+    const [ data, setData ] = useState( '' );
+    const dataAdd = ( event ) => {
+        // onChange가 실행되었을 때, 이벤트 결과가 함수의 매개변수로 전달된다.
+        console.log( event );
+        console.log( event.target );        // onChange가 발동한 마크업 (vs document.querySelector() )
+        console.log( event.target.value );  // value 가져오기
+        // 입력받은 값을 useState로 변경하기
+        setData( event.target.value );
+    } // func end
+
     return(
         <>
         <h3> useState 예제1 </h3>
@@ -31,6 +42,10 @@ export default function Component7( props ){
         <h3> useState 예제2 </h3>
         <h4> { array } </h4>
         <button onClick={ arrayAdd }> 과일 추가 </button>
+        <h3> useState 예제3 </h3>
+        <h4> { data } </h4>
+        <input value={ data } onChange={ dataAdd }/>
+        <input value={ data } onChange={ ( event ) => { setData( event.target.value ) } }/>
         </>
     ) // return end
 } // func end

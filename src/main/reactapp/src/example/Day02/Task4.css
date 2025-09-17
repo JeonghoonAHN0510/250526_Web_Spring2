@@ -1,0 +1,43 @@
+.container{
+    border: 1px #dddddd solid;
+    border-radius: 15px;
+    width: 52%;
+    padding: 10px 20px;
+    margin: 0 auto;
+}
+.inputBox{
+    display: flex;
+    justify-content: space-between;
+}
+.inputBox input{
+    border: 1px #dddddd solid;
+    border-radius: 5px;
+    padding: 5px 7px;
+    width: 190px;
+}
+.inputBox button{
+    background-color: white;
+    border: 1px #cccccc solid;
+    border-radius: 5px;
+    padding: 4px 7px;
+}
+.member{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px #eeeeee solid;
+    padding: 5px 0px;
+}
+.info span{
+    margin-right: 15px;
+}
+.removeBox button{
+    background-color: white;
+    border: 1px red solid;
+    color: red;
+    border-radius: 5px;
+    padding: 3px 6px;
+}
+.amount{
+    color: #666464;
+    font-size: 12px;
+}

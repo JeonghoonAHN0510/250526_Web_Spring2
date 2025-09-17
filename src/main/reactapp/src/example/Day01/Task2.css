@@ -11,10 +11,10 @@
 li{
     list-style: none;
 }
-li:nth-child(1){
+.products li:nth-child(1){
     font-weight: bold;
     font-size: 20px;
 }
-li:nth-child(2){
+.products li:nth-child(2){
     margin: 15px 0px;
 }

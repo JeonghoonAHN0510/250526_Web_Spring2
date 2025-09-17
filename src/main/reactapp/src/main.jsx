@@ -53,6 +53,10 @@ import Task2 from './example/Day01/Task2.jsx';
 // ================================= Day01 =================================
 // 4. 렌더링할 컴포넌트 import하기
 import Component4 from './example/Day02/Component4.jsx';
+import Component5 from './example/Day02/Component5.jsx';
+import Component6 from './example/Day02/Component6.jsx';
 
 // 5. 렌더링하기 -> create.render()
-create.render( <Component4/> );
+// create.render( <Component4/> );
+// create.render( <Component5/> );
+create.render( <Component6/> );

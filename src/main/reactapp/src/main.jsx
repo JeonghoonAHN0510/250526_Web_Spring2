@@ -48,4 +48,11 @@ import Task2 from './example/Day01/Task2.jsx';
 // create.render( <Component2/> );
 // create.render( <Component3/> );
 // create.render( <Task1/> );
-create.render( <Task2/> );
+// create.render( <Task2/> );
+
+// ================================= Day01 =================================
+// 4. 렌더링할 컴포넌트 import하기
+import Component4 from './example/Day02/Component4.jsx';
+
+// 5. 렌더링하기 -> create.render()
+create.render( <Component4/> );

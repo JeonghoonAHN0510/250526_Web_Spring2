@@ -37,11 +37,11 @@ const create = createRoot( root );
 
 // ================================= Day01 =================================
 // 4. 렌더링할 컴포넌트 import하기
-import Component1 from './example/Day01/Component1.jsx';
-import Component2 from './example/Day01/Component2.jsx';
-import Component3 from './example/Day01/Component3.jsx';
-import Task1 from './example/Day01/Task1.jsx';
-import Task2 from './example/Day01/Task2.jsx';
+// import Component1 from './example/Day01/Component1.jsx';
+// import Component2 from './example/Day01/Component2.jsx';
+// import Component3 from './example/Day01/Component3.jsx';
+// import Task1 from './example/Day01/Task1.jsx';
+// import Task2 from './example/Day01/Task2.jsx';
 
 // 5. 렌더링하기 -> create.render()
 // create.render( <Component1/> );
@@ -50,13 +50,15 @@ import Task2 from './example/Day01/Task2.jsx';
 // create.render( <Task1/> );
 // create.render( <Task2/> );
 
-// ================================= Day01 =================================
+// ================================= Day02 =================================
 // 4. 렌더링할 컴포넌트 import하기
-import Component4 from './example/Day02/Component4.jsx';
-import Component5 from './example/Day02/Component5.jsx';
-import Component6 from './example/Day02/Component6.jsx';
+// import Component4 from './example/Day02/Component4.jsx';
+// import Component5 from './example/Day02/Component5.jsx';
+// import Component6 from './example/Day02/Component6.jsx';
+import Component7 from './example/Day02/Component7.jsx';
 
 // 5. 렌더링하기 -> create.render()
 // create.render( <Component4/> );
 // create.render( <Component5/> );
-create.render( <Component6/> );
+// create.render( <Component6/> );
+create.render( <Component7/> );

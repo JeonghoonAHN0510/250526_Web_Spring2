@@ -31,15 +31,14 @@ export default function Task4( props ){
     // [4-2] add list
     const addList = ( ) => {
         if ( name == '' || phone == '' || age == '' ) return;
+        // member 객체를 만들어서, list.push( obj )로 진행 -> 스프레드 연산자를 통해 setList()
         setList( [ ...list, { name : name, phone : phone, age : age, mno : mno++ } ] )
     } // func end
     // [4-3] remove list
     const removeList = ( e ) => {
         const newList = list.filter( (member) => {
-            if ( member.mno != e.target.value ){
-                return member;
-            } // if end
-        }) // map end
+            return member.mno != e.target.value;
+        }) // filter end
         setList( newList );
     } // func end
 
@@ -66,6 +65,7 @@ export default function Task4( props ){
                                 </div>
                                 <div class="removeBox">
                                     <button value={member.mno} onClick={removeList}>삭제</button>
+                                    {/* onClick={ () => { removeList(member.mno) } } */}
                                 </div>
                             </div>
                             </>

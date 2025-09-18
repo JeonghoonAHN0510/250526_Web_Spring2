@@ -11,6 +11,8 @@ import java.util.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
+//@CrossOrigin( value = "허용할 주소") -> CORS 정책 허용 설정
+@CrossOrigin( value = "http://localhost:5173")  // React 서버와 CORS 통신 허용
 public class BoardController {
     // 의존성 주입
     private final BoardService boardService;

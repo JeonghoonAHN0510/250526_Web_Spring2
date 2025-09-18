@@ -70,8 +70,10 @@ const create = createRoot( root );
 // ================================= Day03 =================================
 // 4. 렌더링할 컴포넌트 import하기
 // import Component8 from './example/Day03/Component8';
-import Component9 from './example/Day03/Component9';
+// import Component9 from './example/Day03/Component9';
+import Component10 from './example/Day03/Component10';
 
 // 5. 렌더링하기 -> create.render()
 // create.render( <Component8/> );
-create.render( <Component9/> );
+// create.render( <Component9/> );
+create.render( <Component10/> );

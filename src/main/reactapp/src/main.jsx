@@ -57,7 +57,7 @@ const create = createRoot( root );
 // import Component6 from './example/Day02/Component6.jsx';
 // import Component7 from './example/Day02/Component7.jsx';
 // import Task3 from './example/Day02/Task3';
-import Task4 from './example/Day02/Task4';
+// import Task4 from './example/Day02/Task4';
 
 // 5. 렌더링하기 -> create.render()
 // create.render( <Component4/> );
@@ -65,4 +65,11 @@ import Task4 from './example/Day02/Task4';
 // create.render( <Component6/> );
 // create.render( <Component7/> );
 // create.render( <Task3/> );
-create.render( <Task4/> );
+// create.render( <Task4/> );
+
+// ================================= Day03 =================================
+// 4. 렌더링할 컴포넌트 import하기
+import Component8 from './example/Day03/Component8';
+
+// 5. 렌더링하기 -> create.render()
+create.render( <Component8/> );

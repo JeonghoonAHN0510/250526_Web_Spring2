@@ -82,3 +82,18 @@ INSERT INTO board (bcontent, bwriter) VALUES ('배가 너무 고파요', '지수
 INSERT INTO board (bcontent, bwriter) VALUES ('헬스장 다녀왔어요', '제니');
 INSERT INTO board (bcontent, bwriter) VALUES ('오늘도 화이팅!', '리사');
 INSERT INTO board (bcontent, bwriter) VALUES ('운전 조심하세요~', '태연');
+
+-- --------------------------------------- Task05 ----------------------------------------
+create table phoneBook(
+	mno int auto_increment,
+    name varchar(20) not null,
+    phone varchar(13) not null,
+    age int not null,
+    constraint primary key( mno )
+);
+select * from phoneBook;
+-- --------------------------------------- Insert ----------------------------------------
+insert into phonebook ( name, phone, age ) values
+	( '신동엽', '010-1234-5678', 50 ),
+    ( '강호동', '010-9876-5432', 40 ),
+    ( '유재석', '010-4567-1234', 30 );

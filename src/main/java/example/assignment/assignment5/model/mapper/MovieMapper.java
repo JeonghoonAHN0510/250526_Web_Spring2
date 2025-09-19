@@ -4,6 +4,9 @@ import example.assignment.assignment5.model.dto.MovieDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface MovieMapper {
@@ -25,6 +28,11 @@ public interface MovieMapper {
     @Delete("delete from movie where mno = #{mno} and mpwd = #{mpwd}")
     boolean deleteMovie( MovieDto movieDto );
 
-    // [3] 영화 전체조회
+    /**
+     * 등록된 추천 영화목록을 조회한다.
+     * @return List, MovieDto
+     */
+    @Select("select * from movie")
+    List<MovieDto> getMovies();
 
 } // interface end

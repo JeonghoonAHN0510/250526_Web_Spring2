@@ -5,6 +5,8 @@ import example.assignment.assignment5.model.mapper.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MovieService {
@@ -29,5 +31,11 @@ public class MovieService {
         return movieMapper.deleteMovie( movieDto );
     } // func end
 
-    // [3] 영화 전체조회
+    /**
+     * 등록된 추천 영화목록을 조회한다.
+     * @return List, MovieDto
+     */
+    public List<MovieDto> getMovies(){
+        return movieMapper.getMovies();
+    } // func end
 } // class end

@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/movie")
 @RequiredArgsConstructor
@@ -56,7 +58,22 @@ public class MovieController {
         } // if end
     } // func end
 
-    // [3] 영화 전체조회
-
-
+    /**
+     * 등록된 추천 영화목록을 조회한다.
+     * <p>
+     * method : GET, URL : /movie/getMovies
+     * @return List, MovieDto
+     */
+    @GetMapping("/getMovies")
+    public ResponseEntity<List<MovieDto>> getMovies(){
+        System.out.println("MovieController.getMovies");
+        // 1. Service로부터 결과 받기
+        List<MovieDto> result = movieService.getMovies();
+        // 2. 결과 반환하기
+        if ( result == null ){
+            return ResponseEntity.status(400).body( null );
+        } else {
+            return ResponseEntity.status(200).body( result );
+        } // if end
+    } // func end
 } // class end

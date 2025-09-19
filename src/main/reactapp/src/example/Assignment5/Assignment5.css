@@ -4,3 +4,14 @@
     border: 1px #dddddd solid;
     border-radius: 10px;
 }
+.inputGroup{
+    display: flex;
+    justify-content: space-between;
+}
+.inputGroup button{
+    margin: 10px 0px;
+}
+.form-control{
+    width: 170px;
+    margin: 10px 0px;
+}

@@ -5,6 +5,8 @@ import example.assignment.assignment5.model.mapper.DiscussionMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DiscussionService {
@@ -28,6 +30,12 @@ public class DiscussionService {
         return discussionMapper.deleteDiscussion( discussionDto );
     } // func end
 
-    // [3] 영화별 토론 전체 조회
-
+    /**
+     * 영화번호를 입력받아, 해당 영화의 모든 토론을 조회한다.
+     * @param mno
+     * @return List, DiscussionDto
+     */
+    public List<DiscussionDto> getDiscussionsByMno( int mno ){
+        return discussionMapper.getDiscussionsByMno( mno );
+    } // func end
 } // class end

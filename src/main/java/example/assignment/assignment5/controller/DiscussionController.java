@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/discussion")
@@ -53,6 +55,23 @@ public class DiscussionController {
         } // if end
     } // func end
 
-    // [3] 영화별 토론 전체 조회
-
+    /**
+     * 영화번호를 입력받아, 해당 영화의 모든 토론을 조회한다.
+     * <p>
+     * method : GET, URL : /discussion/getByMno
+     * @param mno
+     * @return List, DiscussionDto
+     */
+    @GetMapping("/getByMno")
+    public ResponseEntity<List<DiscussionDto>> getDiscussionByMno( @RequestParam int mno ){
+        System.out.println("DiscussionController.getDiscussionByMno");
+        // 1. Service로부터 결과받기
+        List<DiscussionDto> result = discussionService.getDiscussionsByMno( mno );
+        // 2. 결과 반환하기
+        if ( result == null ){
+            return ResponseEntity.status(400).body( null );
+        } else {
+            return ResponseEntity.status(200).body( result );
+        } // if end
+    } // func end
 } // class end

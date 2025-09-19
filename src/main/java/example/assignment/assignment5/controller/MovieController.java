@@ -47,6 +47,7 @@ public class MovieController {
     @PutMapping("/delete")
     public ResponseEntity<Boolean> deleteMovie( @RequestBody MovieDto movieDto ){
         System.out.println("MovieController.deleteMovie");
+        System.out.println("movieDto = " + movieDto);
         // 1. Service로부터 결과 받기
         boolean result = movieService.deleteMovie( movieDto );
         // 2. 결과 반환하기

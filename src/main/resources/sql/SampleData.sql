@@ -116,12 +116,12 @@ insert into movie ( mtitle, mdirector, mgenre, mcomment, mpwd ) values
     ( '영화3', '감독3', '장르3', '감독3의 영화3', '1234' );
 -- ------------------------------------- Discussion --------------------------------------
 create table discussion(
-	dno int auto_increment,
-    mno int not null,
-    dcontent varchar(100) not null,
-    dpwd varchar(20) not null,
+	dno int auto_increment,				-- 번호
+    mno int not null,					-- 영화번호
+    dcontent varchar(100) not null,		-- 토론(댓글) 내용
+    dpwd varchar(20) not null,			-- 토론(댓글) 비밀번호
     constraint primary key( dno ),
-    constraint foreign key( mno ) references movie ( mno )
+    constraint foreign key( mno ) references movie ( mno ) on delete cascade on update cascade
 );
 select * from discussion;
 -- --------------------------------------- Insert ----------------------------------------

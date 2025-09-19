@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin( value = "http://localhost:5173")  // React 서버와 CORS 통신 허용
 public class MovieController {
-    // 의존성 주입
     private final MovieService movieService;
 
     /**

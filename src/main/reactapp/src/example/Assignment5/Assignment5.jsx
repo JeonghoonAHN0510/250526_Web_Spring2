@@ -26,6 +26,11 @@ export default function Assignment5( props ){
         if ( response.status == 200 ){
             alert('등록 성공');
             getMovies();
+            setMtitle('');
+            setMdirector('');
+            setMgenre('');
+            setMcomment('');
+            setMpwd('');
         } else if ( response.status == 400 ){
             alert('등록 실패');
         } // if end
@@ -72,6 +77,8 @@ export default function Assignment5( props ){
         if ( response.status == 200 ){
             alert('등록 성공');
             getDiscussionByMno( mno );
+            setDcontent('');
+            setDpwd('');
         } else {
             alert('등록 실패');
         } // if end
@@ -143,7 +150,7 @@ export default function Assignment5( props ){
                                         <td>{movie.mdirector}</td>
                                         <td>{movie.mgenre}</td>
                                         <td>{movie.mcomment}</td>
-                                        <td>
+                                        <td class="movieBtn">
                                             <Button variant="primary" onClick={() => {setShow({show:true, mtitle : movie.mtitle, mno : movie.mno}); getDiscussionByMno(movie.mno)}}>
                                                 토론 페이지
                                             </Button>
@@ -164,7 +171,7 @@ export default function Assignment5( props ){
                                                     discussionListByMno.map( (discussion) => {
                                                         return(
                                                             <>
-                                                            <div>
+                                                            <div class="modal_container">
                                                                 <span>
                                                                     {discussion.dcontent}
                                                                 </span>

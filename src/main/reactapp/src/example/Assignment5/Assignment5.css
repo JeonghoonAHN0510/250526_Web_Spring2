@@ -1,8 +1,10 @@
 .container{
     width: 1000px;
-    margin: 0 auto;
+    margin: 100px auto;
     border: 1px #dddddd solid;
     border-radius: 10px;
+    padding: 20px;
+
 }
 .inputGroup{
     display: flex;
@@ -14,4 +16,26 @@
 .form-control{
     width: 170px;
     margin: 10px 0px;
+}
+.movieBtn{
+    text-align: center;
+    width: 250px;
+}
+.movieBtn button{
+    margin: 0px 10px;
+}
+table{
+    text-align: center;
+}
+table td{
+    align-content: center;
+}
+.modal_container{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px #dddddd solid;
+    padding: 5px 0px;
+}
+.modal_container span{
+    align-content: center;
 }

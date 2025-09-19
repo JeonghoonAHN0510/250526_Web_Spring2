@@ -20,20 +20,22 @@ export default function Assignment5( props ){
     const postMovie = async ( ) => {
         // 1. 입력값 객체로 만들기
         const obj = { mtitle, mdirector, mgenre, mcomment, mpwd };
-        // 2. axios post
-        const response = await axios.post( 'http://localhost:8080/movie/post', obj );
-        // 3. result
-        if ( response.status == 200 ){
-            alert('등록 성공');
-            getMovies();
-            setMtitle('');
-            setMdirector('');
-            setMgenre('');
-            setMcomment('');
-            setMpwd('');
-        } else if ( response.status == 400 ){
+        try {
+            // 2. axios post
+            const response = await axios.post( 'http://localhost:8080/movie/post', obj );
+            // 3. result
+            if ( response.status == 200 ){
+                alert('등록 성공');
+                getMovies();
+                setMtitle('');
+                setMdirector('');
+                setMgenre('');
+                setMcomment('');
+                setMpwd('');
+            } // if end
+        } catch ( error ) {
             alert('등록 실패');
-        } // if end
+        } // try-catch end
     } // func end
 
     const getMovies = async ( ) => {
@@ -57,31 +59,35 @@ export default function Assignment5( props ){
     const deleteMovie = async ( mno, mpwd ) => {
         // 1. 입력값 객체로 만들기
         const obj = { mno, mpwd };
-        // 2. axios put(delete)
-        const response = await axios.put( 'http://localhost:8080/movie/delete', obj );
-        // 3. result
-        if ( response.status == 200 ){
-            alert('삭제 성공');
-            getMovies();
-        } else if ( response.status == 400 ){
+        try {
+            // 2. axios put(delete)
+            const response = await axios.put( 'http://localhost:8080/movie/delete', obj );
+            // 3. result
+            if ( response.status == 200 ){
+                alert('삭제 성공');
+                getMovies();
+            } // if end
+        } catch ( error ) {
             alert('삭제 실패');
-        } // if end
+        } // try-catch end
     } // func end
 
     const postDiscussion = async ( mno ) => {
         // 1. 입력값 객체로 만들기
         const obj = { dcontent, dpwd, mno };
-        // 2. axios post
-        const response = await axios.post( 'http://localhost:8080/discussion/post', obj );
-        // 3. result
-        if ( response.status == 200 ){
-            alert('등록 성공');
-            getDiscussionByMno( mno );
-            setDcontent('');
-            setDpwd('');
-        } else {
+        try {
+            // 2. axios post
+            const response = await axios.post( 'http://localhost:8080/discussion/post', obj );
+            // 3. result
+            if ( response.status == 200 ){
+                alert('등록 성공');
+                getDiscussionByMno( mno );
+                setDcontent('');
+                setDpwd('');
+            } // if end
+        } catch ( error ) {
             alert('등록 실패');
-        } // if end
+        } // try-catch end
     } // func end
 
     const getDiscussionByMno = async ( mno ) => {
@@ -97,18 +103,21 @@ export default function Assignment5( props ){
     const deleteDicussion = async ( dno, dpwd ) => {
         // 1. 입력값 객체로 만들기
         const obj = { dno, dpwd };
-        // 2. axios put(delete)
-        const response = await axios.put( 'http://localhost:8080/discussion/delete', obj );
-        // 3. result
-        if ( response.status == 200 ){
-            alert('삭제 성공');
-            let newList = discussionListByMno.filter( (d) => {
-                return d.dno != dno;
-            })
-            setDiscussionListByMno( newList );
-        } else if ( response.status == 400 ) {
+        try {
+            // 2. axios put(delete)
+            const response = await axios.put( 'http://localhost:8080/discussion/delete', obj );
+            console.log( response.status );
+            // 3. result
+            if ( response.status == 200 ){
+                alert('삭제 성공');
+                let newList = discussionListByMno.filter( (d) => {
+                    return d.dno != dno;
+                })
+                setDiscussionListByMno( newList );
+            } // if end
+        } catch ( error ) {
             alert('삭제 실패');
-        } // if end
+        } // try-catch end
     } // func end
     // ============================ useEffect =============================
     useEffect( ( ) => { getMovies() }, [ ] );

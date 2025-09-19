@@ -20,7 +20,14 @@ public class MovieService {
     public boolean postMovie( MovieDto movieDto ){
         return movieMapper.postMovie( movieDto );
     } // func end
-    // [2] 영화 삭제
+    /**
+     * PK 번호, 비밀번호를 입력받아, 해당 영화를 삭제한다.
+     * @param movieDto
+     * @return boolean
+     */
+    public boolean deleteMovie( MovieDto movieDto ){
+        return movieMapper.deleteMovie( movieDto );
+    } // func end
 
     // [3] 영화 전체조회
 } // class end

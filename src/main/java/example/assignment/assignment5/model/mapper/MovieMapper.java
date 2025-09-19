@@ -1,6 +1,7 @@
 package example.assignment.assignment5.model.mapper;
 
 import example.assignment.assignment5.model.dto.MovieDto;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,7 +17,13 @@ public interface MovieMapper {
     @Insert("insert into movie ( mtitle, mdirector, mgenre, mcomment, mpwd ) values ( #{mtitle}, #{mdirector}, #{mgenre}, #{mcomment}, #{mpwd} )")
     boolean postMovie( MovieDto movieDto );
 
-    // [2] 영화 삭제
+    /**
+     * PK 번호, 비밀번호를 입력받아, 해당 영화를 삭제한다.
+     * @param movieDto
+     * @return boolean
+     */
+    @Delete("delete from movie where mno = #{mno} and mpwd = #{mpwd}")
+    boolean deleteMovie( MovieDto movieDto );
 
     // [3] 영화 전체조회
 

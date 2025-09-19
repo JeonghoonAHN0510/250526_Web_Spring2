@@ -97,3 +97,35 @@ insert into phonebook ( name, phone, age ) values
 	( '신동엽', '010-1234-5678', 50 ),
     ( '강호동', '010-9876-5432', 40 ),
     ( '유재석', '010-4567-1234', 30 );
+    
+-- --------------------------------------- Movie ----------------------------------------
+create table movie(
+	mno int auto_increment,				-- 번호
+    mtitle varchar(30) not null,		-- 제목
+    mdirector varchar(20) not null,		-- 감독
+    mgenre varchar(10) not null,		-- 장르
+    mcomment varchar(100) not null,		-- 간단한 소개
+    mpwd varchar(20) not null,			-- 비밀번호
+    constraint primary key( mno )
+);
+select * from movie;
+-- --------------------------------------- Insert ----------------------------------------
+insert into movie ( mtitle, mdirector, mgenre, mcomment, mpwd ) values
+	( '영화1', '감독1', '장르1', '감독1의 영화1', '1234' ),
+    ( '영화2', '감독2', '장르2', '감독2의 영화2', '1234' ),
+    ( '영화3', '감독3', '장르3', '감독3의 영화3', '1234' );
+-- ------------------------------------- Discussion --------------------------------------
+create table discussion(
+	dno int auto_increment,
+    mno int not null,
+    dcontent varchar(100) not null,
+    dpwd varchar(20) not null,
+    constraint primary key( dno ),
+    constraint foreign key( mno ) references movie ( mno )
+);
+select * from discussion;
+-- --------------------------------------- Insert ----------------------------------------
+insert into discussion ( mno, dcontent, dpwd ) values
+	( 1, '트론내용1', '1234' ),
+    ( 2, '토론내용2', '1234' ),
+    ( 3, '트론내용3', '1234' );

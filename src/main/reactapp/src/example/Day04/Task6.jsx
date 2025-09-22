@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes, useNavigate } from "react-router-dom";
 
 import './Task6.css';
 
@@ -15,8 +15,12 @@ function Home( props ){
 
 // [2] 회원가입 컴포넌트
 function Signup( props ){
+    // [2-1] Input을 참조하는 useRef
     const idInput = useRef(null);
     const pwdInput = useRef(null);
+
+    // [2-2] 라우터 전용 페이지 전환 함수
+    const navigate = useNavigate();
 
     const postSignup = async ( ) => {
         console.log( idInput.current.value );
@@ -24,7 +28,8 @@ function Signup( props ){
         const obj = { mid : idInput.current.value, mpwd : pwdInput.current.value };
         console.log( obj );
         // axios 진행
-
+        alert('[회원가입 성공]');
+        navigate('/login');
     } // func end
 
     return(
@@ -39,23 +44,30 @@ function Signup( props ){
 
 // [3] 로그인 컴포넌트
 function Login( props ){
-    const idInput = useRef(null);
-    const pwdInput = useRef(null);
+    // [2-1] form을 참조하는 useRef
+    const loginForm = useRef(null);
+
+    // [2-2] 라우터 전용 페이지 전환 함수
+    const navigate = useNavigate();
 
     const postLogin = async ( ) => {
-        console.log( idInput.current.value );
-        console.log( pwdInput.current.value );
-        const obj = { mid : idInput.current.value, mpwd : pwdInput.current.value };
-        console.log( obj );
+        console.log( loginForm.current );
+        const mid = loginForm.current.elements['mid'].value;    console.log( mid );
+        const mpwd = loginForm.current.elements['mpwd'].value;  console.log( mpwd );
+        const obj = { mid, mpwd };                              console.log( obj );
         // axios 진행
+        alert('[로그인 성공]');
+        navigate('/home');
     } // func end
 
     return(
         <>
         <h3>로그인 페이지</h3>
-        <input placeholder="아이디" ref={idInput}/>      <br />
-        <input placeholder="비밀번호" ref={pwdInput}/>   <br />
-        <button onClick={postLogin}>로그인</button>
+        <form ref={loginForm}>
+            <input placeholder="아이디" name="mid"/>      <br />
+            <input placeholder="비밀번호" name="mpwd"/>   <br />
+            <button onClick={postLogin} type="button">로그인</button>
+        </form>
         </>
     ) // return end
 } // func end

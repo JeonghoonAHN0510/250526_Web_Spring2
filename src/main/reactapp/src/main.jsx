@@ -82,13 +82,14 @@ const create = createRoot( root );
 
 // ============================== Assignment5 ==============================
 // 4. 렌더링할 컴포넌트 import하기
-import Assignment5 from './example/Assignment5/Assignment5';
+// import Assignment5 from './example/Assignment5/Assignment5';
 
 // 5. 렌더링하기 -> create.render()
-create.render( <Assignment5/> );
+// create.render( <Assignment5/> );
 
-// ================================= Day03 =================================
+// ================================= Day04 =================================
 // 4. 렌더링할 컴포넌트 import하기
-
+import Component11 from './example/Day04/Component11';
 
 // 5. 렌더링하기 -> create.render()
+create.render( <Component11/> );

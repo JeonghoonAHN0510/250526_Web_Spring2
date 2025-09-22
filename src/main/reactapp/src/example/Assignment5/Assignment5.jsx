@@ -170,9 +170,9 @@ export default function Assignment5( props ){
                                     </tr>
                                     <Modal show={show.show} onHide={() => setShow(false)} dialogClassName="modal-90w" aria-labelledby="example-custom-modal-styling-title">
                                         <Modal.Header closeButton>
-                                        <Modal.Title id="example-custom-modal-styling-title">
-                                            {show.mtitle}의 토론페이지
-                                        </Modal.Title>
+                                            <Modal.Title id="example-custom-modal-styling-title">
+                                                {show.mtitle}의 토론페이지
+                                            </Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
                                             <div>

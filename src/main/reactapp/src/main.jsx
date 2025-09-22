@@ -86,3 +86,9 @@ import Assignment5 from './example/Assignment5/Assignment5';
 
 // 5. 렌더링하기 -> create.render()
 create.render( <Assignment5/> );
+
+// ================================= Day03 =================================
+// 4. 렌더링할 컴포넌트 import하기
+
+
+// 5. 렌더링하기 -> create.render()

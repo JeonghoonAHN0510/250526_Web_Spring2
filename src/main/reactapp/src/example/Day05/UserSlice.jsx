@@ -11,7 +11,7 @@ const userSlice = createSlice({
     initialState,   // [1]에서 정의한 객체로 초기값을 설정, 추후에 다양하게 변경 가능
     reducers : {
         login : (state) => {state.isAuthenticated = true},        // 로그인 함수가 실행되면, 처리되는 코드
-        logout : (state) => {state.isAuthenticated == false}      // 로그아웃 함수가 실행되면, 처리되는 코드
+        logout : (state) => {state.isAuthenticated = false}       // 로그아웃 함수가 실행되면, 처리되는 코드
     }
     // 상태가 변경되는 함수 정의
 });

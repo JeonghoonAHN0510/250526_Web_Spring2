@@ -21,12 +21,12 @@ export default function LoginPage( props ){
         // 1. Input Value Object
         const mid = idRef.current.value;
         const mpwd = pwdRef.current.value;
-        const obj = { mid, mpwd };
+        const obj = { mid, name : '유재석' };
         // 2. Axios -> axios 성공했다는 가정
         console.log( obj );
         // 3. Result
         alert('[로그인 성공]');      // 성공 안내
-        dispatch( login() );        // login()을 요청하여, '로그인 여부' 상태 변경
+        dispatch( login(obj) );     // login()을 요청하여, '로그인 여부' 상태 변경
         navigate('/');              // useNavigate를 이용하여 홈으로 이동
     } // func end
 

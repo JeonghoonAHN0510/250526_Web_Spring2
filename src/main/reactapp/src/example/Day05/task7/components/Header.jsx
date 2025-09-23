@@ -5,7 +5,7 @@ import { logout } from '../store/userSlice.jsx'
 export default function Header( props ){
     // ================ Redux ================
     // Store에 저장된 상태를 가져오기 위한 useSelector
-    const { isAuthenticated } = useSelector( (state) => state.user );
+    const { isAuthenticated, userInfo } = useSelector( (state) => state.user );
     // 상태변경을 위한 dispatch
     const dispatch = useDispatch();
     // ================ Route ================
@@ -14,6 +14,7 @@ export default function Header( props ){
 
     const logoutHandle = async ( ) => {
         
+        alert('[로그아웃 성공]');    // 성공 안내
         dispatch( logout() );       // logout()을 요청하여, '로그인 여부' 상태 변경
         navigate('/');              // useNavigate를 이용하여 홈으로 이동
     } // func end
@@ -25,6 +26,7 @@ export default function Header( props ){
                 <li><Link to="/">홈</Link></li>
                 { isAuthenticated ?
                     <>
+                    <li><span>안녕하세요. {userInfo.name}님</span></li>
                     <li><Link to="/profile">프로필</Link></li>
                     <li><Link onClick={logoutHandle}>로그아웃</Link></li>
                     </>

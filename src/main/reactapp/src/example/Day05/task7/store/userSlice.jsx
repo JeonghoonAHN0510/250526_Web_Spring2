@@ -7,7 +7,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // [1] 초기값 설정
 // isAuthenticated : 로그인여부 -> true(로그인) / false(비로그인)
-const initialState = { isAuthenticated : false };
+// userInfo : 회원정보
+const initialState = { isAuthenticated : false, userInfo : null };
 
 // [2] Slice 함수 정의
 const userSlice = createSlice({
@@ -15,8 +16,16 @@ const userSlice = createSlice({
     initialState,       // 초기값
     reducers : {        // 여러 개의 상태변경 함수(reducer) 정의
      // 함수명 : (state) => { },
-        login : (state) => {state.isAuthenticated = true},
-        logout : (state) => {state.isAuthenticated = false}
+        login : (state, action) => {
+            state.isAuthenticated = true;   // 로그인여부 true
+            // dispatch할 때, 전달되는 매개변수의 payload 안에 값이 존재
+            // dispatch(login('hi')) -> action.payload = 'hi'
+            state.userInfo = action.payload;
+        },
+        logout : (state) => {
+            state.isAuthenticated = false;  // 로그인여부 false
+            state.userInfo = null;          // 회원정보 null
+        }
     }
 })
 

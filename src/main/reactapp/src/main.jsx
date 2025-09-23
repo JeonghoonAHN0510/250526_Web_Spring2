@@ -100,19 +100,34 @@ const create = createRoot( root );
 
 // ================================= Day05 =================================
 // 4. 렌더링할 컴포넌트 import하기
-import Comoponent13 from './example/Day05/Component13';
+// import Comoponent13 from './example/Day05/Component13';
 
 // [1] 생성한 store 불러오기
-import store from './example/Day05/Store';
+// import store from './example/Day05/Store';
+
 // [2] Store를 사용할 컴포넌트에 공급해주기
 // -> <Provider store={생성store}></Provider>
 // Provider는 dispatch보다 먼저 실행되어야한다.
 // -> 관례적으로 main.jsx에서 import한다.
-import { Provider } from 'react-redux';
+// import { Provider } from 'react-redux';
 
 // 5. 렌더링하기 -> create.render()
+// create.render(
+//     <Provider store={store}>
+//         <Comoponent13/>
+//     </Provider>
+// );
+// ================================= Day05 =================================
+import App from './example/Day05/task7/App.jsx';
+
+// [1] 생성한 store 불러오기
+import store from './example/Day05/task7/store/store.jsx';
+
+// [2] store를 사용할 컴포넌트에 공급해주기
+import { Provider } from 'react-redux';
+
 create.render(
     <Provider store={store}>
-        <Comoponent13/>
+        <App/>
     </Provider>
 );

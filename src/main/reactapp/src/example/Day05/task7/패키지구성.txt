@@ -1,0 +1,4 @@
+- pages : page 컴포넌트들을 저장하는 폴더
+- store : redux관련 store와 slice를 저장하는 폴더
+- components : 컴포넌트들을 저장하는 폴더
+- App.jsx : 최초 main.jsx에서 렌더링되는 컴포넌트

@@ -117,7 +117,8 @@ const create = createRoot( root );
 //         <Comoponent13/>
 //     </Provider>
 // );
-// ================================= Day05 =================================
+
+// ================================= task07 =================================
 import App from './example/Day05/task7/App.jsx';
 
 // [1] 생성한 store 불러오기
@@ -127,6 +128,7 @@ import store from './example/Day05/task7/store/store.jsx';
 import { Provider } from 'react-redux';
 
 create.render(
+    // Store를 root 컴포넌트에 공급하여, 모든 컴포넌트가 사용할 수 있도록 공급
     <Provider store={store}>
         <App/>
     </Provider>

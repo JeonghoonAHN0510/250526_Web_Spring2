@@ -1,4 +1,9 @@
 - pages : page 컴포넌트들을 저장하는 폴더
+    -> HomePage.jsx
+    -> LoginPage.jsx
+    -> ProfilePage.jsx
 - store : redux관련 store와 slice를 저장하는 폴더
+    -> userSlice.jsx
 - components : 컴포넌트들을 저장하는 폴더
+    -> Header.jsx
 - App.jsx : 최초 main.jsx에서 렌더링되는 컴포넌트

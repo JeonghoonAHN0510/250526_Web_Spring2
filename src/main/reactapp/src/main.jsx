@@ -119,23 +119,37 @@ const create = createRoot( root );
 // );
 
 // ================================= task07 =================================
-import App from './example/Day05/task7/App.jsx';
+// import App from './example/Day05/task7/App.jsx';
 
-// [1] 생성한 store 불러오기
-import store from './example/Day05/task7/store/store.jsx';
+// // [1] 생성한 store 불러오기
+// import store, { persistor } from './example/Day05/task7/store/store.jsx';
 
-// [2] store를 사용할 컴포넌트에 공급해주기
-import { Provider } from 'react-redux';
+// // [2] store를 사용할 컴포넌트에 공급해주기
+// import { Provider } from 'react-redux';
+// import { PersistGate } from 'redux-persist/integration/react';
 
-create.render(
-    // Store를 root 컴포넌트에 공급하여, 모든 컴포넌트가 사용할 수 있도록 공급
-    <Provider store={store}>
-        <App/>
-    </Provider>
-);
+// create.render(
+//     // [1] Store를 root 컴포넌트에 공급하여, 모든 컴포넌트가 사용할 수 있도록 공급
+//     // [2] 내가 만든 persist를 공급, loading={초기로딩값} persistor={내가만든persist}
+//     <Provider store={store}>
+//         <PersistGate loading={null} persistor={persistor}>
+//             <App/>
+//         </PersistGate>
+//     </Provider>
+// );
 
 // ================================= Day06 =================================
 // 4. 렌더링할 컴포넌트 import하기
-
+import App from './example/day06/task8/App';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import store, { persistor } from './example/day06/task8/store/store';
 
 // 5. 렌더링하기 -> create.render()
+create.render(
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <App/>
+        </PersistGate>
+    </Provider>
+);

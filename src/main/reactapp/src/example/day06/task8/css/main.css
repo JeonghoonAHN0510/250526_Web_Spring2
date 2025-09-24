@@ -1,0 +1,43 @@
+li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+}
+.container{
+    display: flex;
+    width: 1280px;
+    margin: 0 auto;
+}
+.container > div:nth-child(1){
+    border-right: 1px #aaaaaa solid;
+    padding-right: 35px;
+    margin-right: 35px;
+}
+.container div:nth-child(2){
+    align-content: center;
+}
+.container li{
+    margin-bottom: 10px;
+}
+.container table{
+    text-align: center;
+}
+td{
+    padding: 5px 10px;
+}
+button{
+    background-color: white;
+    border: 1px #bbbbbb solid;
+    border-radius: 10px;
+    padding: 2px 8px;
+}
+button:hover{
+    cursor: pointer;
+}
+button:active{
+    background-color: #bbbbbb;
+}

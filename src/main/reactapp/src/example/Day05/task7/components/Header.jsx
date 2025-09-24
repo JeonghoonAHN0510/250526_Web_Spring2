@@ -19,6 +19,8 @@ export default function Header( props ){
         navigate('/');              // useNavigate를 이용하여 홈으로 이동
     } // func end
 
+    // 서버에게 로그인 상태 요청 useEffect( () => { } , [] )
+
     return(
         <>
         <div>

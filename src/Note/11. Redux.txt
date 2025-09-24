@@ -9,13 +9,31 @@
 - 설치 : npm i @reduxjs/toolkit, npm i react-redux
 - 핵심 용어
     1. Store : 상태들을 관리하는 중앙 저장소, 모든 상태(전역변수)들을 저장한다.
+        -> App.jsx 1개당 1개로 관리
         -> configureStore()
     2. Slice : 상태와 reducer를 정의하는 곳
+        -> Action을 통해 상태변경이 되면, 리렌더링된다.
         -> createSlice()
     3. Reducer : 상태를 변경하는 함수
     4. Action : 상태를 변경하기위해 Store에 보내는 함수
 - 실행순서
+    0. 상위 컴포넌트에 <Provider store={내가만든스토어}>를 통해 store 공급
     1. 일반 컴포넌트(login 페이지)에서 action 실행
         -> dispatch(login())
     2. action이 Store에 전달
+        -> const dispatch = useDispatch();
+        -> dispatch(상태변경함수(매개변수));
+        -> Slice : 상태변경함수(state, action) => { action.payload로 들어온다. }
     3. Store에 등록된 Reducer를 찾아 상태를 수정한다.
+        -> const { 상태명 } = useSelector( (state) => state.전역변수명 );
+- Redux는 전역 상태이지만, 영구 저장을 하지 않는다.
+    -> Client Side Rendering : Persistence -> 세션/로컬 스토리지
+    -> Server Side Rendering : 서버와 통신을 통해 영구 저장(axios)
+    -> Next.js : 
+
+[ export / import ]
+- export default 값 : JSX 파일 내 하나의 default 값 내보내기
+    -> import 변수명 from '파일경로'
+
+- export const 변수명 = 값 : JSX 파일 내 여러개의 값 내보내기
+    -> import { 가져올변수명 } from '파일경로'

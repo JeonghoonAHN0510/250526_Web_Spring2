@@ -130,3 +130,14 @@ insert into discussion ( mno, dcontent, dpwd ) values
     ( 1, '토론내용2', '1234' ),
     ( 2, '토론내용2', '1234' ),
     ( 3, '토론내용3', '1234' );
+-- --------------------------------------- Trans ----------------------------------------    
+CREATE TABLE trans(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    money INT UNSIGNED DEFAULT 0
+);
+select * from trans;
+-- --------------------------------------- Insert ----------------------------------------
+INSERT INTO trans (name, money) VALUES 
+('신동엽', 200000),
+('서장훈', 200000);

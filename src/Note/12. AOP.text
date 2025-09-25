@@ -1,0 +1,39 @@
+- 객체지향 프로그래밍 : 객체들이 서로 상호작용하며 작동하는 프로그래밍 방식
+
+[ Aspect Oriented Programming ]
+- 핵심 로직과 공통 로직을 분리하여 관리하는 프로그래밍 방식
+- 핵심 로직은 유지하되, 공통 로직을 한 곳에서 관리한다.(유지보수, 확장성을 위해)
+- 로그 처리, 트랜잭션 처리, 성능 평가
+- 사용법
+    1. 설치 : implementation 'org.springframework.boot:spring-boot-starter-aop'
+    2. @Aspect @Component 어노테이션을 AopClass에 추가
+    3. AopClass 내에서 공통 함수 정의
+        -> @Before : 메소드 실행 전       , 권한 검사
+        -> @After : 메소드 실행 후        , 로그 처리, 연동 해제
+        -> @AfterReturning : 메소드 실행 후에 반환값 반환
+        -> @Around : 메소드 실행 전/후     , 성능평가, 트랜잭션 처리
+    4. execution 규칙
+        1) 반환 타입 지정
+            execution(*) : 모든 반환 타입의 메소드
+            execution(boolean) : 반환 타입이 boolean인 메소드
+        2) 클래스 경로 지정
+            execution( * example.day08.AopService ) : java 이하 경로부터
+        3) 메소드 지정
+            execution( * AopService.* ) : 해당 클래스 내 모든 메소드
+            execution( * AopService.enter(..) ) : 해당 클래스 내 enter 메소드에만 적용
+        4) 매개변수 지정
+            execution( * AopService.enter(..) ) : 모든 매개변수를 갖는 enter 메소드에만 적용
+            execution( * AopService.enter(int, boolean) && Args( age, check ) ) : 지정한 매개변수를 갖는 enter 메소드에만 적용
+        5) 리턴 지정
+            @AfterReturning( value=···, returning = "boolean" )
+    5. @Around
+        1) @Around Object method( ProceedingJoinPoint joinPoint ){}
+        2) ProceedingJoinPoint
+            (1) .getSignature() : 해당 공통 로직을 사용하는 로직 확인
+            (2) .getArgs() : 핵심 로직 함수가 사용하는 매개변수 확인 -> 배열로 반환
+            (3) .proceed() : 핵심 로직 함술를 실행하고 반환값을 받을 수 있음
+                -> Object result = joinPoint.proceed();
+- AOP를 사용하는 주요 어노테이션
+    1. @Transactional       : 트랜잭션 처리, JDBC
+    2. @Log4j2              : 로그 처리
+    3. Spring Security      : 보안 처리

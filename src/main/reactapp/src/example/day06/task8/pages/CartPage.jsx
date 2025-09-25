@@ -2,11 +2,10 @@ import { useSelector } from "react-redux"
 
 export default function CartPage( props ){
     // 전역변수 가져오기
-    const { menu } = useSelector( (state) => state.cart );
+    const { cartList } = useSelector( (state) => state.cart );
     
     let totalAmount = 0;
     let totalPrice = 0;
-
 
     return(
         <>
@@ -21,7 +20,8 @@ export default function CartPage( props ){
                 </thead>
                 <tbody>
                     {
-                        menu.map( (item) => {
+                        cartList.map( (item) => {
+                            if ( item.amount > 0 ){
                             totalAmount += item.amount;
                             totalPrice += item.price;
                             let price = item.amount * item.price;
@@ -33,7 +33,7 @@ export default function CartPage( props ){
                                     <td>{price.toLocaleString()}원</td>
                                 </tr>
                                 </>
-                            )
+                            )}
                         })
                     }
                     <tr>

@@ -10,9 +10,9 @@ export default function MenuPage( props ){
 
 
     // 장바구니 추가
-    const addCartBtn = ( id ) => {
+    const addCartBtn = ( item ) => {
         alert('[장바구니 담기 완료!]')
-        dispatch( addCart(id) );
+        dispatch( addCart(item) );
     } // func end
 
     return(
@@ -34,7 +34,7 @@ export default function MenuPage( props ){
                                 <tr>
                                     <td>{item.name}</td>
                                     <td>{item.price}</td>
-                                    <td><button onClick={()=>{addCartBtn(item.id)}}>담기</button></td>
+                                    <td><button onClick={()=>{addCartBtn(item)}}>담기</button></td>
                                 </tr>
                                 </>
                             )

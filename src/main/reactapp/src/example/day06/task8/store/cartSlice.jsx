@@ -1,23 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // [1] 전역변수 설정
-const cartList  = [];
 const menu = [
-    { id: 1, name: "아메리카노", price: 3000, amount : 0 },
-    { id: 2, name: "카페라떼", price: 4000, amount : 0 },
-    { id: 3, name: "카푸치노", price: 4500, amount : 0 },
+    { id: 1, name: "아메리카노", price: 3000 },
+    { id: 2, name: "카페라떼", price: 4000 },
+    { id: 3, name: "카푸치노", price: 4500 },
 ];
-const initialState = { menu };
+const cartList = [];
+const initialValue = { menu, cartList };
 
 // [2] Slice 함수 정의
 const cartSlice = createSlice({
     name : "cart",
-    initialState,
+    initialState : initialValue,
     reducers : {
         addCart : (state, action) => {
-            state.menu.forEach( (item) => {
-                if ( item.id == action.payload ) item.amount += 1;
-            })
+            let check = false;
+            state.cartList.forEach( (item) => {
+                if ( item.id == action.payload.id ){
+                    item.amount += 1;
+                    check = true;
+                } // if end
+            }) // forEach end
+            if ( !check ){
+                action.payload.amount = 1;
+                state.cartList.push( action.payload );
+            } // if end
         }
     }
 })

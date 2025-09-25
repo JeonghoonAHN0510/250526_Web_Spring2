@@ -138,7 +138,7 @@ const create = createRoot( root );
 //     </Provider>
 // );
 
-// ================================= Day06 =================================
+// ================================= task08 =================================
 // 4. 렌더링할 컴포넌트 import하기
 import App from './example/day06/task8/App';
 import { Provider } from 'react-redux';
@@ -153,3 +153,9 @@ create.render(
         </PersistGate>
     </Provider>
 );
+
+// ================================= day07 =================================
+// 4. 렌더링할 컴포넌트 import하기
+
+
+// 5. 렌더링하기 -> create.render()

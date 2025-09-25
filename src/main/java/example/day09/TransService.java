@@ -33,6 +33,8 @@ public class TransService {
         // 2-1. 신동엽 10만원 출금 처리
         String fromName = String.valueOf(transInfo.get("fromName"));
         transMapper.withdraw(fromName, money);
+        // 0. 임의로 실행예외 발생시키기
+        if( true ) throw new RuntimeException("임의 실행예외");
         // 2-2. 서장훈 10만원 입금 처리
         String toName = String.valueOf(transInfo.get("toName"));
         transMapper.deposit(toName, money);

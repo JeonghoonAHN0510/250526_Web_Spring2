@@ -130,7 +130,7 @@ insert into discussion ( mno, dcontent, dpwd ) values
     ( 1, '토론내용2', '1234' ),
     ( 2, '토론내용2', '1234' ),
     ( 3, '토론내용3', '1234' );
--- --------------------------------------- Trans ----------------------------------------    
+-- --------------------------------------- Trans ----------------------------------------
 CREATE TABLE trans(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -141,3 +141,29 @@ select * from trans;
 INSERT INTO trans (name, money) VALUES 
 ('신동엽', 200000),
 ('서장훈', 200000);
+-- --------------------------------------- books ----------------------------------------
+CREATE TABLE books (
+    id INT NOT NULL auto_increment,
+    title VARCHAR(255) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+select * from books;
+-- --------------------------------------- Insert ----------------------------------------
+INSERT INTO books (id, title, stock) VALUES (1, '자바의 정석', 3);
+INSERT INTO books (id, title, stock) VALUES (2, '스프링 인 액션', 2);
+INSERT INTO books (id, title, stock) VALUES (3, '토비의 스프링', 1);
+INSERT INTO books (id, title, stock) VALUES (4, '리액트 교과서', 5);
+-- --------------------------------------- rentals ----------------------------------------
+CREATE TABLE rentals (
+    id INT NOT NULL auto_increment,
+    book_id INT NOT NULL,
+    member VARCHAR(100) NOT NULL,
+    rent_date DATETIME DEFAULT NOW(),
+    return_date DATETIME NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
+);
+select * from rentals;
+-- --------------------------------------- Insert ----------------------------------------
+INSERT INTO rentals (id, book_id, member) VALUES (1, 1, '홍길동');

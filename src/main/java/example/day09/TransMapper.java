@@ -15,7 +15,7 @@ public interface TransMapper {
     // 3. Update1
     @Update("update trans set money = money + #{money} where name = #{name}")
     boolean deposit( String name, int money );
-    // 4. Update2
+    // 4. Update2 - 비정상ver
     @Update("update trans set money = money - #{money} where name = #{name} error")
     boolean withdraw( String name, int money );
 } // interface

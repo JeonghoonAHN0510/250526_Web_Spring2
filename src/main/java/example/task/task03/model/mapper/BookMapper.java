@@ -23,7 +23,7 @@ public interface BookMapper {
     @Select("select count(*) " +
             "from rentals " +
             "where book_id = #{book_id} " +
-            "and member = #{member}" +
+            "and member = #{member} " +
             "and return_date is null")
     int checkRentals(RentalDto rentalDto);
     // 2-1. 도서 재고 증가

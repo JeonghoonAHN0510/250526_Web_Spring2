@@ -37,3 +37,17 @@
 
 - export const 변수명 = 값 : JSX 파일 내 여러개의 값 내보내기
     -> import { 가져올변수명 } from '파일경로'
+
+[ persist ]
+- Redux의 상태는 새로고침하면, 초기값으로 돌아간다.
+    -> 새로고침해도 값을 유지하기 위해서 사용
+- LocalStorage, SessionStorage를 사용해서 저장
+- 설치 : npm i redux-persist
+- 핵심용어
+    1) persistConfig    : persist 설정 객체
+        -> const 옵션 = { key:'식별이름', storage }
+        -> const persist슬라이스 : persistReducer( 옵션, 슬라이스 );
+    2) persistGate      : 저장소에서 상태를 불러올 때, 지연해주는 컴포넌트????
+        -> <PersistGate loading={최초로딩값} persistor={persist스토어}>
+- LocalStorage : import storage from 'redux-persist/lib/storage'
+- SessionStorage : import storageSession from 'redux-persist/lib/storage/session'

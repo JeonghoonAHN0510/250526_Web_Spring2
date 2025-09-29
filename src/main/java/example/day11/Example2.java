@@ -1,9 +1,7 @@
 package example.day11;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Example2 {
     public static void main(String[] args) {
@@ -48,5 +46,19 @@ public class Example2 {
         // limit(N) : 앞부터 N개의 데이터만 추출
         List<Integer> limitList = numbers.stream().limit(5).toList();
         System.out.println("[7] limitList : " + limitList);
+
+        // [8-1] stream() + reduce()
+        // reduce(초기값, (누적값, 현재값) -> 연산)
+        int sum = numbers.stream().reduce(0, (누적값, 현재값) -> 누적값 + 현재값);
+        System.out.println("[8-1] sum : " + sum);
+        // [8-2] 누적값
+        int product = numbers.stream().reduce(1, (누적값, 현재값) -> 누적값 * 현재값);
+        System.out.println("[8-2] product : " + product);
+        // [8-3] 최소값
+        int min = numbers.stream().reduce(Integer.MAX_VALUE, (이전값, 현재값) -> 이전값 > 현재값 ? 현재값 : 이전값);
+        System.out.println("[8-3] min : " + min);
+        // [8-4] 최대값
+        int max = numbers.stream().reduce(Integer.MIN_VALUE, (이전값, 현재값) -> 이전값 < 현재값 ? 현재값 : 이전값);
+        System.out.println("[8-4] max : " + max);
     } // main end
 } // class end

@@ -1,0 +1,15 @@
+[ Logging ]
+- 프로그램 실행 중 발생하는 정보를 기록하는 행위
+- '저장' 또는 효율적인 구분으로 유지보수를 진행한다.
+- Spring에서의 Logging
+    -> Lombok에서 제공하는 @Log4j2 어노테이션을 활용하여 컨트롤러와 서비스에서 사용
+    -> @Log4j2 class Controller{}
+- 주요 객체 및 메소드
+    1) log.debug() : 개발 및 테스트 단계에서 사용
+    2) log.info()  : 상태를 확인하기 위해 사용 -> 개발/운영 단계
+    3) log.warn()  : 경고를 확인하기 위해 사용 -> 운영 단계
+    4) log.error() : 예외를 확인하기 위해 사용 -> 운영 단계
+- 로그 출력 설정 : application.properties
+    -> level : debug < info < warn < error
+    -> Spring은 info가 기본값
+    -> logging.level.java이하경로 = level

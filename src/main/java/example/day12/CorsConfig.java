@@ -13,11 +13,14 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // registry.addMapping("허용할 컨트롤러 URL")
         // .allowedOrigins("허용할 도메인")
-        // .allowedMethods("허용할 HTTP 메소드");
-        registry.addMapping("/axios")                               // 전체 : /**
+        // .allowedMethods("허용할 HTTP 메소드")
+        // .allowCredentials(true)              -> HTTP 인증(세션 유지) 허용
+        // .allowedHeaders("*");                -> HTTP 헤더 정보 허용
+        registry.addMapping("/axios/**")                            // 전체 : /**
                 .allowedOrigins("http://localhost:5173")            // 전체 : *
-                .allowedOrigins("http://localhost:5174")            // react가 2개 켜졌을 때의 도메인
-                .allowedMethods("GET", "POST", "PUT", "DELETE");    // 전체 : *
-
+              //.allowedOrigins("http://localhost:5174")            // react가 2개 켜졌을 때의 도메인
+                .allowedMethods("GET", "POST", "PUT", "DELETE")     // 전체 : *
+                .allowCredentials(true)
+                .allowedHeaders("*");
     } // func end
 } // class end

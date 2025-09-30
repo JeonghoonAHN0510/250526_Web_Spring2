@@ -30,4 +30,18 @@ public class AxiosController {
         if (object == null) return false;   // 비로그인
         return true;                        // 로그인
     } // func end
+
+    // [4] 예제 4
+    @PostMapping("/form")
+    public boolean axios4(@ModelAttribute AxiosDto axiosDto){
+        System.out.println(axiosDto);
+        return axiosDto != null;
+    } // func end
+
+    // [5] 예제 5
+    @PostMapping("/formdata")
+    public boolean axios5(@ModelAttribute AxiosDto axiosDto){
+        System.out.println(axiosDto);
+        return axiosDto != null;
+    } // func end
 } // class end

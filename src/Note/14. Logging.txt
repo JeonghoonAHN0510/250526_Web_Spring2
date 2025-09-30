@@ -13,3 +13,25 @@
     -> level : debug < info < warn < error
     -> Spring은 info가 기본값
     -> logging.level.java이하경로 = level
+- 로그 파일 저장 위치 설정
+    -> logging.file.name=폴더명/파일명.log
+- 로그 파일 설정
+    1) 로그 파일 최대 크기
+        -> logging.logback.rollingpolicy.max-file-size
+    2) 로그 파일 최대 개수
+        -> logging.logback.rollingpolicy.max-history
+- 스프링 내부 로그 줄이기
+    spring.main.log-startup-info=false
+    logging.level.org.springframework.boot.web=warn
+    logging.level.org.springframework.boot.web.embedded.tomcat=warn
+    logging.level.org.apache.catalina=warn
+    logging.level.org.apache.coyote=warn
+    logging.level.org.springframework.web=warn
+- 로그 형식 설정
+    -> logging.pattern.file : 파일 로그 형식
+    -> logging.pattern.console : 콘솔 로그 형식
+    1) %msg : 로그메시지
+    2) %n : 줄바꿈
+    3) %d{ y M d H m s } : 날짜/시간{연 월 일 시 분 초}
+    4) %level : 레벨
+    5) %logger : 경로/클래스

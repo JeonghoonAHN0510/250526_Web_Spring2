@@ -156,23 +156,30 @@ const create = createRoot( root );
 
 // ================================= day07 =================================
 // 4. 렌더링할 컴포넌트 import하기
-// import Comoponent14 from './example/day07/Component14';
+// import Component14 from './example/day07/Component14';
 
 // // 5. 렌더링하기 -> create.render()
-// create.render( <Comoponent14/> );
+// create.render( <Component14/> );
 
 // ================================= task09 =================================
 // 4. 렌더링할 컴포넌트 import하기
-import App from './example/day07/task9/App';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import store, { persistor } from './example/day07/task9/store/store';
+// import App from './example/day07/task9/App';
+// import { Provider } from 'react-redux';
+// import { PersistGate } from 'redux-persist/integration/react';
+// import store, { persistor } from './example/day07/task9/store/store';
+//
+// // 5. 렌더링하기 -> create.render()
+// create.render(
+//     <Provider store={store}>
+//         <PersistGate loading={null} persistor={persistor}>
+//             <App/>
+//         </PersistGate>
+//     </Provider>
+// );
 
-// 5. 렌더링하기 -> create.render()
-create.render(
-    <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-            <App/>
-        </PersistGate>
-    </Provider>
-);
+// ================================= day07 =================================
+// 4. 렌더링할 컴포넌트 import하기
+import Component15 from "./example/day08/Component15.jsx";
+
+// // 5. 렌더링하기 -> create.render()
+create.render( <Component15/> );

@@ -37,4 +37,38 @@
     <update id="updateBySno" parameterType="example.day13.StudentDto">
         UPDATE student SET kor = #{kor}, math = #{math} WHERE sno = #{sno};
     </update>
+
+    <!-- [6] IF 동적쿼리 : 국어점수로 학생 조회 -->
+    <select id="query2" parameterType="int" resultType="example.day13.StudentDto">
+        SELECT * FROM student WHERE 1 = 1
+        <if test="kor != null">
+            and kor >= #{kor}
+        </if>
+    </select>
+
+    <!-- [7] IF 동적쿼리 : 이름 또는 수학점수로 학생 조회 -->
+    <!-- parameterType이 2개 이상일 때, dto로 묶거나 생략 -->
+    <!-- concat(문자열, 문자열) : 문자열 연결함수 -->
+    <select id="query3" resultType="example.day13.StudentDto">
+        SELECT * FROM student
+        <where>
+            <!-- 만약 name이 null이 아니면, name으로 조회 -->
+            <if test="name != null">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <!-- 만약 math가 null이 아니면, math로 조회 -->
+            <if test="math != null">
+                and math >= #{math}
+            </if>
+        </where>
+    </select>
+
+    <!-- [8] forEach 동적쿼리 : 다수 학생 등록 -->
+    <insert id="saveAll" parameterType="list" useGeneratedKeys="true" keyProperty="sno">
+        INSERT INTO student (name, kor, math) VALUES
+            <foreach collection="list" item="student" separator=", ">
+                (#{student.name}, #{student.kor}, #{student.math})
+            </foreach>
+    </insert>
+    <!-- collection="컬렉션명" item="반복변수명" separator="반복SQL의 구분문자" -->
 </mapper> <!-- mapper 끝 -->

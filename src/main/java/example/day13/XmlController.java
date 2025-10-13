@@ -48,4 +48,21 @@ public class XmlController {
         xmlMapper.updateBySno(studentDto);
         return ResponseEntity.ok(true);
     } // func end
+
+    // 6. 동적쿼리 : 국어
+    @GetMapping("/kor")
+    public ResponseEntity<?> getByKor(@RequestParam int kor){
+        StudentDto studentDto = xmlMapper.query2(kor);
+        return ResponseEntity.ok(studentDto);
+    } // func end
+
+    // 7. 동적쿼리 : 이름 || 수학
+    @GetMapping("/nameMath")
+    public ResponseEntity<?> getByNameMath(@RequestParam String name, @RequestParam int math){
+        StudentDto studentDto = xmlMapper.query3(name, math);
+        return ResponseEntity.ok(studentDto);
+    } // func end
+
+    // 8. 동적쿼리 : 다수 학생 등록
+
 } // class end

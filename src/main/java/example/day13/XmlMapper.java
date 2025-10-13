@@ -3,6 +3,7 @@ package example.day13;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -28,4 +29,31 @@ public interface XmlMapper {
 
     // 5. 개별수정
     int updateBySno(StudentDto studentDto);
+
+    //================== 동적 쿼리(if, forEach) ==================
+    // 일반 SQL을 프로그래밍 SQL로 변경하는 것
+    // 방법1 : @어노테이션("""<script> XML 형식의 SQL </script>""")
+    // """ """ : java15 이상부터 지원, + 연산자처럼 문자열 연결
+    // 조건에 따른 SQL이 오류가 발생하지 않게, where 1 = 1과 같은 조건문을 넣거나 <where> 마크업 사용
+    // <if test="조건문"> 참일 경우 SQL </if>
+
+    // 6. 특정한 국어점수 이상인 학생 조회
+    @Select("""
+            <script>
+                SELECT * FROM student WHERE 1 = 1
+                <if test="kor != null">
+                    and kor >= #{kor}
+                </if>
+            </script>
+            """)
+    StudentDto query1(int kor);
+
+    // 방법2 : XML에서 SQL 작성
+    StudentDto query2(int kor);
+
+    // 7. 이름 또는 수학점수로 학생 조회
+    StudentDto query3(String name, int math);
+
+    // 8. 다수 학생 등록
+    int saveAll(List<StudentDto> studentDtos);
 } // interface end

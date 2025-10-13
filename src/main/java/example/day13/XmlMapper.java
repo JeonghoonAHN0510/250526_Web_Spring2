@@ -46,7 +46,7 @@ public interface XmlMapper {
                 </if>
             </script>
             """)
-    StudentDto query1(int kor);
+    List<StudentDto> query1(int kor);
 
     // 방법2 : XML에서 SQL 작성
     List<StudentDto> query2(int kor);

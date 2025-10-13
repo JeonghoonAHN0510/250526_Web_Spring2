@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML이란? 마크업을 이용한 데이터 저장(설정)/전달(API)/교환 마크업 언어 -->
+<!-- HTML이란? 마크업을 이용한 웹페이지 마크업 언어 -->
+
+<!-- XML 파일 내 MyBatis 라이브러리 설정 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- XML과 매핑할 인터페이스 설정, [java] 이하 경로 지정 -->
+<mapper namespace="example.day13.XmlMapper">
+    <!-- [1] 등록 -->
+    <!-- id="추상메소드명", parameterType="매개변수타입경로||타입명" -->
+    <insert id="save" parameterType="example.day13.StudentDto">
+        INSERT INTO student(name, kor, math)
+            VALUES (#{name}, #{kor}, #{math})
+    </insert>
+    <select id="getAll" resultType="example.day13.StudentDto">
+        SELECT * FROM student
+    </select>
+</mapper> <!-- mapper 끝 -->

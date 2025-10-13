@@ -58,8 +58,8 @@ public class XmlController {
 
     // 7. 동적쿼리 : 이름 || 수학
     @GetMapping("/nameMath")
-    public ResponseEntity<?> getByNameMath(@RequestParam(defaultValue = "") String name,
-                                           @RequestParam(defaultValue = "0") int math){
+    public ResponseEntity<?> getByNameMath(@RequestParam(required = false) String name,
+                                           @RequestParam(required = false) int math){
         List<StudentDto> result = xmlMapper.query3(name, math);
         return ResponseEntity.ok(result);
     } // func end

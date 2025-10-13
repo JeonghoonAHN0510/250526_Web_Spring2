@@ -49,10 +49,10 @@ public interface XmlMapper {
     StudentDto query1(int kor);
 
     // 방법2 : XML에서 SQL 작성
-    StudentDto query2(int kor);
+    List<StudentDto> query2(int kor);
 
     // 7. 이름 또는 수학점수로 학생 조회
-    StudentDto query3(String name, int math);
+    List<StudentDto> query3(String name, int math);
 
     // 8. 다수 학생 등록
     int saveAll(List<StudentDto> studentDtos);

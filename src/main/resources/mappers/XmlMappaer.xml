@@ -11,11 +11,30 @@
 <mapper namespace="example.day13.XmlMapper">
     <!-- [1] 등록 -->
     <!-- id="추상메소드명", parameterType="매개변수타입경로||타입명" -->
-    <insert id="save" parameterType="example.day13.StudentDto">
+    <!-- 자동생성된 PK값 반환받기 : useGeneratedKeys="true" keyProperty="PK컬럼명" -->
+    <!-- 자동생성된 값은 Dto에 저장되어 반환된다. || 삽입/수정/삭제의 int 반환값은 실행된 레코드 수 -->
+    <insert id="save" parameterType="example.day13.StudentDto" useGeneratedKeys="true" keyProperty="sno">
         INSERT INTO student(name, kor, math)
-            VALUES (#{name}, #{kor}, #{math})
+            VALUES (#{name}, #{kor}, #{math});
     </insert>
+
+    <!-- [2] 전체조회 -->
     <select id="getAll" resultType="example.day13.StudentDto">
-        SELECT * FROM student
+        SELECT * FROM student;
     </select>
+
+    <!-- [3] 개별조회 -->
+    <select id="getBySno" parameterType="int" resultType="example.day13.StudentDto">
+        SELECT * FROM student WHERE sno = #{sno};
+    </select>
+
+    <!-- [4] 개별삭제 -->
+    <delete id="deleteBySno" parameterType="int">
+        DELETE FROM student WHERE sno = #{sno};
+    </delete>
+
+    <!-- [5] 개별수정 -->
+    <update id="updateBySno" parameterType="example.day13.StudentDto">
+        UPDATE student SET kor = #{kor}, math = #{math} WHERE sno = #{sno};
+    </update>
 </mapper> <!-- mapper 끝 -->

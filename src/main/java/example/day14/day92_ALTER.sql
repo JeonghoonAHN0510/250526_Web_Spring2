@@ -38,12 +38,14 @@ SHOW COLUMNS FROM employee;	# MyBatis에서 SELECT로 확인 가능(반환타입
 
 # [7] 기존 테이블에 제약조건 추가
 # ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 제약조건;
-ALTER TABLE employee ADD CONSTRAINT employee_id PRIMARY KEY (id);
+ALTER TABLE employee ADD CONSTRAINT PRIMARY KEY (id);
 ALTER TABLE employee ADD CONSTRAINT employee_name UNIQUE (name);
 
 # [8] 기존 테이블의 제약조건 삭제
+# ALTER TABLE 테이블명 DROP PRIMARY KEY;
+# ALTER TABLE 테이블명 DROP FOREIGN KEY 삭제할FK제약조건명;
 # ALTER TABLE 테이블명 DROP CONSTRAINT 삭제할제약조건명;
-ALTER TABLE employee DROP CONSTRAINT employee_id;
+ALTER TABLE employee DROP PRIMARY KEY;
 ALTER TABLE employee DROP CONSTRAINT employee_name;
 
 # [9] 제약조건 확인

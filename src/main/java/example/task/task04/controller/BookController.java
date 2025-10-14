@@ -21,7 +21,7 @@ public class BookController {
         System.out.println("bookDto = " + bookDto);
         if (bookService.postBook(bookDto) == 1){
             System.out.println("bookDto = " + bookDto);
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok(bookDto.getId());
         } else {
             return ResponseEntity.ok(false);
         } // if end
@@ -32,7 +32,7 @@ public class BookController {
         System.out.println("bookDtoList = " + bookDtoList);
         if (bookService.postBooks(bookDtoList) >= 1){
             System.out.println("bookDtoList = " + bookDtoList);
-            return ResponseEntity.ok(true);
+            return ResponseEntity.ok(bookDtoList);
         } else {
             return ResponseEntity.ok(false);
         } // func end

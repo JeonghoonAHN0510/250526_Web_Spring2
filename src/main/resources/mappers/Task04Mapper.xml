@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- XML 파일 내 MyBatis 라이브러리 설정 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="example.task.task04.model.mapper.BookMapper">
+    <insert id="postBook" useGeneratedKeys="true" keyProperty="id" parameterType="example.task.task04.model.dto.BookDto">
+        INSERT INTO books (title, stock) VALUES (#{title}, #{stock})
+    </insert>
+    <insert id="postBooks" useGeneratedKeys="true" keyProperty="id" parameterType="list">
+        INSERT INTO books (title, stock) VALUES
+            <foreach collection="list" item="book" separator=",">
+                (#{book.title}, #{book.stock})
+            </foreach>
+    </insert>
+    <select id="getRentals" resultType="example.task.task04.model.dto.RentalDto">
+        SELECT * FROM rentals r JOIN books b ON r.book_id = b.id
+            <where>
+                <if test="member != null">
+                    AND member LIKE CONCAT('%', #{member}, '%')
+                </if>
+                <if test="title != null">
+                    AND title LIKE CONCAT('%', #{title}, '%')
+                </if>
+            </where>
+    </select>
+</mapper>

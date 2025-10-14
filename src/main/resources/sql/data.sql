@@ -86,3 +86,4 @@ INSERT INTO books (id, title, stock) VALUES (4, '리액트 교과서', 5);
 
 -- --------------------------------------- Insert ----------------------------------------
 INSERT INTO rentals (id, book_id, member) VALUES (1, 1, '홍길동');
+INSERT INTO rentals (id, book_id, member) VALUES (2, 2, '강호동');

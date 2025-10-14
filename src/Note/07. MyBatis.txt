@@ -23,7 +23,7 @@
     spring.datasource.username=계정명
     spring.datasource.password=비밀번호
 
-[ MyBatis 사용법 ]
+[ MyBatis 사용법 - 어노테이션 ]
 1. 인터페이스를 생성 후, @Mapper 어노테이션을 주입한다.
 2. SQL DML 어노테이션을 사용한다.
     INSERT : @Insert("SQL")
@@ -35,3 +35,62 @@
     int : Insert/Update/Delete에 의해 처리된 레코드 수 반환
     Map/Dto/List : Select에 의해 조회된 레코드 반환
 5. Dto의 멤버변수명과 SQL의 속성명은 일치해야한다.
+6. 생성된 PK값 매핑하기
+    @Options(useGeneratedKeys=true, keyProperty="PK속성명")
+    -> 반환값으로 매핑되는 것이 아니라, Dto 등으로 매핑된다.
+
+[ MyBatis 사용법 - XML ]
+1. 인터페이스를 생성 후, @Mapper 어노테이션을 주입한다.
+2. application.properties에 설정을 추가한다.
+    - mybatis.mapper-locations=classpath:/폴더명/파일명.xml
+    - *.xml : 모든 파일 지칭
+3. 설정한 경로에 XML 파일을 생성한다.
+    - <?xml version="1.0" encoding="UTF-8" ?> : XML 파일 지정
+    - <!DOCTYPE mapper
+              PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+              "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> : MyBatis 라이브러리 설정
+4. 내가 만든 Mapper 인터페이스 연동 : [src - main - java] 이하 경로
+    - <mapper namespace="인터페이스경로"> </mapper>
+5. <mapper> 마크업 사이에 SQL 마크업을 사용한다
+    INSERT : <insert></insert>
+    SELECT : <select></select>
+    DELETE : <delete></delete>
+    UPDATE : <update></update>
+6. SQL 마크업 설정
+    - id : 인터페이스 내 추상메소드명
+    - parameterType : 매개변수타입경로 || 타입명(생략가능)
+        -> 2개 이상이라면, dto로 묶거나 생략한다.
+    - returnType : 반환타입경로 || 타입명(생략가능)
+    - useGeneratedKeys="true" keyProperty="PK속성명" : 생성된 PK값 매핑하기
+        -> 반환값으로 매핑되는 것이 아니라, Dto 등으로 매핑된다.
+    - #{ } : SQL 내부에서 Java 매개변수 대입
+
+[ 동적쿼리 - if, foreach ]
+1. SQL 실행 시점에서 MyBatis에서 제공하는 SQL을 구성하는 문법
+2. 사용법
+    1) 어노테이션 : """<script> 여기서 동적쿼리 </script>"""
+    2) XML : 바로 동적쿼리 사용
+3. 종류 : <if> <where> <foreach> ···
+    1) <if test="조건문">
+           참일 때 실행될 SQL
+       </if>
+    2) <foreach collection="컬렉션명" item="반복변수명" separator="구분문자">
+           반복할 SQL : #{반복변수명.속성명}
+       </foreach>
+    3) <where> : 조견의 결과를 이어붙이기 위해서 사용, 주로 조건에 따른 and|or
+
+[ Spring SQL 자동 실행 ]
+1. resources 폴더 내 schema.sql, data.sql 파일 생성
+    1) schema.sql : 주로 DDL SQL
+        - 테이블 생성 및 삭제
+        - 서버 실행 시, 자동으로 실행되므로 CREATE보다 DROP이 먼저 실행되어야 한다.
+        - PK-FK 관계일 때, FK 테이블을 먼저 삭제해야 한다.
+        - 단, 데이터베이스 생성 및 삭제는 불가능
+    2) data.sql   : 주로 DML SQL
+        - 샘플 데이터 작성
+2. application.properties 설정
+    1) spring.sql.init.mode=always(사용)|never(미사용)
+        - 주로 개발 단계에서 사용
+    2) spring.sql.init.schema-locations=classpath:/폴더명/파일명.sql
+    3) spring.sql.init.data-locations=classpath:/폴더명/파일명.sql
+    *) classpath : resources 이하 경로

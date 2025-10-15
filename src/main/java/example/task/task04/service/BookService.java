@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,13 @@ public class BookService {
     } // func end
     // 2. 일괄 등록
     public int postBooks(List<BookDto> bookDtoList){
-        return bookMapper.postBooks(bookDtoList);
+        int result;
+        try {
+            result = bookMapper.postBooks(bookDtoList);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } // try-catch end
+        return result;
     } // func end
     // 3. 대출 검색 - 대출한 사람 || 대출한 도서명
     public List<RentalDto> getRentals(String member, String title){

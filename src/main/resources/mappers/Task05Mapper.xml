@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- XML 파일 내 MyBatis 라이브러리 설정 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="example.task.task05.model.mapper.BookMapper">
+    <update id="addField">
+        ALTER TABLE books ADD COLUMN price int;
+    </update>
+    <update id="updateField">
+        ALTER TABLE books MODIFY COLUMN title longtext;
+    </update>
+    <select id="getMoreStockBooks" resultType="example.task.task05.model.dto.BookDto">
+        SELECT * FROM books WHERE stock > (SELECT AVG(stock) FROM books);
+    </select>
+    <select id="getMostRentedBook" resultType="example.task.task05.model.dto.BookDto">
+        SELECT b.*, (SELECT COUNT(*) FROM rentals r WHERE b.id = r.book_id) rental_count
+        FROM books b
+        ORDER BY rental_count DESC
+        limit 1;
+    </select>
+</mapper>

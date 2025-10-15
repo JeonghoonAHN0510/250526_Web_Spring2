@@ -1,6 +1,6 @@
-package example.task.task05.model.mapper;
+package example.task.task000.model.mapper;
 
-import example.task.task05.model.dto.PhoneDto;
+import example.task.task000.model.dto.PhoneDto;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

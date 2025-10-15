@@ -1,7 +1,7 @@
-package example.task.task05.service;
+package example.task.task000.service;
 
-import example.task.task05.model.dto.PhoneDto;
-import example.task.task05.model.mapper.PhoneMapper;
+import example.task.task000.model.dto.PhoneDto;
+import example.task.task000.model.mapper.PhoneMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

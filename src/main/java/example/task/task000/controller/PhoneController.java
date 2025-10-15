@@ -1,7 +1,7 @@
-package example.task.task05.controller;
+package example.task.task000.controller;
 
-import example.task.task05.model.dto.PhoneDto;
-import example.task.task05.service.PhoneService;
+import example.task.task000.model.dto.PhoneDto;
+import example.task.task000.service.PhoneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

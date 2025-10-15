@@ -1,4 +1,4 @@
-package example.task.task05.model.dto;
+package example.task.task000.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,0 +1,19 @@
+[ ALTER ]
+- 기존 테이블의 구조 변경
+- 사용법
+    속성 추가 : ALTER TABLE 테이블명 ADD COLUMN 새로운속성명 타입;
+    속성 수정 : ALTER TABLE 테이블명 MODIFY COLUMN 수정할속성명 타입;
+    속성명 수정 : ALTER TABLE 테이블명 CHANGE COLUMN 기존속성명 새로운속성명 타입;
+    속성 삭제 : ALTER TABLE 테이블명 DROP COLUMN 삭제할속성명;
+    PK 추가 : ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 PRIMARY KEY(PK속성명);
+    PK 삭제 : ALTER TABLE 테이블명 DROP PRIMARY KEY;
+    FK 추가 : ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 FOREIGN KEY(FK속성명) REFERENCES 참조테이블(PK속성명);
+    FK 삭제 : ALTER TABLE 테이블명 DROP FOREIGN KEY 삭제할제약조건명;
+    제약조건 추가 : ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 제약조건(속성명);
+    제약조건 삭제 : ALTER TABLE 테이블명 DROP CONSTRAINT 삭제할제약조건명;
+- 필드 확인 : SHOW COLUMNS FROM 테이블명;
+- 제약조건 확인 : SELECT * FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS;
+
+[ SUBQUERY ]
+- SELECT 안에서 SELECT를 중첩하여 사용하는 것
+- 형식 : SELECT (SELECT) FROM (SELECT) WHERE(SELECT);

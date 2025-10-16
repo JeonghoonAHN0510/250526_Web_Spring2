@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- XML 파일 내 MyBatis 라이브러리 설정 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="example.task.task06.model.mapper.BookMapper">
+    <update id="createBooksRentalsView">
+        CREATE OR REPLACE
+               VIEW books_rentals_view
+               AS SELECT b.id, b.title, b.stock, r.member, r.rent_date, r.return_date
+                  FROM books b
+                  JOIN rentals r
+                  ON b.id = r.book_id;
+    </update>
+    <update id="createMoreStockBooksView">
+        CREATE OR REPLACE
+               VIEW more_avgStock_books_view
+               AS SELECT *
+                  FROM books
+                  WHERE stock > (SELECT AVG(stock) FROM books);
+    </update>
+    <select id="getBooksRentalsView" resultType="Map">
+        SELECT * FROM books_rentals_view;
+    </select>
+    <select id="getBooksMoreStockBooksView" resultType="Map">
+        SELECT * FROM more_avgStock_books_view;
+    </select>
+</mapper>

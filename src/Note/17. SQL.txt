@@ -17,3 +17,26 @@
 [ SUBQUERY ]
 - SELECT 안에서 SELECT를 중첩하여 사용하는 것
 - 형식 : SELECT (SELECT) FROM (SELECT) WHERE(SELECT);
+
+[ Transaction ]
+- 여러 SQL 작업들을 하나의 묶음으로 처리하여 모두 성공하면 COMMIT, 하나라도 실패하면 ROLLBACK하는 기능
+- 목적 : 데이터의 무결성 유지와 안정성을 보장
+- 명령어
+    1) 워크벤치에서 자동 커밋 해제 : SET AUTOCOMMIT = 0
+    2) 트랜잭션 시작 : START TRANSACTION
+    3) 최종 저장 : COMMIT
+    4) COMMIT 전까지 되돌리기 : ROLLBACK
+    5) 임시 저장 : SAVEPOINT 저장지점명
+    6) 저장지점으로 되돌리기 : ROLLBACK TO 저장지점명
+- Java와의 비교
+    1) Spring Boot : @Transactional + RuntimeException
+
+[ View ]
+- 실제 데이터를 저장하지 않고, SELECT 쿼리 결과를 임시로 저장하는 가상의 테이블
+- 목적 : 복잡한 SQL의 재사용, 보안 및 권한 지정
+- 일부 View에서는 수정이 불가능하다.
+- 명령어
+    1) 생성 : CREATE (OR REPLACE) VIEW 뷰이름 AS 쿼리문
+    2) 수정 : ALTER VIEW 뷰이름 AS 새로운쿼리문
+    3) 삭제 : DROP VIEW IF EXISTS 뷰이름
+    4) 뷰 목록 확인 : SHOW FULL TABLES WHERE TABLE_TYPE = 'VIEW'

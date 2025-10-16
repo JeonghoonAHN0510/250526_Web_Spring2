@@ -5,6 +5,7 @@ SET SQL_SAFE_UPDATES = 0;	-- MySQL 워크벤치에서 UPDATE 사용 설정
 # Java Spring : @Transactional을 사용하되, RuntimeException을 통해 롤백, savepoint는 지원 X
 # Java JDBC(Dao) : savepoint 지원 O
 SET AUTOCOMMIT = 0;			-- MySQL 워크벤치에서 자동 COMMIT 비활성화(학습용)
+SET AUTOCOMMIT = 1;
 
 # [1] 트랜잭션 예제 1
 # 1. 트랜잭션 시작

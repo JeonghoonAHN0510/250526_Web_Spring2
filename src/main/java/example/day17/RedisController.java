@@ -5,8 +5,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @RestController
@@ -53,7 +55,7 @@ public class RedisController {
         return ResponseEntity.ok().body("[저장성공]");
     } // func end
 
-    // 2. 전체 조회
+    // 2. 전체조회
     @GetMapping("")
     private ResponseEntity<?> findAll(){
         // 0. 조회할 key를 모두 가져온다.
@@ -65,5 +67,68 @@ public class RedisController {
             values.add(studentTemplate.opsForValue().get(key));
         } // for end
         return ResponseEntity.ok().body(values);
+    } // func end
+
+    // 3. 개별조회
+    @GetMapping("/bySno")
+    public ResponseEntity<?> getBySno(@RequestParam int sno){
+        // 1. 조회할 key 구성
+        String key = "student:" + sno;
+        // 2. 특정한 key의 value 호출
+        Object value = studentTemplate.opsForValue().get(key);
+        return ResponseEntity.ok().body(value);
+    } // func end
+
+    // 4. 개별삭제
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteBySno(@RequestParam int sno){
+        // 1. 삭제할 key 구성
+        String key = "student:" + sno;
+        // 2. 특정한 key를 이용한 entry(key-value) 삭제
+        // redisTemplate.delete(key); 성공 : true / 실패 : false
+        boolean result = studentTemplate.delete(key);
+        return ResponseEntity.ok(result);
+    } // func end
+
+    // 5. 개별수정
+    @PutMapping("")
+    public ResponseEntity<?> update(@RequestBody StudentDto studentDto){
+        // 0. key가 keys에 존재하는지 유효성 검사 필요
+        // 1. 수정할 key 구성
+        String key = "student:" + studentDto.getSno();
+        // 2. 특정한 key를 이용하여 수정(= 사실상 등록이랑 같음, key가 같으면 덮어씌어지기 때문에)
+        studentTemplate.opsForValue().set(key, studentDto);
+        return ResponseEntity.ok("[수정성공]");
+    } // func end
+
+    // * 인증코드를 발급하여 특정한 기간에만 데이터 저장 - Redis 유효기간 설정
+    // TTL : Redis에 저장된 Entry를 특정한 시간이 되면(기간이 지나면) 자동 삭제
+    @GetMapping("/auth/send")
+    public ResponseEntity<?> authSend(@RequestParam String phone){
+        // 1. key를 구성한다. -> auth:전화번호
+        String key = "auth:" + phone;
+        // 2. 인증코드 생성하기 - 난수 6자리
+        String code = String.format("%06d", new Random().nextInt(999999));
+        // 3. Redis에 key-인증코드 저장하기 + TTL(유효시간) 설정하기 : Duration.ofXXX()
+        redisTemplate.opsForValue().set(key, code, Duration.ofSeconds(15));     // 15초의 유효기간 설정
+        // 4. API를 이용하여 전화번호에게 인증코드 전송(했다 치고)
+
+        return ResponseEntity.ok("인증코드 발급 완료 : " + code);
+    } // func end
+    @GetMapping("/auth/confirm")
+    public ResponseEntity<?> authConfirm(@RequestParam String phone, @RequestParam String code){
+        // 1. 조회할 key를 구성한다
+        String key = "auth:" + phone;
+        // 2. 특정한 key를 이용하여 value 호출
+        Object savedCode = redisTemplate.opsForValue().get(key);
+        // 3. savedCode와 입력받은 code 비교하기
+        if (savedCode == null){
+            return ResponseEntity.ok("[인증실패] : 인증만료 || 전화번호 불일치");
+        } else if (savedCode.equals(code)){
+            redisTemplate.delete(key);      // 안전하게 삭제
+            return ResponseEntity.ok("[인증성공]");
+        } else {
+            return ResponseEntity.ok("[인증실패] : 코드 불일치");
+        } // if end
     } // func end
 } // class end

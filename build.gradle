@@ -22,6 +22,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'     // 웹서버 소켓 라이브러리 설치
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'  // MyBatis 라이브러리 설치
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'    // Redis 라이브러리 설치
     runtimeOnly 'com.mysql:mysql-connector-j'                                   // MYSQL JDBC 라이브러리 설치
     implementation "org.apache.tomcat.embed:tomcat-embed-jasper"                // JSP 라이브러리 설치
     compileOnly 'org.projectlombok:lombok'                                      // Lombok 라이브러리 설치

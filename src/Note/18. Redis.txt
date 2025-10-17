@@ -30,3 +30,6 @@
     3. CMD 켜진 상태 = 서버가 켜진 상태
 - Spring과 Redis 연동
     1. build.gradle에 'Spring Data Redis' 의존성 주입
+    2. application.properties 서버 연동
+        spring.data.redis.host=localhost
+        spring.data.redis.port=6379

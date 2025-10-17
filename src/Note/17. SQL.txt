@@ -40,3 +40,32 @@
     2) 수정 : ALTER VIEW 뷰이름 AS 새로운쿼리문
     3) 삭제 : DROP VIEW IF EXISTS 뷰이름
     4) 뷰 목록 확인 : SHOW FULL TABLES WHERE TABLE_TYPE = 'VIEW'
+
+[ DCL ]
+- 데이터베이스의 사용자 계정 생성, 권한 부여 및 회수 등을 관리하는 명령어
+- 계정(개발자)마다 데이터베이스 접근 권한을 분리하여 관리하면서 보안 강화
+- 명령어
+    1) 계정 생성 : CREATE USER '계정명'@'허용IP' IDENTIFIED BY '비밀번호';
+    -> 허용도메인 : localhost(로컬환경), %(모든IP허용), 192.168.0.1(특정한IP)
+    2) 권한 부여 : GRANT 권한 ON 데이터베이스명.테이블|뷰명 TO '계정명'@'허용IP';
+    -> 모든 권한 : ALL PRIVILEGES
+    3) 권한 회수 : REVOKE 권한 ON 데이터베이스명.테이블|뷰명 TO '계정명'@'허용IP';
+    4) 권한 확인 : SHOW GRANT FOR '계정명'@'허용IP';
+    5) 비밀번호 수정 : ALTER USER '계정명'@'허용IP' IDENTIFIED BY '새로운비밀번호';
+    6) 계정 삭제 : DROP USER '계정명'@'허용IP';
+    7) 모든 계정 확인 : SELECT * FROM mysql.user;
+
+[ INDEX ]
+- 데이터를 특정 필드를 기준으로 검색을 빠르게 하기위한 색인
+- 대용량 데이터의 SELECT·JOIN·정렬 등의 속도 향상
+- INSERT/DELETE/UPDATE 등의 속도 저하
+- PK속성은 기본적으로 인덱스를 갖는다.
+- 명령어
+    1) 단일 인덱스 생성 : CREATE INDEX 인덱스명 ON 테이블명(속성명);
+    2) 복합 인덱스 생성 : CREATE INDEX 인덱스명 ON 테이블명(속성명1, 속성명2);
+    3) 인덱스 확인 : SHOW INDEX FROM 테이블명;
+    4) 인덱스 삭제 : DROP INDEX 인덱스면 ON 테이블명;
+    5) 실행 계획 분석 : EXPLAIN ANALYZE 쿼리문;
+    6) 자연어 처리 : CREATE FULLTEXT INDEX 인덱스명 ON 테이블명(속성명);
+    -> SELECT * FROM 테이블명 WHERE MATCH(속성명) AGAINST(속성값);
+    -> LONGTEXT, TEXT, CHAR, VARCHAR만 가능

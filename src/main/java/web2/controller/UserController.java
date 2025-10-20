@@ -79,7 +79,21 @@ public class UserController {
         return ResponseEntity.ok(null);
     } // func end
 
-    // [4] 로그아웃
+    // [4] (쿠키 기반) 로그아웃 - 컨트롤러만 존재
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response){
+        // 4-1. 삭제할 쿠키명을 null로 변경
+        Cookie cookie = new Cookie("loginUser", null);
+        // 4-2. 쿠키에 대한 설정 진행
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);        // 0초라서 즉시 삭제
+        // 4-3. 생성한 쿠키를 클라이언트에게 반환
+        response.addCookie(cookie);
+        // 4-4. 모든 로직 진행 후, 최종적으로 true 반환
+        return ResponseEntity.ok(true);
+    } // func end
 
 
 } // class end

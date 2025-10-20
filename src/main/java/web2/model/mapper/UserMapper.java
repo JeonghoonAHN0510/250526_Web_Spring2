@@ -27,6 +27,4 @@ public interface UserMapper {
     @Select("SELECT uno, uid, uname, uphone, urole, udate FROM users WHERE uid = #{uid}")
     UserDto getUserByUid(String uid);
 
-    // [4] 로그아웃
-
 } // interface end

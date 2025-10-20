@@ -48,9 +48,6 @@ public class UserService {
         return userMapper.getUserByUid(uid);
     } // func end
 
-    // [4] 로그아웃
-
-
 } // class end
 
 /*

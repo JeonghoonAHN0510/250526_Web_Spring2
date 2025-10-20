@@ -1,0 +1,20 @@
+package web2.model.mapper;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
+import web2.model.dto.UserDto;
+
+@Mapper
+public interface UserMapper {
+
+    // 1. 회원가입 - PK 반환
+    @Insert("INSERT INTO users (uid, upwd, uname, uphone, urole) VALUES (#{uid}, #{upwd}, #{uname}, #{uphone}, #{urole})")
+    @Options(useGeneratedKeys = true, keyProperty = "uno")  // INSERT 성공 시, 매개변수에 생성된 PK값 주입
+    int signup(UserDto userDto);
+
+    // 2-1. 로그인
+    @Select("SELECT * FROM users WHERE uid = #{uid} AND upwd = #{upwd}")
+    UserDto login(UserDto userDto);
+} // interface end

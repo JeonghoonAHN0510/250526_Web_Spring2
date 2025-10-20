@@ -1,12 +1,12 @@
 package web2.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web2.model.dto.UserDto;
 import web2.service.UserService;
 
@@ -16,7 +16,7 @@ import web2.service.UserService;
 public class UserController {
     private final UserService userService;
 
-    // 1. 회원가입
+    // [1] 회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody UserDto userDto){
         // 1-1. 입력받은 값을 Service에 전달하여 회원가입 진행
@@ -25,14 +25,61 @@ public class UserController {
         return ResponseEntity.ok(result);   // .ok : 200 성공 의미
     } // func end
 
-    // 2. 로그인 + 세션
+//    // [2-1] 로그인 + 세션(자바웹서버(톰캣)의 임시 저장소)
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpSession session){
+//        // 2-1. 입력받은 값을 Service에 전달하여 로그인 진행
+//        UserDto result = userService.login(userDto);
+//        // 2-2. 로그인을 성공했다면, 성공한 User의 ID를 세션에 저장
+//        if (result != null) session.setAttribute("loginUser", result.getUid());
+//        // 2-3. 최종적으로 결과 반환
+//        return ResponseEntity.ok(result);
+//    } // func end
+
+    // [2-2] 로그인 + 쿠키(클라이언트 브라우저의 임시 저장소)
+    // 장점 : 서버에 부담이 줄어든다.
+    // 단점 : 쿠키에 저장하면 세션보다 비교적 위험하다. -> 안전장치가 필요
+    // 사용처 : 주로 사용자들의 설정값 저장
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpSession session){
+    public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpServletResponse response){
         // 2-1. 입력받은 값을 Service에 전달하여 로그인 진행
         UserDto result = userService.login(userDto);
-        // 2-2. 로그인을 성공했다면, 성공한 User의 ID를 세션에 저장
-        if (result != null) session.setAttribute("loginUser", result.getUid());
-        // 2-3. 최종적으로 결과 반환
+        // 2-2. 로그인을 성공했다면, 성공한 User의 ID를 쿠키에 저장
+        if (result != null){
+            // Cookie cookie = new Cookie();
+            // 2-3. 성공한 User의 ID로 쿠키 생성
+            Cookie cookie = new Cookie("loginUser", result.getUid());
+            // 2-4. 쿠키 노출 및 탈취 방지 - 안전장치 설정
+            cookie.setHttpOnly(true);       // 무조건 http에서만 사용 -> JS에서 접근 불가능
+            cookie.setSecure(false);        // http이용하여 탈취하더라도 암호화 -> https에서만 true 사용 가능
+            cookie.setPath("/");            // 쿠키에 접근할 수 있는 경로 지정
+            cookie.setMaxAge(3600);         // 쿠키의 유효기간 설정(초 단위)
+            // 2-5. 생성한 쿠키를 클라이언트에게 반환
+            response.addCookie(cookie);
+        } // if end
+        // 2-6. 최종적으로 결과 반환
         return ResponseEntity.ok(result);
     } // func end
+
+    // [3] (쿠키를 활용한) 현재 로그인된 정보 호출 (+ 마이페이지)
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUserByUid(HttpServletRequest request){
+        // 3-1. 현재 클라이언트(브라우저)에 저장된 모든 쿠키 가져오기
+        Cookie[] cookies = request.getCookies();
+        // 3-2. 모든 쿠키를 순회하며 특정한 쿠키 찾기
+        if (cookies != null){                                   // cookies가 존재하면
+            for (Cookie cookie : cookies){                      // 모든 cookie를 순회하며
+                if (cookie.getName().equals("loginUser")){      // cookie의 이름이 "loginUser"이면
+                    // 3-3. cookie의 값을 Service에 전달하여 정보 호출하여 반환
+                    return ResponseEntity.ok(userService.getUserByUid(cookie.getValue()));
+                } // if end
+            } // for end
+        } // if end
+        // 3-4. cookie값으로 반환하지 못했다면, null 반환
+        return ResponseEntity.ok(null);
+    } // func end
+
+    // [4] 로그아웃
+
+
 } // class end

@@ -13,7 +13,7 @@ public class UserService {
     // 1-1. BCrypt 라이브러리 객체 생성
     private final BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();
 
-    // 1. 회원가입
+    // [1] 회원가입
     public int signup(UserDto userDto){
         // 1-2. BCrypt를 이용한 비밀번호 암호화
         // String 암호문 = bCrypt.encode(평문);
@@ -24,7 +24,7 @@ public class UserService {
         return userDto.getUno();
     } // func end
 
-    // 2. 로그인 : 암호문을 복호화하여 평문을 비교하는 방식이 아닌, 암호문을 비교하는 방식
+    // [2] 로그인 : 암호문을 복호화하여 평문을 비교하는 방식이 아닌, 암호문을 비교하는 방식
     // BCrypt는 복호화가 불가능하기에 암호문을 비교하는 방식을 사용
     public UserDto login(UserDto inputUserDto){
         // 2-1. 로그인 요청된 아이디가 유효한지 확인
@@ -42,6 +42,15 @@ public class UserService {
             return null;                // null 반환
         } // if end
     } // func end
+
+    // [3] 현재 로그인된 정보 호출 (+ 마이페이지)
+    public UserDto getUserByUid(String uid){
+        return userMapper.getUserByUid(uid);
+    } // func end
+
+    // [4] 로그아웃
+
+
 } // class end
 
 /*

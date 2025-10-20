@@ -40,6 +40,7 @@ public class UserController {
     // 장점 : 서버에 부담이 줄어든다.
     // 단점 : 쿠키에 저장하면 세션보다 비교적 위험하다. -> 안전장치가 필요
     // 사용처 : 주로 사용자들의 설정값 저장
+    // 클라이언트에 저장하는 임시 저장소이므로 서버가 종료되도 상태가 유지된다.
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto userDto, HttpServletResponse response){
         // 2-1. 입력받은 값을 Service에 전달하여 로그인 진행

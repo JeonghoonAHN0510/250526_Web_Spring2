@@ -34,3 +34,38 @@
     2. application.properties 서버 연동
         spring.data.redis.host=localhost
         spring.data.redis.port=6379
+- 사용법
+    1. (Redis에 저장할 데이터타입 형식의) RedisTemplate 객체 생성
+        방법1) private final StringRedisTemplate stringRedisTemplate; -> 문자열 타입
+        방법2) private final RedisTemplate redisTemplate; -> 그 외 타입
+    2. RedisTemplate을 사용할 경우, Redis에 저장할 데이터타입 설정이 필요
+        -> RedisConfig를 생성
+        -> private final RedisTemplate<String, Object> MapRedisTemplate; -> dto, JSON, Map 타입 호환
+    ```
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
+        // 1. Redis 템플릿 객체 생성 : Redis 형식을 Map 타입으로 사용하기위한 설정
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        // 2. 생성한 템플릿 객체를 팩토리(Redis 저장소)에 등록
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        // 3. 생성한 템플릿은 key값을 String 타입으로 직렬화한다.
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        // 4. 생성한 템플릿은 value값을 JSON/DTO 타입으로 직렬화한다,
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        // 직렬화 : Redis에 저장된 데이터를 자바 타입으로 변환 과정
+        return redisTemplate;
+    } // func end
+    ```
+    3. Redis에 데이터를 저장하는 방법, key가 중복되면 value가 수정된다.
+        1) 단순 저장 : redisTemplate.opsForValue().set(key, value);
+        2) 유효시간 설정하여 저장 : redisTemplate.opsForValue().set(key, value, TTL);
+            -> TTL : 유효기간을 설정, Duration.ofXXX();
+    4. Redis에 데이터를 호출하는 방법
+        1) 특정 key의 value 반환 : Object value = redisTemplate.opsForValue().get(key);
+        2) 모든 key 반환 : Set<String> keys = redisTemplate.keys("*");
+        3) 특정 패턴의 key 반환 : Set<String> keys = redisTemplate.keys("패턴");
+        * Redis는 key의 이름을 주로 "의미상의단어:식별번호"로 저장한다.
+            -> "student:1", "student:2" ··· : student:*
+            -> "jwt:토큰번호" ··· : jwt:*
+    5. 데이터를 삭제하는 방법
+        1) 특정한 key의 entry 삭제 : boolean result = redisTemplate.delete(key);
+    6. key의 존재여부 확인 : boolean result = redisTemplate.hasKey(key);

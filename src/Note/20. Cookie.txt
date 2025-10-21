@@ -1,0 +1,41 @@
+[ 쿠키(Cookie) ]
+- 클라이언트 브라우저의 임시 저장소
+- 사용처
+    1) 로그인 상태 유지 -> 부가적인 보안설정 필요
+    2) 사용자 설정값 : 테마, 언어 등의 개인 설정값
+    3) (개인의) 통계, 분석
+- 세션과의 비교
+      저장위치        유효기간           보안       서버과부하가능성         예시
+세션    서버      서버가 종료시 삭제    비교적 유리      비교적 높음          로그인
+쿠키  클라이언트      설정된 기간       비교적 취약      비교적 낮음      장바구니, 자동로그인
+- 유의할 점
+    1) 민감한 정보는 저장하지 않는다. -> 비밀번호 등
+    2) 보안설정 필수 -> 보안에 비교적 취약하기에
+
+- 보안설정
+    1) 자바스크립트 접근 차단 : HttpOnly
+        -> .setHttpOnly(true);
+    2) HTTPS 환경에서만 쿠키 송수신 : HttpSecure
+        -> .setSecure(true);
+        -> 배포 단계에서 true로 진행
+    3) 유효시간 설정(초 단위)
+        -> .setMaxAge();
+    4) 접근가능경로 지정
+        -> .setPath("경로");
+- 사용법(Controller에서 사용)
+    1) Cookie 객체 생성
+        Cookie 쿠키객체 = new Cookie("쿠키명", 설정값);
+    2) 보안설정 진행
+    3) Cookie 등록(클라이언트에게 보내기)
+        HttpServletResponse response
+        response.addCookie(쿠키객체);
+    4) Cookie 확인 -> @CookieValue 어노테이션으로 가능
+        HttpServletRequest request
+        Cookie[] cookies = request.getCookies();
+        cookies를 순회하여 찾고싶은 cookie 찾기
+        String 설정값 = cookie.getValue();
+    5) Cookie 삭제
+        Cookie 쿠키객체 = new Cookie("쿠키명", null);
+        쿠키객체.setMaxAge(0); -> 유효시간 0초여서 바로 삭제됨
+        HttpServletResponse response
+        response.addCookie(쿠키객체);

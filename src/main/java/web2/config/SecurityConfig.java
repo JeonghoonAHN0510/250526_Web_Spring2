@@ -28,8 +28,8 @@ public class SecurityConfig {
         // .hasAnyRole("권한명1", "권한명2") : 여러 개의 권한 허용
         httpSecurity.authorizeHttpRequests(auth -> auth
                 // admin 관련 요청은 "ADMIN"권한일 때만 사용가능
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/user/info").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 // 모든 권한허용은 항상 최하단에 정의(정의되지않은 권한에 대한 허용)
                 .requestMatchers("/**").permitAll()
         );

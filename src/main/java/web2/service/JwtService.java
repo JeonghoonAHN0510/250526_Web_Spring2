@@ -75,7 +75,7 @@ public class JwtService {
                     // .getBody() : 검증 후, 내용물 가져오기
                     .getBody();
             System.out.println("claims = " + claims);
-            return claims.get("key").toString();
+            return claims.get("key", String.class);
         } catch (ExpiredJwtException e) {
             return null;
         } // try-catch end
@@ -139,9 +139,9 @@ public class JwtService {
 
     // [6] Claims의 특정값 추출
     public String getUid(String token){
-        return getClaims2(token).get("uid").toString();
+        return getClaims2(token).get("uid", String.class);
     } // func end
     public String getUrole(String token){
-        return getClaims2(token).get("urole").toString();
+        return getClaims2(token).get("urole", String.class);
     } // func end
 } // class end

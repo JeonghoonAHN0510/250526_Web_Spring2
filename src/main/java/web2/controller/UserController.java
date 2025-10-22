@@ -52,7 +52,7 @@ public class UserController {
             // Cookie cookie = new Cookie();
             // Cookie cookie = new Cookie("loginUser", result.getUid());
             // 2-3. 회원정보를 토큰으로 생성하여 쿠키에 저장하기
-            Cookie cookie = new Cookie("loginUser", jwtService.generateToken2(userDto.getUid(), userDto.getUrole()));
+            Cookie cookie = new Cookie("loginUser", jwtService.generateToken2(result.getUid(), result.getUrole()));
             // 2-4. 쿠키 노출 및 탈취 방지 - 안전장치 설정
             cookie.setHttpOnly(true);       // 무조건 http에서만 사용 -> JS에서 접근 불가능
             cookie.setSecure(false);        // http이용하여 탈취하더라도 암호화 -> https에서만 true 사용 가능
@@ -66,7 +66,7 @@ public class UserController {
     } // func end
 
     // [3] (쿠키를 활용한) 현재 로그인된 정보 호출 (+ 마이페이지)
-    @GetMapping("/getUser")
+    @GetMapping("/info")
     public ResponseEntity<?> getUserByUid(HttpServletRequest request){
         // 3-1. 현재 클라이언트(브라우저)에 저장된 모든 쿠키 가져오기
         Cookie[] cookies = request.getCookies();

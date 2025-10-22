@@ -53,15 +53,15 @@ public class UserController {
             // Cookie cookie = new Cookie("loginUser", result.getUid());
             // 2-3. 회원정보를 토큰으로 생성하여 쿠키에 저장하기
             Cookie cookie = new Cookie("loginUser", jwtService.generateToken2(userDto.getUid(), userDto.getUrole()));
-            // 2-. 쿠키 노출 및 탈취 방지 - 안전장치 설정
+            // 2-4. 쿠키 노출 및 탈취 방지 - 안전장치 설정
             cookie.setHttpOnly(true);       // 무조건 http에서만 사용 -> JS에서 접근 불가능
             cookie.setSecure(false);        // http이용하여 탈취하더라도 암호화 -> https에서만 true 사용 가능
             cookie.setPath("/");            // 쿠키에 접근할 수 있는 경로 지정
             cookie.setMaxAge(3600);         // 쿠키의 유효기간 설정(초 단위)
-            // 2-. 생성한 쿠키를 클라이언트에게 반환
+            // 2-5. 생성한 쿠키를 클라이언트에게 반환
             response.addCookie(cookie);
         } // if end
-        // 2-. 최종적으로 결과 반환
+        // 2-6. 최종적으로 결과 반환
         return ResponseEntity.ok(result);
     } // func end
 
@@ -110,6 +110,4 @@ public class UserController {
         // 4-4. 모든 로직 진행 후, 최종적으로 true 반환
         return ResponseEntity.ok(true);
     } // func end
-
-
 } // class end

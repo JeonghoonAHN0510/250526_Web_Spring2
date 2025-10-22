@@ -18,20 +18,33 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'           // 스프링부트 웹 설치
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'     // 웹서버 소켓 라이브러리 설치
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'  // MyBatis 라이브러리 설치
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'    // Redis 라이브러리 설치
-    runtimeOnly 'com.mysql:mysql-connector-j'                                   // MYSQL JDBC 라이브러리 설치
-    implementation "org.apache.tomcat.embed:tomcat-embed-jasper"                // JSP 라이브러리 설치
-    compileOnly 'org.projectlombok:lombok'                                      // Lombok 라이브러리 설치
-    annotationProcessor 'org.projectlombok:lombok'                              // Lombok 라이브러리 설치
-    implementation 'org.jsoup:jsoup:1.21.2'                                     // Jsoup 라이브러리 설치
-    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'               // Selenium 라이브러리 설치
-    implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'                // WebDriverManager 라이브러리 설치
-    implementation 'org.springframework.boot:spring-boot-starter-aop'           // AOP 라이브러리 설치
-    implementation 'org.springframework.security:spring-security-crypto:6.4.4'  // BCrypt 라이브러리 설치
+    // [1] 스프링 웹
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // [2] 롬복
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // [3] mysql jdbc
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    // [4] websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    // [5] JSOUP
+    implementation 'org.jsoup:jsoup:1.21.2'
+    // [6] 셀레니움
+    implementation 'org.seleniumhq.selenium:selenium-java:4.35.0'
+    // [7] 셀레니움 브라우저 매니저 (크롬)
+    implementation 'io.github.bonigarcia:webdrivermanager:6.3.1'
+    // [8] 마이바티스
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+    // [9] AOP 관점지향 프로그래밍
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    // [10] noSQL REDIS
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    // [11] 비크립트( 암호화 )
+    implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+    // [12] JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 }
 
 tasks.named('test') {

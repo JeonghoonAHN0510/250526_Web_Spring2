@@ -14,6 +14,7 @@ import web2.service.JwtService;
 import web2.service.UserService;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -48,9 +49,15 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
             // oAuth2User.getAttribute("동의항목명");
             uid = oAuth2User.getAttribute("email");
             name = oAuth2User.getAttribute("name");
-        } else if (provider.equals("kakao")){
-            // 2-2. 회사가 카카오일 때
+        } else if (provider.equals("kakao")){           // 2-2. 회사가 카카오일 때
+            // oAuth2User.getAttribute("동의항목명");
+            Map<String, Object> kakaoAccount = oAuth2User.getAttribute("kakao_account");        // 카카오 동의항목 : kakao_account에 들어있음
+            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");    // 테스트에선 프로필만 사용가능
+            uid = (String) profile.get("nickname");
+            name = (String) profile.get("nickname");    // 테스트여서 둘다 nickname으로 진행
         } // if end
+        System.out.println("uid = " + uid);
+        System.out.println("name = " + name);
         // 3. OAuth2 정보를 DB에 저장
         userService.oAuth2UserSignup(uid, name);
         // 4. 우리의 로그인 방식과 통합, 권한은 USER로 정의

@@ -48,6 +48,24 @@ public class UserService {
         return userMapper.getUserByUid(uid);
     } // func end
 
+    // [4] OAuth2 회원에 대한 회원가입
+    public UserDto oAuth2UserSignup(String uid, String name){
+        // 4-1. 기존 회원인지 검사
+        UserDto userDto = userMapper.login(uid);
+        // 4-2. 회원정보가 없으면, 기존 회원이 아님
+        if (userDto == null){
+            UserDto oAuth2User = new UserDto();
+            oAuth2User.setUid(uid);
+            oAuth2User.setUpwd(null);           // 타사 회원이므로 비밀번호 없음 -> 소셜로그인에서 검증되어 넘어오기 때문에
+            oAuth2User.setUname(name);
+            oAuth2User.setUrole("USER");        // 추후 일반회원과 권한 분리 가능 -> "OAUTH"
+            // 4-3. 회원정보를 구성하여 회원가입 진행
+            userMapper.signup(oAuth2User);
+            // 4-4. 회원가입된 Dto 반환
+            return oAuth2User;
+        } // if end
+        return null;
+    } // func end
 } // class end
 
 /*

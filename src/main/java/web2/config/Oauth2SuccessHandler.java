@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import web2.service.JwtService;
+import web2.service.UserService;
 
 import java.io.IOException;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
     private final JwtService jwtService;
+    private final UserService userService;
     // 타사(oauth2 : 구글/카카오/네이버 등) 로그인 성공 이후 로직 커스텀
     // 로그인 실패 커스텀은 하지 않는다.
     // ** OAuth2 관련 라이브러리 설치 : implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -49,14 +51,17 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         } else if (provider.equals("kakao")){
             // 2-2. 회사가 카카오일 때
         } // if end
-        // 3. 우리의 로그인 방식과 통합, 권한은 USER로 정의
+        // 3. OAuth2 정보를 DB에 저장
+        userService.oAuth2UserSignup(uid, name);
+        // 4. 우리의 로그인 방식과 통합, 권한은 USER로 정의
         Cookie cookie = new Cookie("loginUser", jwtService.generateToken2(uid, "USER"));
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
         cookie.setPath("/");
         cookie.setMaxAge(3600);
         response.addCookie(cookie);
-        // 4. 로그인 성공 시, 이동할 페이지 설정 : 프론트엔드 루트
+        System.out.println("cookie = " + cookie);
+        // 5. 로그인 성공 시, 이동할 페이지 설정 : 프론트엔드 루트
         // response.sendRedirect("http://localhost:5173/");
         response.sendRedirect("/");
     } // func end

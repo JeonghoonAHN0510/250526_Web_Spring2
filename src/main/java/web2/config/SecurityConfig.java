@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     // 내가 만든 토큰을 스프링 시큐리티 방식으로 통합한 클래스
     private final JwtAuthFilter jwtAuthFilter;
+    private final Oauth2SuccessHandler oauth2SuccessHandler;
 
     // [0] username : user , password : 콘솔에 password 복사하여 붙여넣기
     // [1] HTTP 관련 필터들을 커스텀
@@ -44,6 +45,19 @@ public class SecurityConfig {
         // 1-4. UsernamePasswordAuthenticationToken을 내가 만든 토큰으로 대체
         // httpSecurity.addFilterBefore(내가만든토큰객체필터, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        // ========================= 구글 로그인 연동 ================================
+        // 1-5. Oauth2 로그인 필터 사용 설정
+        // httpSecurity.oauth2Login(매개변수 -> 매개변수.successHandler(로그인성공시 특정클래스이동));
+        httpSecurity.oauth2Login(oauth -> oauth
+                .loginPage("/oauth2/authorization/google")      // 현재 로그인페이지가 아닌 타사 로그인페이지로 이동
+                .successHandler(oauth2SuccessHandler)             // 타사 로그인페이지에서 로그인 성공 시 반환되는 클래스 정의
+        );
+
+
+
+
+
+
         // 1-. 커스텀 완료된 객체 반환
         return httpSecurity.build();
     } // func end

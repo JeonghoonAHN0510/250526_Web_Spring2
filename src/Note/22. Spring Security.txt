@@ -1,0 +1,23 @@
+[ Spring Security ]
+- Spring 기반, 인증과 인가를 제공하는 라이브러리
+- 대표기능 : 로그인, 소셜 로그인, 로그아웃, CSRF 공격 방지 ···
+- 설치 : build.gradle에 종속성 추가
+    -> implementation 'org.springframework.boot:spring-boot-starter-security'
+    -> 설치와 동시에 만들어진 다수 필터(유효성 검사)가 서버에 적용된다.
+- 시큐리티 커스텀 : 버전과 상황에 따른 방법이 다양
+    1) HTTP 요청 필터
+        httpSecurity.authorizeHttpRequests(매개변수 -> 매개변수.requestMatchers("경로").권한함수 );
+        -> 권한함수 : .hasRole("권한명"), .hasAnyRole("권한명1", "권한명2")
+        -> 모든 권한허용 : permitAll()
+        -> vs @PreAuthorize("권한명") 어노테이션 추가
+    2) CSRF 요청 필터
+        httpSecurity.csrf(매개변수 -> 매개변수.ignoringRequestMatchers("csrf를 제외할 경로"));
+        vs
+        httpSecurity.csrf(매개변수 -> 매개변수.disable()); : 모든 요청 허용
+================================= 쿠키 + 토큰을 사용한다면 =================================
+    3) 시큐리티 세션 필터 종료
+        httpSecurity.sessionManagement(매개변수 -> 매개변수.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    4) 시큐리티 토큰 필터 재정의
+        httpSecurity.addFilterBefore(내가만든토큰객체필터, UsernamePasswordAuthenticationFilter.class);
+    5) jwtService를 스프링 시큐리티 방식과 통합
+        -> OncePerRequestFilter를 상속받아, doFilterInternal 오버라이딩

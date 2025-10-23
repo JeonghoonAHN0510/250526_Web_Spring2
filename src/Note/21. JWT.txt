@@ -1,0 +1,49 @@
+- 인증 :
+- 인가 :
+
+방법
+    1) 세션 : web1, Spring Security
+    2) 쿠키 : web2, 부가적인 보안(JWT)
+
+[ JWT(JSON WEB TOKEN) ]
+- JSON 형식의 데이터를 안전하게 사용하기 위한 토큰 기반 인증방식
+- 주로 웹/앱에서 인증과 권한 부여 및 확인을 위해 사용
+- 장점
+    1) HTTP 지원 : 헤더 정보에 토큰 정보를 담을 수 있다.
+    2) 보안 : 서명 알고리즘을 통해 서명을 하여 보안에 유리
+    3) 무상태 : 서버가 직접 관리하지 않고, 클라이언트가 관리
+- 형태 : eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJhZG1pbiIsInVyb2xlIjoiQURNSU4iLCJpYXQiOjE3NjExODAzNzksImV4cCI6MTc2MTE4Mzk3OX0.3uFspZzM9hENxMXjkTsvFD9EPyB70vzkfvywNa8KmR0
+    -> (header).(payload).(sign)
+    1) header : 알고리즘 정보, JWT 타입
+    2) payload : 실제 정보 값(Claim), 발급시간
+    3) sign : 비밀키를 이용한 서명하는 알고리즘
+    -> 비밀키 : 개발자가 임의로 값을 정의한 값
+- 확장
+    1) 쿠키와 연동 : 클라이언트 저장
+    2) Redis와 연동 : NOSQL 서버 저장, 서로 다른 (자바) 서버 간의 토큰 공유를 하기 위해 사용
+- 사용법
+    1) 설치 : build.gradle에 종속성 추가
+        -> implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+        -> runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+        -> runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    2) 비밀키
+        -> private final String secret;
+        -> private final Key secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    3) 토큰 생성
+    String token = Jwts.builder()
+                .claim(key, value)
+                .setIssuedAt(현재시간)
+                .setExpiration(만료시간)
+                .signWith(비밀키, 알고리즘)
+                .compact();
+    4) 토큰 검증
+    Jwts.parser()
+        .setSigningKey(비밀키)
+        .build()
+        .parseClaimsJws(검증할토큰);
+    5) 토큰 값 추출
+        Claims claims = Jwts.parser()
+                    .setSigningKey(비밀키)
+                    .build()
+                    .parseClaimsJws(추출할토큰)
+                    .getBody();

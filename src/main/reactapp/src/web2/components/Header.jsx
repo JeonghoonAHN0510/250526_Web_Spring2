@@ -36,14 +36,11 @@ export default function Header(props) {
                 <nav>
                     {user ?
                         <>  {/* 로그인 */}
-                            <span to="/login"> 유재석님 </span>
-                            <button to="/login"> 로그아웃 </button>
+                            <span to="/login"> {user.uname} 님 </span>
+                            <button onClick={getLogout}> 로그아웃 </button>
                             <Link to="/user/info"> 마이페이지 </Link>
                             {/* 로그인 상태이면서 관리자면 */}
-                            {user.urole == "ADMIN" ?
-                                <>
-                                    <Link to="/admin/dashboard"> 관리자페이지 </Link>
-                                </> : <></>}
+                            {user.urole == "ADMIN" ? <Link to="/admin/dashboard"> 관리자페이지 </Link> : <></>}
                         </>
                         :
                         <>  {/* 비로그인 */}

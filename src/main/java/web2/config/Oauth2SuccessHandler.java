@@ -69,7 +69,7 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         response.addCookie(cookie);
         System.out.println("cookie = " + cookie);
         // 5. 로그인 성공 시, 이동할 페이지 설정 : 프론트엔드 루트
-        // response.sendRedirect("http://localhost:5173/");
-        response.sendRedirect("/");
+        response.sendRedirect("http://localhost:5173/");
+        // response.sendRedirect("/");  // 자바 메인 경로
     } // func end
 } // class end

@@ -46,13 +46,14 @@ public class SecurityConfig {
         // 1-4. UsernamePasswordAuthenticationToken을 내가 만든 토큰으로 대체
         // httpSecurity.addFilterBefore(내가만든토큰객체필터, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-        // ========================= 구글 로그인 연동 ================================
+        // ========================= 구글 | 카카오 로그인 연동 ================================
         // 1-5. Oauth2 로그인 필터 사용 설정
         // httpSecurity.oauth2Login(매개변수 -> 매개변수.successHandler(로그인성공시 특정클래스이동));
         httpSecurity.oauth2Login(oauth -> oauth
                 .loginPage("/oauth2/authorization/google")      // 현재 로그인페이지가 아닌 타사 로그인페이지로 이동
                 .successHandler(oauth2SuccessHandler)             // 타사 로그인페이지에서 로그인 성공 시 반환되는 클래스 정의
         );
+        // ========================= CORS 설정 ================================
         // 1-6. CORS 정책 필터 사용 설정 : 자체적인 CorsConfig 설정
         httpSecurity.cors(Customizer.withDefaults());
         // 1-7. 커스텀 완료된 객체 반환

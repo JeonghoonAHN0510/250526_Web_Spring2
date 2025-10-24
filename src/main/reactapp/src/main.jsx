@@ -179,7 +179,14 @@ const create = createRoot( root );
 
 // ================================= day07 =================================
 // 4. 렌더링할 컴포넌트 import하기
-import Component15 from "./example/day08/Component15.jsx";
+// import Component15 from "./example/day08/Component15.jsx";
 
-// // 5. 렌더링하기 -> create.render()
-create.render( <Component15/> );
+// 5. 렌더링하기 -> create.render()
+// create.render( <Component15/> );
+
+// ================================= web2 =================================
+// 4. 렌더링할 컴포넌트 import하기
+import App from './web2/App.jsx';
+
+// 5. 렌더링하기 -> create.render()
+create.render( <App/> );

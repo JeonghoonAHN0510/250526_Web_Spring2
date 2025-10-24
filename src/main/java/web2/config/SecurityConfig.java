@@ -18,7 +18,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final Oauth2SuccessHandler oauth2SuccessHandler;
 
-    // [0] username : user , password : 콘솔에 password 복사하여 붙여넣기
+    // [0] username : user , password : 콘솔의 password 복사하여 붙여넣기
     // [1] HTTP 관련 필터들을 커스텀
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {

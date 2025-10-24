@@ -3,13 +3,15 @@ package web2.controller;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import web2.model.dto.UserDto;
 import web2.service.JwtService;
 import web2.service.UserService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")     // 공통URL 정의
@@ -109,5 +111,25 @@ public class UserController {
         response.addCookie(cookie);
         // 4-4. 모든 로직 진행 후, 최종적으로 true 반환
         return ResponseEntity.ok(true);
+    } // func end
+
+    // [5] 권한 반환
+    @GetMapping("/check")
+    public ResponseEntity<?> checkToken(@CookieValue(value = "loginUser", required = false) String token){
+        Map<String, Object> roleByToken = new HashMap<>();
+        // 1. 쿠키 내 토큰이 존재하고, 유효하면
+        if (token != null && jwtService.validateToken2(token)){
+            // 2. 토큰으로부터 권한 꺼내기
+            String urole = jwtService.getUrole(token);
+            roleByToken.put("isAuth", true);
+            roleByToken.put("urole", urole);
+            // 3. 꺼낸 권한 반환하기
+            return ResponseEntity.status(200).body(roleByToken);
+        } else {
+            // 4. 미로그인 상태라면
+            roleByToken.put("isAuth", false);
+            // 5. 403(권한없음)으로 반환하기
+            return ResponseEntity.status(403).body(roleByToken);
+        } // if end
     } // func end
 } // class end

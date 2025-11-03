@@ -1,0 +1,38 @@
+[ 데이터베이스 ] : SQL(MySQL), NOSQL(Redis)
+[ JDBC } : 자바와 DB 연동 인터페이스
+    7·8월 : DAO
+    9·10월 : MyBatis
+    11월 : JPA
+
+[ ORM ] Object Relational Mapping(객체 관계 매핑)
+- 객체지향 프로그래밍에서 사용되는 객체와 DB(관계형 데이터베이스) 매핑(연결) 기술
+- 편의성 제공
+- 사용처 : MyBatis, JPA 등등
+
+[ Hibernate ]
+- Java에서 ORM을 구현한 라이브러리
+- SQL 없이 순수 Java만으로 데이터베이스를 처리할 수 있다.
+- 기능
+    1. CRUD
+    2. 타입변환
+    3. 검색, 정렬, 페이징처리 등의 부가기능
+
+[ JPA ] Java Persistence Api
+- Java에서 ORM을 사용할 때 사용되는 표준 API
+- 자바에서 다양한 라이브러리 제공(+ Hibernate)
+- 설치 : gradle에 implementation 'org.springframework.boot:spring-boot-starter-d ata-jpa' 추가
+
+[ Entity ]
+- 데이터베이스 테이블과 매핑된 클래스
+- Entity클래스 = DB테이블, Entity객체 = DB레코드
+- 클래스 : 객체의 설계도
+    class Member {
+        int id;
+        String name;
+    }
+- 객체 : 클래스의 인스턴스
+    new Member(1, "유재석");
+- 사용법
+    1. 선언 : 해당 클래스 위에 @Entity 주입한다.
+    -> Entity 1개당 @Id 1개는 필수(primary key)
+    2. Entity 매핑 설정 : application.properties에서

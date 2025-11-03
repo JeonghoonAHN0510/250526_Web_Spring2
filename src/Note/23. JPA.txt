@@ -35,4 +35,11 @@
 - 사용법
     1. 선언 : 해당 클래스 위에 @Entity 주입한다.
     -> Entity 1개당 @Id 1개는 필수(primary key)
-    2. Entity 매핑 설정 : application.properties에서
+    2. Entity 매핑 설정 : application.properties
+
+[ JPA Repository ]
+- 기본 CRUD 작업과 동적쿼리를 제공하는 인터페이스
+- 사용법
+    1. Repository 인터페이스 생성
+    2. extends JpaRepository<T, ID>
+    3. @Repository

@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional
+@Transactional  // 수정처리를 위한 Transactional
 @RequiredArgsConstructor
 public class GoodsService {
     private final GoodsRepository goodsRepository;

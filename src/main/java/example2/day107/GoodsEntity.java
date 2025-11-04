@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GoodsEntity {
+public class GoodsEntity extends BaseTime { // 생성·수정 날짜 자동 주입
     @Id // PK 설정 - Entity 1개당 1개는 필수
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동증가 = AUTO_INCREMENT
     private int gno;        // 제품번호, int --> int
@@ -26,4 +26,17 @@ public class GoodsEntity {
     // columnDefinition : 컬럼 속성 커스텀
     @Column(columnDefinition = "varchar(100) default '제품설명' not null")
     private String gdesc;   // 제품설명
+
+    // Entity ----------> DTO
+    // Service ---------> Controller
+    public GoodsDto toDto(){
+        return GoodsDto.builder()
+                .gno(this.gno)
+                .gprice(this.gprice)
+                .gname(this.gname)
+                .gdesc(this.gdesc)
+                .create_date(this.getCreateDate().toString())
+                .update_date(this.getUpdateDate().toString())
+                .build();
+    } // func end
 } // class end

@@ -46,6 +46,19 @@
         2) spring.jpa.properties.hibernate.format_sql=true : 줄바꿈 처리
         3) logging.level.org.hibernate.sql=DEBUG
            logging.level.org.hibernate.orm.jdbc.bind=TRACE : SQL 매개변수를 표시
+- 주요 어노테이션
+    1. @Entity : 해당 클래스를 데이터베이스 테이블과 매핑
+    2. @Id     : 해당 테이블의 PK 주입
+    3. @Table(name="테이블명") : 해당 테이블의 이름 정의
+    4. @GeneratedValue(strategy=GenerationType.IDENTITY) : auto_increment 활성화
+    5. @Column(속성명=값) : 컬럼의 속성 정의
+        -> nullable=true|false   : null 제약조건
+        -> unique=true|false     : unique 제약조건
+        -> name="컬럼명"          : 컬럼명 정의, 생략 시 자바 변수명으로 설정
+        -> length=길이            : 길이가 존재하는 필드의 범위 정의
+        -> insertable=true|false : insert를 적용할 필드 설정 -> false 시, insert가 안됨
+        -> updatable=true|false  : update를 적용할 필드 설정 -> false 시, update가 안됨
+        -> columnDefinition=""   : 컬럼 속성 커스텀 -> SQL 속성 정의처럼 사용
 
 [ JPA Repository ]
 - 기본 CRUD 작업과 동적쿼리를 제공하는 인터페이스
@@ -72,3 +85,29 @@
 2. .get() : 해당 객체 반환
 3. .orElse(null일때 값) :
 4. .orElseThrow(예외객체) : 예외객체를 던짐
+
+[ JPA Auditing ]
+- Entity의 생성 및 수정을 자동으로 기록하는 기능
+- SQL INSERT/UPDATE를 감시하여 기록
+- BaseTime 상속 클래스로 사용
+- 사용법
+    1. AppStart 클래스 위에 @EnableJpaAuditing을 주입하여 Auditing 활성화
+    2. BaseTime 클래스 정의
+        @Getter
+        @MappedSuperclass                              // Entity 상속 용도로 사용
+        @EntityListeners(AuditingEntityListener.class) // Auditing 활성화
+        public class BaseTime {
+            @CreatedDate                        // 현재 날짜 및 시간을 자동으로 주입
+            private LocalDateTime createDate;   // 생성 날짜 및 시간
+            @LastModifiedDate                   // 수정 날짜 및 시간을 자동으로 주입
+            private LocalDateTime updateDate;   // 수정 날짜 및 시간
+        } // class end
+    3. BaseTime을 적용할 Entity 클래스에서 BaseTime을 상속받는다.
+
+[ JPA Entity - MVC DTO/VO 관계 ]
+- Spring web은 MVC2 3tier 패턴을 사용
+- Entity와 Dto 클래스에 변환 메소드 정의
+    (view)       <----JSON/DTO---->     (controller)      <----DTO---->     (service)     <----Entity---->     (repository)
+    HTML/JS                           @RestController                       @Service                           @Repository
+    JSP/JS                         -->  DTO/Map 권장                   -->  DTO --> Entity                        Entity
+   React(+JS)                                                         <--  DTO <-- Entity

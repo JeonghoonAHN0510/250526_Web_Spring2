@@ -21,23 +21,33 @@ public class Main {
             System.out.println("ranking = " + Arrays.toString(ranking));
 
             int M = Integer.parseInt(br.readLine());// 바뀐 쌍 M개
-            Map<Integer, List<Integer>> graph = new HashMap<>();
+            if (M == 0){
+                for (int rank : ranking){
+                    answer.append(rank).append(" ");
+                } // for end
+                answer.append("\n");
+                continue;
+            } // if end
+            Map<Integer, List<Integer>> relatedDegree = new HashMap<>();
             int[] indegree = new int[N + 1];        // 진입차수 배열
             for (int j = 0; j < M; j++){
                 st = new StringTokenizer(br.readLine());
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 indegree[a]++;
-                if (graph.containsKey(b)){
-                    graph.get(b).add(a);
+                if (relatedDegree.containsKey(b)){
+                    relatedDegree.get(b).add(a);
                 } else {
                     List<Integer> list = new ArrayList<>();
                     list.add(a);
-                    graph.put(b, list);
+                    relatedDegree.put(b, list);
                 } // if end
             } // for end
             System.out.println("indegree = " + Arrays.toString(indegree));
+            System.out.println("relatedDegree = " + relatedDegree);
             System.out.println("===========================");
+            // ranking을 순회하면서 stack에 넣고, map에 key가 있으면 while로 작업
+            Queue<Integer> queue = new LinkedList<>();
         } // for end
 
         bw.write(answer.toString().trim());

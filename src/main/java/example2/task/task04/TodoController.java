@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/todo")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class TodoController {
     private final TodoService todoService;
 
@@ -22,5 +23,11 @@ public class TodoController {
     @GetMapping
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(todoService.findAll());
+    } // func end
+
+    // 3. todo 삭제
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestParam int id){
+        return ResponseEntity.ok(todoService.delete(id));
     } // func end
 } // class end

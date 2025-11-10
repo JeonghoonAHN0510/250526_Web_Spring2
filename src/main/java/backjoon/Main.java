@@ -6,7 +6,7 @@ import java.util.*;
 public class Main {
     static StringBuilder answer = new StringBuilder();
     static int N, M, R;
-    static Map<Integer, Set<Integer>> map = new HashMap<>();
+    static Map<Integer, List<Integer>> map = new HashMap<>();
     static boolean[] visited;
     static int[] visitOrder;        // 각 노드의 방문 순서를 저장할 배열
     static int count;               // 방문 순서를 셀 카운트
@@ -30,17 +30,23 @@ public class Main {
             if (map.containsKey(u)){
                 map.get(u).add(v);
             } else {
-                Set<Integer> list = new TreeSet<>();
+                List<Integer> list = new ArrayList<>();
                 list.add(v);
                 map.put(u, list);
             } // if end
             if (map.containsKey(v)){
                 map.get(v).add(u);
             } else {
-                Set<Integer> list = new TreeSet<>();
+                List<Integer> list = new ArrayList<>();
                 list.add(u);
                 map.put(v, list);
             } // if end
+        } // for end
+
+        for (Integer key : map.keySet()){
+            List<Integer> list = map.get(key);
+            list.sort(Collections.reverseOrder());
+            map.put(key, list);
         } // for end
 
         dfs(R);
@@ -56,7 +62,6 @@ public class Main {
     public static void dfs(int node){
         visited[node] = true;
         visitOrder[node] = count++;
-
         if (map.containsKey(node)){
             for (Integer key : map.get(node)){
                 if (!visited[key]) dfs(key);

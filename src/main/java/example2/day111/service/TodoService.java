@@ -1,5 +1,8 @@
 package example2.day111.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,5 +69,23 @@ public class TodoService {
                 .stream()
                 .map(TodoEntity::toDto)
                 .collect(Collectors.toList());
+    } // func end
+
+    // 4. 페이징처리
+    public Page<TodoDto> page(int page, int size){
+        // 4-1. 페이징처리 옵션을 설정한다.
+        // PageRequest.of(조회할 페이지번호, 조회할 페이지 당 개수, Sort.by(Sort.Direction.DESC, "정렬속성명"));
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "id"));
+        // page - 1 : JPA는 조회할 페이지가 0부터 시작하므로, -1 처리
+        // size : 한 페이지에 조회할 자료 개수
+        // Sort.by(Sort.Direction.DESC, "id")) : id를 기준으로 내림차순 정렬
+
+        // 4-2. 조회한다.
+        Page<TodoEntity> result = todoRepository.findAll(pageRequest);
+        // Page : 페이징 처리결과를 담는 인터페이스 타입
+        // 4-3. 조회 결과 반환
+        // Page 타입은 .stream을 기본적으로 제공
+        return result
+                .map(TodoEntity::toDto);
     } // func end
 } // class end

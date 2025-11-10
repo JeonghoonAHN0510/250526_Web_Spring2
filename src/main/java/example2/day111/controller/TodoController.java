@@ -34,4 +34,11 @@ public class TodoController {
         keyword = keyword == null ? "" : keyword;
         return ResponseEntity.ok(todoService.query3(keyword));
     } // func end
+
+    // 4. 페이징처리
+    @GetMapping("/page")
+    public ResponseEntity<?> page(@RequestParam(defaultValue = "1") int page,   // 조회할 페이지 번호
+                                  @RequestParam(defaultValue = "3") int size){  // 페이지에 조회할 자료 개수
+        return ResponseEntity.ok(todoService.page(page, size));
+    } // func end
 } // class end

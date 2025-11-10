@@ -1,5 +1,7 @@
 package example2.day111.model.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -24,6 +26,10 @@ public interface TodoRepository extends JpaRepository<TodoEntity, Integer> {
 
     List<TodoEntity> findByTitleContaining(String title);
     // -> SELECT * FROM todo WHERE title LIKE '%매개변수%';
+
+    // 검색 + 페이징처리
+    // Pageable : import org.springframework.data.domain.Pageable;
+    Page<TodoEntity> findByTitleContaining(String keyword, Pageable pageable);
 
     // 네이티브 쿼리 메소드 : SQL을 직접 작성하여 실행하는 방법
     // @Query(value = "SQL", nativeQuery = true)을 추상메소드에 주입

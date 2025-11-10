@@ -41,4 +41,12 @@ public class TodoController {
                                   @RequestParam(defaultValue = "3") int size){  // 페이지에 조회할 자료 개수
         return ResponseEntity.ok(todoService.page(page, size));
     } // func end
+
+    // 5. 검색 + 페이징처리
+    @GetMapping("/page2")
+    public ResponseEntity<?> page2(@RequestParam(required = false) String keyword,
+                                   @RequestParam(defaultValue = "1") int page,
+                                   @RequestParam(defaultValue = "3") int size){
+        return ResponseEntity.ok(todoService.page2(keyword, page, size));
+    } // func end
 } // class end

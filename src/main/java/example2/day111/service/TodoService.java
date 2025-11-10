@@ -2,6 +2,7 @@ package example2.day111.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -83,9 +84,27 @@ public class TodoService {
         // 4-2. 조회한다.
         Page<TodoEntity> result = todoRepository.findAll(pageRequest);
         // Page : 페이징 처리결과를 담는 인터페이스 타입
+
         // 4-3. 조회 결과 반환
         // Page 타입은 .stream을 기본적으로 제공
-        return result
-                .map(TodoEntity::toDto);
+        return result.map(TodoEntity::toDto);
+    } // func end
+
+    // 5. 검색 + 페이징처리
+    public Page<TodoDto> page2(String keyword, int page, int size){
+        // 5-1. 페이징처리 옵션 설정
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "id"));
+
+        // 5-2. 만약에 검색이 없으면, 전제조회 + 페이징처리
+        Page<TodoEntity> result;
+        if (keyword == null || keyword.isBlank()){
+            result = todoRepository.findAll(pageable);
+        } else {
+        // 5-3. 검색이 있으면, 검색 + 페이징처리
+            result = todoRepository.findByTitleContaining(keyword, pageable);
+        } // if end
+
+        // 5-3. 반환
+        return result.map(TodoEntity::toDto);
     } // func end
 } // class end

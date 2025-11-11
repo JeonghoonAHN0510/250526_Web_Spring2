@@ -1,10 +1,7 @@
 package example2.day111.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import example2.day111.service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/todo")
+@CrossOrigin(value = "*")
 public class TodoController {
     private final TodoService todoService;
-
+    //====================================================== day111 ======================================================
     // 1. query1 실행해보기
     @GetMapping("/query1")
     public ResponseEntity<?> query1(@RequestParam String title){
@@ -48,5 +46,18 @@ public class TodoController {
                                    @RequestParam(defaultValue = "1") int page,
                                    @RequestParam(defaultValue = "3") int size){
         return ResponseEntity.ok(todoService.page2(keyword, page, size));
+    } // func end
+
+    //====================================================== day112 ======================================================
+    // 1. 전체조회
+    @GetMapping
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(todoService.findAll());
+    } // func end
+
+    // 2. 개별삭제
+    @DeleteMapping
+    public ResponseEntity<?> deleteById(@RequestParam int id){
+        return ResponseEntity.ok(todoService.deleteById(id));
     } // func end
 } // class end

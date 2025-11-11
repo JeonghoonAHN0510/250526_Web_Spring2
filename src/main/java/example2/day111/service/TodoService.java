@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoService {
     private final TodoRepository todoRepository;
-
+    //====================================================== day111 ======================================================
     // 1. query1 실행해보기
     public List<TodoDto> query1(String title){
         // 내가 만든 쿼리메소드 사용해보기
@@ -106,5 +106,25 @@ public class TodoService {
 
         // 5-3. 반환
         return result.map(TodoEntity::toDto);
+    } // func end
+
+    //====================================================== day112 ======================================================
+    // 1. 전체조회
+    public List<TodoDto> findAll(){
+        return todoRepository.findAll()
+                .stream()
+                .map(TodoEntity::toDto)
+                .collect(Collectors.toList());
+    } // func end
+
+    // 2. 개별삭제
+    public boolean deleteById(int id){
+        // 해당 id의 todo가 존재하면 삭제
+        if (todoRepository.existsById(id)){
+            todoRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        } // if end
     } // func end
 } // class end

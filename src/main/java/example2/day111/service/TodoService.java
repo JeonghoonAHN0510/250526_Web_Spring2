@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import example2.day111.model.dto.TodoDto;
@@ -125,6 +126,17 @@ public class TodoService {
             return true;
         } else {
             return false;
+        } // if end
+    } // func end
+
+    // 3. 개별조회
+    public TodoDto findById(int id){
+        Optional<TodoEntity> optional = todoRepository.findById(id);
+        if (optional.isPresent()){
+            TodoEntity entity = optional.get();
+            return entity.toDto();
+        } else {
+            return null;
         } // if end
     } // func end
 } // class end

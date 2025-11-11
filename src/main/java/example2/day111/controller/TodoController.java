@@ -60,4 +60,10 @@ public class TodoController {
     public ResponseEntity<?> deleteById(@RequestParam int id){
         return ResponseEntity.ok(todoService.deleteById(id));
     } // func end
+
+    // 3. 개별조회
+    @GetMapping("/detail")
+    public ResponseEntity<?> findById(@RequestParam int id){
+        return ResponseEntity.ok(todoService.findById(id));
+    } // func end
 } // class end

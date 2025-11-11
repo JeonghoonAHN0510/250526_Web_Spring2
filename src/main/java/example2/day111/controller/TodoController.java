@@ -3,6 +3,7 @@ package example2.day111.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import example2.day111.model.dto.TodoDto;
 import example2.day111.service.TodoService;
 import lombok.RequiredArgsConstructor;
 
@@ -65,5 +66,11 @@ public class TodoController {
     @GetMapping("/detail")
     public ResponseEntity<?> findById(@RequestParam int id){
         return ResponseEntity.ok(todoService.findById(id));
+    } // func end
+
+    // 4. 개별수정
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody TodoDto todoDto){
+        return ResponseEntity.ok(todoService.update(todoDto));
     } // func end
 } // class end

@@ -5,46 +5,30 @@ import java.util.*;
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static int N;
-    static int[][] array;
-    static Integer[] result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        N = Integer.parseInt(br.readLine());    // 전깃줄 개수 N
-        array = new int[N][2];
-        result = new Integer[N];
-        for (int i = 0; i < N; i++){
-            st = new StringTokenizer(br.readLine());
-            array[i][0] = Integer.parseInt(st.nextToken());
-            array[i][1] = Integer.parseInt(st.nextToken());
+        String str1 = br.readLine();
+        String str2 = br.readLine();
+        int length1 = str1.length();
+        int length2 = str2.length();
+        int[][] LCS = new int[length1 + 1][length2 + 1];
+        for (int i = 1; i <= length1; i++){
+            for (int j = 1; j <= length2; j++){
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)){
+                    LCS[i][j] = LCS[i - 1][j - 1] + 1;
+                } else {
+                    LCS[i][j] = Math.max(LCS[i - 1][j], LCS[i][j - 1]);
+                } // if end
+            } // for end
         } // for end
-        Arrays.sort(array, (o1, o2) -> o1[0] - o2[0]);
 
-        int max = 0;
-
-        for (int i = 0; i < N; i++){
-            max = Math.max(max, dp(i));
-        } // for end
-
-        answer.append(N - max);
+        answer.append(LCS[length1][length2]);
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    public static int dp(int index){                    // 설치 가능한 최대 전봇대 구하기
-        if (result[index] == null){
-            result[index] = 1;                          // 1로 초기화
-            for (int i = index + 1; i < N; i++){        // index보다 뒤 전봇대를 순회하면서
-                if (array[index][1] < array[i][1]){     // 전깃줄이 겹치지않는다면
-                    // 연결할 수 있는 전깃줄 경우의 수 중에서 큰 값을 저장
-                    result[index] = Math.max(result[index], dp(i) + 1);
-                } // if end
-            } // for end
-        } // if end
-        return result[index];
-    } // func end
 } // class end

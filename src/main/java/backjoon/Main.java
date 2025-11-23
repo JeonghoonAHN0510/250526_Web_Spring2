@@ -26,8 +26,8 @@ public class Main {
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
 
-            map.computeIfAbsent(u, f -> new PriorityQueue<>()).add(v);
-            map.computeIfAbsent(v, f -> new PriorityQueue<>()).add(u);
+            map.computeIfAbsent(u, f -> new PriorityQueue<>(Collections.reverseOrder())).add(v);
+            map.computeIfAbsent(v, f -> new PriorityQueue<>(Collections.reverseOrder())).add(u);
         } // for end
 
         bfs(R);
@@ -47,14 +47,16 @@ public class Main {
         while (!q.isEmpty()){
             int index = q.poll();
             visiting[index] = count++;
-            PriorityQueue<Integer> pq = map.get(index);
-            while (!pq.isEmpty()){
-                int u = pq.poll();
-                if (!visited[u]){
-                    visited[u] = true;
-                    q.offer(u);
-                } // if end
-            } // while end
+            if (map.containsKey(index)){
+                PriorityQueue<Integer> pq = map.get(index);
+                while (!pq.isEmpty()){
+                    int u = pq.poll();
+                    if (!visited[u]){
+                        visited[u] = true;
+                        q.offer(u);
+                    } // if end
+                } // while end
+            } // if end
         } // while end
     } // func end
 } // class end

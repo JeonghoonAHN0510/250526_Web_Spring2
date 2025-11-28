@@ -5,86 +5,60 @@ import java.util.*;
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static Map<Integer, Set<Integer>> DfsMap = new HashMap<>();
-    static Map<Integer, PriorityQueue<Integer>> BfsMap = new HashMap<>();
-    static boolean[] DfsVisited;
-    static boolean[] BfsVisited;
-    static int[] DfsVisiting;
-    static int[] BfsVisiting;
-    static int DfsCount = 1;
-    static int BfsCount = 1;
+    static List<Integer> result = new ArrayList<>();
+    static boolean[][] visited;
+    static int[][] apartments;
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {1, -1, 0, 0};
+    static int N, count;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());   // 정점 개수 N
-        int M = Integer.parseInt(st.nextToken());   // 간선 개수 M
-        int V = Integer.parseInt(st.nextToken());   // 탐색 시작번호 V
-        DfsVisited = new boolean[N + 1];
-        BfsVisited = new boolean[N + 1];
-        DfsVisiting = new int[N + 1];
-        BfsVisiting = new int[N + 1];
-        for (int i = 0; i < M; i++){
-            st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(br.readLine());    // 지도 크기 N
+        visited = new boolean[N][N];
+        apartments = new int[N][N];
+        count = 1;
 
-            // DFS
-            DfsMap.computeIfAbsent(x, k -> new TreeSet<>()).add(y);
-            DfsMap.computeIfAbsent(y, k -> new TreeSet<>()).add(x);
-
-            // BFS
-            BfsMap.computeIfAbsent(x, k -> new PriorityQueue<>()).add(y);
-            BfsMap.computeIfAbsent(y, k -> new PriorityQueue<>()).add(x);
+        for (int i = 0; i < N; i++){
+            String str = br.readLine();
+            for (int j = 0; j < N; j++){
+                apartments[i][j] = str.charAt(j) - '0';
+            } // for end
         } // for end
 
-        dfs(V);
-        for (int i = 1; i <= N; i++){
-            if (DfsVisiting[i] == 0) break;
-            answer.append(DfsVisiting[i]).append(" ");
+        for (int i = 0; i < N; i++){
+            for (int j = 0; j < N; j++){
+                if (apartments[i][j] == 1 && !visited[i][j]){
+                    dfs(i, j);
+                    result.add(count);
+                    count = 1;
+                } // if end
+            } // for end
         } // for end
 
-        answer.append("\n");
+        Collections.sort(result);
 
-        bfs(V);
-        for (int i = 1; i <= N; i++){
-            if (BfsVisiting[i] == 0) break;
-            answer.append(BfsVisiting[i]).append(" ");
+        answer.append(result.size()).append("\n");
+
+        for (int i : result){
+            answer.append(i).append("\n");
         } // for end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    public static void dfs(int node){
-        if (!DfsVisited[node]) {
-            DfsVisited[node] = true;
-            DfsVisiting[DfsCount++] = node;
-            Set<Integer> set = DfsMap.getOrDefault(node, new TreeSet<>());
-            for (int i : set){
-                if (!DfsVisited[i]){
-                    dfs(i);
-                } // if end
-            } // for end
-        } // if end
-    } // func end
-    public static void bfs(int node){
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(node);
-        BfsVisited[node] = true;
-        while (!q.isEmpty()){
-            int index = q.poll();
-            BfsVisiting[BfsCount++] = index;
-            PriorityQueue<Integer> pq = BfsMap.getOrDefault(index, new PriorityQueue<>());
-            while (!pq.isEmpty()){
-                int u = pq.poll();
-                if (!BfsVisited[u]){
-                    BfsVisited[u] = true;
-                    q.offer(u);
-                } // if end
-            } // while end
-        } // while end
+    public static void dfs(int x, int y){
+        visited[x][y] = true;
+        for(int i = 0; i < 4; i++){
+            int a = dx[i] + x;
+            int b = dy[i] + y;
+
+            if( a >= 0 && b >= 0 && a < N && b < N && !visited[a][b] && apartments[a][b] == 1){
+                count++;
+                dfs(a, b);
+            } // if end
+        } // for end
     } // func end
 } // class end

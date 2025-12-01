@@ -9,6 +9,7 @@ public class Main {
     static StringBuilder answer = new StringBuilder();
     static int[][] array;
     static List<Point> points;
+    static Stack<Point> stack;
     static boolean[][] visited;
     static int[] dx = {0, 0, -1, 1};
     static int[] dy = {1, -1, 0, 0};
@@ -28,6 +29,7 @@ public class Main {
             visited = new boolean[N][M];
             count = 0;
             points = new ArrayList<>();
+            stack = new Stack<>();
             int K = Integer.parseInt(st.nextToken());   // 배추 위치 개수 K
             for (int i = 0; i < K; i++){
                 st = new StringTokenizer(br.readLine());
@@ -37,7 +39,7 @@ public class Main {
                 points.add(new Point(x, y));
             } // for end
             for (Point point : points){
-                bfs(point.x, point.y);
+                dfs(point.x, point.y);
             } // for end
             answer.append(count).append("\n");
         } // for end
@@ -46,13 +48,12 @@ public class Main {
         bw.flush();
         bw.close();
     } // main end
-    public static void bfs(int x, int y){
-        Queue<Point> queue = new LinkedList<>();
-        queue.add(new Point(x, y));
+    public static void dfs(int x, int y){
+        stack.add(new Point(x, y));
         if (visited[x][y]) return;
         visited[x][y] = true;
-        while (!queue.isEmpty()){
-            Point point = queue.poll();
+        while (!stack.isEmpty()){
+            Point point = stack.pop();
             for (int i = 0; i < 4; i++) {
                 int nextX = point.x + dx[i];
                 int nextY = point.y + dy[i];
@@ -63,7 +64,7 @@ public class Main {
                 // visited 체크
                 if (visited[nextX][nextY]) continue;
                 // queue에 삽입
-                queue.add(new Point(nextX, nextY));
+                stack.add(new Point(nextX, nextY));
                 visited[nextX][nextY] = true;
             } // for end
         } // while end

@@ -24,7 +24,7 @@ public class Main {
             st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());       // 가로길이 N
             M = Integer.parseInt(st.nextToken());       // 세로길이 M
-            array = new int[N+1][M+1];
+            array = new int[N][M];
             visited = new boolean[N][M];
             count = 0;
             points = new ArrayList<>();

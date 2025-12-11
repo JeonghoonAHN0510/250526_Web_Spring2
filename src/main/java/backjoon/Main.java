@@ -1,62 +1,87 @@
 package backjoon;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
 
+class Point{
+    int x, y, count, broken;
+    public Point(int x, int y, int count, int broken){
+        this.x = x;
+        this.y = y;
+        this.count = count;     // 걸리는 거리
+        this.broken = broken;   // 벽을 부순 여부
+    } // func end
+} // class end
+
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static boolean[] visited = new boolean[101];
-    static Map<Integer, Integer> laddersAndSnakes = new HashMap<>();
-    static int N, M, count;
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {1, -1, 0, 0};
+    static int[][] map;
+    static boolean[][][] visited;
+    static int N, M;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());   // 사다리의 수
-        M = Integer.parseInt(st.nextToken());   // 뱀의 수
+        N = Integer.parseInt(st.nextToken());       // 세로 N
+        M = Integer.parseInt(st.nextToken());       // 가로 M
+        map = new int[N][M];
+        visited = new boolean[N][M][2];
 
-        for (int i = 0; i < N + M; i++){
-            st = new StringTokenizer(br.readLine());
-            laddersAndSnakes.put(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        for (int i = 0; i < N; i++){
+            String str = br.readLine();
+            for (int j = 0; j < M; j++){
+                char ch = str.charAt(j);
+                map[i][j] = ch - '0';
+            } // for end
         } // for end
 
         bfs();
-        answer.append(count);
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    public static void bfs(){
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(1);
-        visited[1] = true;
+    static void bfs(){
+        Queue<Point> queue = new LinkedList<>();
+        queue.add(new Point(0, 0, 1, 0));
+        visited[0][0][0] = true;
         while (!queue.isEmpty()){
-            // 현재 턴에 큐에 들어있는 데이터만큼 반복
-            int size = queue.size();
-            for (int i = 0; i < size; i++){
-                // 현재 위치 꺼내기
-                int current = queue.poll();
-                // 마지막에 도착했으면, 탐색 종료
-                if (current == 100) return;
-                for (int j = 1; j < 7; j++){
-                    // 주사위 굴려서, 다음 위치 탐색
-                    int next = current + j;
-                    if (next > 100) continue;
-                    // 이동할 위치에 사다리나 뱀이 있으면 이동
-                    if (laddersAndSnakes.containsKey(next)){
-                        next = laddersAndSnakes.get(next);
+            Point current = queue.poll();
+            if (current.x == N - 1 && current.y == M - 1){
+                answer.append(current.count);
+                return;
+            } // if end
+            for (int i = 0; i < 4; i++){
+                int nextX = current.x + dx[i];
+                int nextY = current.y + dy[i];
+                if (nextX < 0 || nextX >= N || nextY < 0 || nextY >= M) continue;
+                // 다음 칸이 벽이 아닌 경우
+                if (map[nextX][nextY] == 0){
+                    // 현재 상태 그대로 방문했는지 체크
+                    if (!visited[nextX][nextY][current.broken]){
+                        visited[nextX][nextY][current.broken] = true;
+                        queue.add(new Point(nextX, nextY, current.count + 1, current.broken));
                     } // if end
-                    // 방문하지 않은 곳이면, 큐에 추가
-                    if (!visited[next]){
-                        visited[next] = true;
-                        queue.offer(next);
+                } // if end
+                // 다음 칸이 벽인 경우
+                else if (map[nextX][nextY] == 1){
+                    // 벽을 안 부순 상태면, 벽을 부수고 이동
+                    if (current.broken == 0){
+                        // 벽을 부순 상태로 방문했는지 체크
+                        if (!visited[nextX][nextY][1]){
+                            visited[nextX][nextY][1] = true;
+                            queue.add(new Point(nextX, nextY, current.count + 1, 1));
+                        } // if end
                     } // if end
-                } // for end
+                } // if end
             } // for end
-            count++;
         } // while end
+        // 도착점에 도달할 수 없으면, -1 출력
+        answer.append("-1");
     } // func end
 } // class end

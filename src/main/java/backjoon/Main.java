@@ -11,22 +11,20 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
-        int X = Integer.parseInt(st.nextToken());   // A사의 단가
-        int Y = Integer.parseInt(st.nextToken());   // B사의 단가
-        int Z = Integer.parseInt(st.nextToken());   // C사의 단가
+        int d = Integer.parseInt(br.readLine());
 
-        st = new StringTokenizer(br.readLine());
-        int U = Integer.parseInt(st.nextToken());   // A사의 공급량
-        int V = Integer.parseInt(st.nextToken());   // B사의 공급량
-        int W = Integer.parseInt(st.nextToken());   // C사의 공급량
+        int gcdValue = getGCD(d, 360);
 
-        int sum = X * (U / 100) + Y * (V / 50) + Z * (W / 20);
+        int minCount = 360 / gcdValue;
 
-        answer.append(sum);
+        answer.append(minCount);
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
+    public static int getGCD(int a, int b){
+        if (b == 0) return a;
+        return getGCD(b, a % b);
+    } // func end
 } // class end

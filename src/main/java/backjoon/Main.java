@@ -3,85 +3,72 @@ package backjoon;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-
-class Point{
-    int x, y, count, broken;
-    public Point(int x, int y, int count, int broken){
-        this.x = x;
-        this.y = y;
-        this.count = count;     // 걸리는 거리
-        this.broken = broken;   // 벽을 부순 여부
-    } // func end
-} // class end
+import java.util.List;
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static int[] dx = {0, 0, -1, 1};
-    static int[] dy = {1, -1, 0, 0};
-    static int[][] map;
-    static boolean[][][] visited;
-    static int N, M;
+    static Map<Integer, List<Integer>> map;
+    static boolean isChecked;
+    static int[] visited;       // 방문안함과 양 그래프 표현
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());       // 세로 N
-        M = Integer.parseInt(st.nextToken());       // 가로 M
-        map = new int[N][M];
-        visited = new boolean[N][M][2];
+        int K = Integer.parseInt(br.readLine());    // 테스트 케이스 개수 K
 
-        for (int i = 0; i < N; i++){
-            String str = br.readLine();
-            for (int j = 0; j < M; j++){
-                char ch = str.charAt(j);
-                map[i][j] = ch - '0';
+        for (int i = 0; i < K; i++){
+            st = new StringTokenizer(br.readLine());
+            int V = Integer.parseInt(st.nextToken());   // 정점의 개수 V
+            int E = Integer.parseInt(st.nextToken());   // 간선의 개수 E
+            map = new HashMap<>();
+            isChecked = true;
+            visited = new int[V + 1];
+
+            for (int j = 0; j < E; j++){
+                st = new StringTokenizer(br.readLine());
+                int X = Integer.parseInt(st.nextToken());
+                int Y = Integer.parseInt(st.nextToken());
+                map.computeIfAbsent(X, k -> new ArrayList<>()).add(Y);
+                map.computeIfAbsent(Y, k -> new ArrayList<>()).add(X);
             } // for end
-        } // for end
 
-        bfs();
+            for (int j = 1; j <= V; j++){
+                if (visited[j] == 0){
+                    bfs(j);
+                    if (!isChecked) break;
+                } // if end
+            } // for end
+
+            if (isChecked){
+                answer.append("YES").append("\n");
+            } else {
+                answer.append("NO").append("\n");
+            } // if end
+        } // for end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    static void bfs(){
-        Queue<Point> queue = new LinkedList<>();
-        queue.add(new Point(0, 0, 1, 0));
-        visited[0][0][0] = true;
+    static void bfs(int node){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(node);
+        visited[node] = 1;
         while (!queue.isEmpty()){
-            Point current = queue.poll();
-            if (current.x == N - 1 && current.y == M - 1){
-                answer.append(current.count);
-                return;
+            int current = queue.poll();
+            if (map.containsKey(current)){
+                List<Integer> list = map.get(current);
+                for (Integer integer : list){
+                    if (visited[integer] == 0){
+                        visited[integer] = visited[current] * -1;
+                        queue.offer(integer);
+                    } else if (visited[integer] == visited[current]){
+                        isChecked = false;
+                        return;
+                    } // if end
+                } // for end
             } // if end
-            for (int i = 0; i < 4; i++){
-                int nextX = current.x + dx[i];
-                int nextY = current.y + dy[i];
-                if (nextX < 0 || nextX >= N || nextY < 0 || nextY >= M) continue;
-                // 다음 칸이 벽이 아닌 경우
-                if (map[nextX][nextY] == 0){
-                    // 현재 상태 그대로 방문했는지 체크
-                    if (!visited[nextX][nextY][current.broken]){
-                        visited[nextX][nextY][current.broken] = true;
-                        queue.add(new Point(nextX, nextY, current.count + 1, current.broken));
-                    } // if end
-                } // if end
-                // 다음 칸이 벽인 경우
-                else if (map[nextX][nextY] == 1){
-                    // 벽을 안 부순 상태면, 벽을 부수고 이동
-                    if (current.broken == 0){
-                        // 벽을 부순 상태로 방문했는지 체크
-                        if (!visited[nextX][nextY][1]){
-                            visited[nextX][nextY][1] = true;
-                            queue.add(new Point(nextX, nextY, current.count + 1, 1));
-                        } // if end
-                    } // if end
-                } // if end
-            } // for end
         } // while end
-        // 도착점에 도달할 수 없으면, -1 출력
-        answer.append("-1");
     } // func end
 } // class end

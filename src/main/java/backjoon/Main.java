@@ -5,9 +5,10 @@ import java.util.*;
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static int[] indegree;
+    static boolean[] visited;
     static boolean[][] adjMatrix;   // 인접 행렬
     static int N;
+    static List<Integer> order;     // 위상정렬 결과
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +20,8 @@ public class Main {
         for (int i = 0; i < T; i++){
             N = Integer.parseInt(br.readLine());        // 팀의 수
             adjMatrix = new boolean[N + 1][N + 1];
-            indegree = new int[N + 1];
+            visited = new boolean[N + 1];
+            order = new ArrayList<>();
             int[] origin_ranking = new int[N + 1];
 
             st = new StringTokenizer(br.readLine());    // 작년 팀 순위
@@ -27,13 +29,10 @@ public class Main {
                 origin_ranking[j] = Integer.parseInt(st.nextToken());
             } // for end
 
-            // 진입차수 설정
+            // 그래프 그리기
             for (int j = 1; j <= N; j++){
-                int from = origin_ranking[j];
                 for (int k = j + 1; k <= N; k++){
-                    int to = origin_ranking[k];
-                    adjMatrix[from][to] = true;
-                    indegree[to]++;
+                    adjMatrix[origin_ranking[j]][origin_ranking[k]] = true;
                 } // for end
             } // for end
 
@@ -45,59 +44,48 @@ public class Main {
                 if (adjMatrix[x][y]){
                     adjMatrix[x][y] = false;
                     adjMatrix[y][x] = true;
-                    indegree[x]++;
-                    indegree[y]--;
                 } else {
                     adjMatrix[x][y] = true;
                     adjMatrix[y][x] = false;
-                    indegree[x]--;
-                    indegree[y]++;
                 } // if end
             } // for end
             topologicalSort();
+            answer.append("\n");
         } // for end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    static void topologicalSort(){
-        Queue<Integer> queue = new LinkedList<>();
-        List<Integer> result = new ArrayList<>();
+    static void dfs(int current){
+        visited[current] = true;
         for (int i = 1; i <= N; i++){
-            if (indegree[i] == 0){
-                queue.add(i);
+            if (adjMatrix[current][i] && !visited[i]){
+                dfs(i);
             } // if end
         } // for end
-
+        order.add(current);
+    } // func end
+    static boolean isPossible(){
         for (int i = 0; i < N; i++){
-            // 큐가 N번 돌기 전에 비어있으면, 사이클 존재
-            if (queue.isEmpty()){
-                answer.append("IMPOSSIBLE").append("\n");
-                return;
-            } // if end
-
-            // 큐에 2개 이상이 들어있으면, 순서 확정 불가
-            if (queue.size() > 1){
-                answer.append("?").append("\n");
-                return;
-            } // if end
-
-            int current = queue.poll();
-            result.add(current);
-            for (int next = 1; next <= N; next++){
-                if (adjMatrix[current][next]){
-                    indegree[next]--;
-                    if (indegree[next] == 0){
-                        queue.add(next);
-                    } // if end
-                } // if end
+            for (int j = i + 1; j < N; j++){
+                if (adjMatrix[order.get(j)][order.get(i)]) return false;
             } // for end
         } // for end
-        // return되지 않고 끝났으면, 출력
-        for (int i = 0; i < N; i++){
-            answer.append(result.get(i)).append(" ");
+        return true;
+    } // func end
+    static void topologicalSort(){
+        for (int i = 1; i <= N; i++){
+            if (!visited[i]) dfs(i);
         } // for end
-        answer.append("\n");
+        // 위상 정렬의 끝부분부터 담기기 때문에, 순서 뒤집기
+        Collections.reverse(order);
+        if (isPossible()){
+            for (int i = 0; i < N; i++){
+                answer.append(order.get(i)).append(" ");
+            } // for end
+        } else {
+            answer.append("IMPOSSIBLE");
+        } // if end
     } // func end
 } // class end

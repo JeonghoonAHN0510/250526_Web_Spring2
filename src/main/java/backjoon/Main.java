@@ -3,12 +3,21 @@ package backjoon;
 import java.io.*;
 import java.util.*;
 
+class Node{
+    int node;
+    int cost;
+
+    public Node(int node, int cost){
+        this.node = node;
+        this.cost = cost;
+    } // func end
+} // class end
+
 public class Main {
     static StringBuilder answer = new StringBuilder();
+    static List<Node>[] adjList;
     static boolean[] visited;
-    static boolean[][] adjMatrix;   // 인접 행렬
-    static int N;
-    static List<Integer> order;     // 위상정렬 결과
+    static int[] costs;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,76 +25,58 @@ public class Main {
         StringTokenizer st;
 
 
-        int T = Integer.parseInt(br.readLine());        // 테스트 케이스 T
-        for (int i = 0; i < T; i++){
-            N = Integer.parseInt(br.readLine());        // 팀의 수
-            adjMatrix = new boolean[N + 1][N + 1];
-            visited = new boolean[N + 1];
-            order = new ArrayList<>();
-            int[] origin_ranking = new int[N + 1];
+        st = new StringTokenizer(br.readLine());
+        int V = Integer.parseInt(st.nextToken());   // 정점의 개수 V
+        int E = Integer.parseInt(st.nextToken());   // 간선의 개수 E
+        int K = Integer.parseInt(br.readLine());    // 시작 정점 K
+        visited = new boolean[V + 1];
+        costs = new int[V + 1];
 
-            st = new StringTokenizer(br.readLine());    // 작년 팀 순위
-            for (int j = 1; j <= N; j++){
-                origin_ranking[j] = Integer.parseInt(st.nextToken());
-            } // for end
+        adjList = new List[V + 1];
+        for (int i = 1; i <= V; i++){
+            adjList[i] = new ArrayList<>();
+            costs[i] = Integer.MAX_VALUE;
+        } // for end
 
-            // 그래프 그리기
-            for (int j = 1; j <= N; j++){
-                for (int k = j + 1; k <= N; k++){
-                    adjMatrix[origin_ranking[j]][origin_ranking[k]] = true;
-                } // for end
-            } // for end
+        for (int i = 0; i < E; i++){
+            st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());   // 출발 정점 u
+            int v = Integer.parseInt(st.nextToken());   // 도착 정점 v
+            int w = Integer.parseInt(st.nextToken());   // 가중치 w
 
-            int M = Integer.parseInt(br.readLine());
-            for (int j = 0; j < M; j++){
-                st = new StringTokenizer(br.readLine());
-                int x = Integer.parseInt(st.nextToken());   // 바뀐 팀 x
-                int y = Integer.parseInt(st.nextToken());   // 바뀐 팀 y
-                if (adjMatrix[x][y]){
-                    adjMatrix[x][y] = false;
-                    adjMatrix[y][x] = true;
-                } else {
-                    adjMatrix[x][y] = true;
-                    adjMatrix[y][x] = false;
-                } // if end
-            } // for end
-            topologicalSort();
-            answer.append("\n");
+            adjList[u].add(new Node(v, w));
+        } // for end
+
+        dijkstra(K);
+
+        for (int i = 1; i <= V; i++){
+            if (costs[i] == Integer.MAX_VALUE){
+                answer.append("INF").append("\n");
+            } else {
+                answer.append(costs[i]).append("\n");
+            } // if end
         } // for end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    static void dfs(int current){
-        visited[current] = true;
-        for (int i = 1; i <= N; i++){
-            if (adjMatrix[current][i] && !visited[i]){
-                dfs(i);
+    static void dijkstra(int K){
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
+        costs[K] = 0;
+        priorityQueue.add(new Node(K, 0));
+
+        while (!priorityQueue.isEmpty()){
+            Node current = priorityQueue.poll();
+            if (!visited[current.node]){
+                visited[current.node] = true;
+                for (Node neighbor : adjList[current.node]){
+                    if (!visited[neighbor.node] && current.cost + neighbor.cost < costs[neighbor.node]){
+                        costs[neighbor.node] = current.cost + neighbor.cost;
+                        priorityQueue.add(new Node(neighbor.node, costs[neighbor.node]));
+                    } // if end
+                } // for end
             } // if end
-        } // for end
-        order.add(current);
-    } // func end
-    static boolean isPossible(){
-        for (int i = 0; i < N; i++){
-            for (int j = i + 1; j < N; j++){
-                if (adjMatrix[order.get(j)][order.get(i)]) return false;
-            } // for end
-        } // for end
-        return true;
-    } // func end
-    static void topologicalSort(){
-        for (int i = 1; i <= N; i++){
-            if (!visited[i]) dfs(i);
-        } // for end
-        // 위상 정렬의 끝부분부터 담기기 때문에, 순서 뒤집기
-        Collections.reverse(order);
-        if (isPossible()){
-            for (int i = 0; i < N; i++){
-                answer.append(order.get(i)).append(" ");
-            } // for end
-        } else {
-            answer.append("IMPOSSIBLE");
-        } // if end
+        } // while end
     } // func end
 } // class end

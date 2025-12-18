@@ -16,8 +16,6 @@ class Node{
 public class Main {
     static StringBuilder answer = new StringBuilder();
     static List<Node>[] adjList;
-    static boolean[] visited;
-    static Map<Integer, int[]> costMap = new HashMap<>();
     static int N;
 
     public static void main(String[] args) throws IOException {
@@ -53,27 +51,19 @@ public class Main {
         int v1 = Integer.parseInt(st.nextToken());          // 임의 정점 v1
         int v2 = Integer.parseInt(st.nextToken());          // 임의 정점 v2
 
-        dijkstra(1);
-        dijkstra(v1);
-        dijkstra(v2);
-
-        int[] cost_1 = costMap.get(1);
-        int[] cost_v1 = costMap.get(v1);
-        int[] cost_v2 = costMap.get(v2);
+        int[] cost_1 = dijkstra(1);
+        int[] cost_v1 = dijkstra(v1);
+        int[] cost_v2 = dijkstra(v2);
 
         // 1 -> v1 -> v2 -> N
-        int way1;
-        if (cost_1[v1] == Integer.MAX_VALUE || cost_v1[v2] == Integer.MAX_VALUE || cost_v2[N] == Integer.MAX_VALUE){
-            way1 = Integer.MAX_VALUE;
-        } else {
+        int way1 = Integer.MAX_VALUE;
+        if (cost_1[v1] != Integer.MAX_VALUE && cost_v1[v2] != Integer.MAX_VALUE && cost_v2[N] != Integer.MAX_VALUE){
             way1 = cost_1[v1]  + cost_v1[v2] + cost_v2[N];
         } // if end
 
         // 1 -> v2 -> v1 -> N
-        int way2;
-        if (cost_1[v2] == Integer.MAX_VALUE || cost_v2[v1] == Integer.MAX_VALUE || cost_v1[N] == Integer.MAX_VALUE){
-            way2 = Integer.MAX_VALUE;
-        } else {
+        int way2 = Integer.MAX_VALUE;
+        if (cost_1[v2] != Integer.MAX_VALUE && cost_v2[v1] != Integer.MAX_VALUE && cost_v1[N] != Integer.MAX_VALUE){
             way2 = cost_1[v2] + cost_v2[v1] + cost_v1[N];
         } // if end
 
@@ -87,28 +77,26 @@ public class Main {
         bw.flush();
         bw.close();
     } // main end
-    static void dijkstra(int K){
+    static int[] dijkstra(int start){
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
         int[] costs = new int[N + 1];
-        visited = new boolean[N + 1];
-        for (int i = 1; i <= N; i++){
-            costs[i] = Integer.MAX_VALUE;
-        } // for end
-        costs[K] = 0;
-        priorityQueue.add(new Node(K, 0));
+        Arrays.fill(costs, Integer.MAX_VALUE);
+
+        costs[start] = 0;
+        priorityQueue.add(new Node(start, 0));
 
         while (!priorityQueue.isEmpty()){
             Node current = priorityQueue.poll();
-            if (!visited[current.node]){
-                visited[current.node] = true;
-                for (Node neighbor : adjList[current.node]){
-                    if (!visited[neighbor.node] && current.cost + neighbor.cost < costs[neighbor.node]){
-                        costs[neighbor.node] = current.cost + neighbor.cost;
-                        priorityQueue.add(new Node(neighbor.node, costs[neighbor.node]));
-                    } // if end
-                } // for end
-            } // if end
+
+            if (current.cost > costs[current.node]) continue;
+
+            for (Node next : adjList[current.node]){
+                if (current.cost + next.cost < costs[next.node]){
+                    costs[next.node] = current.cost + next.cost;
+                    priorityQueue.add(new Node(next.node, costs[next.node]));
+                } // if end
+            } // for end
         } // while end
-        costMap.put(K, costs);
+        return costs;
     } // func end
 } // class end

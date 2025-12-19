@@ -3,100 +3,72 @@ package backjoon;
 import java.io.*;
 import java.util.*;
 
-class Node{
+class Node implements Comparable<Node>{
     int node;
-    int cost;
+    int count;
 
-    public Node(int node, int cost){
+    public Node(int node, int count){
         this.node = node;
-        this.cost = cost;
+        this.count = count;
+    } // func end
+
+    @Override
+    public int compareTo(Node o) {
+        return this.count - o.count;
     } // func end
 } // class end
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static List<Node>[] adjList;
-    static int N;
+    static int[] possibleMove = {2, 1, -1};
+    static boolean[] visited = new boolean[100001];
+    static int N, K, result;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        // 방향이 없는 그래프이며
-        // 임의로 주어진 두 정점은 반드시 통과하며
-        // 1번 정점에서 N번 정점으로 이동해야한다.
-        // 한번 이동했던 정점과 간선을 이용할 수 있다.
-        // 1번 정점에서 N번 정점까지의 최단 경로의 길이를 출력하라. 그러한 경로가 없다면, -1 출력
-
         st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());   // 정점의 개수 N
-        int E = Integer.parseInt(st.nextToken());   // 간선의 개수 E
-        adjList = new List[N + 1];
-        for (int i = 1; i <= N; i++){
-            adjList[i] = new ArrayList<>();
-        } // for end
+        N = Integer.parseInt(st.nextToken());   // 시작 위치
+        K = Integer.parseInt(st.nextToken());   // 도착 위치
 
-        for (int i = 0; i < E; i++){
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());       // 정점 a
-            int b = Integer.parseInt(st.nextToken());       // 정점 b
-            int cost = Integer.parseInt(st.nextToken());    // 거리 c
+        dijkstra(N);
 
-            adjList[a].add(new Node(b, cost));
-            adjList[b].add(new Node(a, cost));
-        } // for end
-
-        st = new StringTokenizer(br.readLine());
-        int v1 = Integer.parseInt(st.nextToken());          // 임의 정점 v1
-        int v2 = Integer.parseInt(st.nextToken());          // 임의 정점 v2
-
-        int[] cost_1 = dijkstra(1);
-        int[] cost_v1 = dijkstra(v1);
-        int[] cost_v2 = dijkstra(v2);
-
-        // 1 -> v1 -> v2 -> N
-        int way1 = Integer.MAX_VALUE;
-        if (cost_1[v1] != Integer.MAX_VALUE && cost_v1[v2] != Integer.MAX_VALUE && cost_v2[N] != Integer.MAX_VALUE){
-            way1 = cost_1[v1]  + cost_v1[v2] + cost_v2[N];
-        } // if end
-
-        // 1 -> v2 -> v1 -> N
-        int way2 = Integer.MAX_VALUE;
-        if (cost_1[v2] != Integer.MAX_VALUE && cost_v2[v1] != Integer.MAX_VALUE && cost_v1[N] != Integer.MAX_VALUE){
-            way2 = cost_1[v2] + cost_v2[v1] + cost_v1[N];
-        } // if end
-
-        if (Math.min(way1, way2) == Integer.MAX_VALUE){
-            answer.append("-1");
-        } else {
-            answer.append(Math.min(way1, way2));
-        } // if end
+        answer.append(result);
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    static int[] dijkstra(int start){
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
-        int[] costs = new int[N + 1];
-        Arrays.fill(costs, Integer.MAX_VALUE);
+    static void dijkstra(int start){
+        PriorityQueue<Node> queue = new PriorityQueue<>();
+        queue.add(new Node(start, 0));
+        while (!queue.isEmpty()){
+            Node current = queue.poll();
+            if (visited[current.node]) continue;
+            visited[current.node] = true;
 
-        costs[start] = 0;
-        priorityQueue.add(new Node(start, 0));
+            if (current.node == K){
+                result = current.count;
+                return;
+            } // if end
 
-        while (!priorityQueue.isEmpty()){
-            Node current = priorityQueue.poll();
-
-            if (current.cost > costs[current.node]) continue;
-
-            for (Node next : adjList[current.node]){
-                if (current.cost + next.cost < costs[next.node]){
-                    costs[next.node] = current.cost + next.cost;
-                    priorityQueue.add(new Node(next.node, costs[next.node]));
+            for (int i : possibleMove){
+                int next;
+                int count;
+                if (i == 2){
+                    next = current.node * i;
+                    count = current.count;
+                } else {
+                    next = current.node + i;
+                    count = current.count + 1;
+                } // if end
+                if (next < 0 || next > 100000) continue;
+                if (!visited[next]){
+                    queue.add(new Node(next, count));
                 } // if end
             } // for end
         } // while end
-        return costs;
     } // func end
 } // class end

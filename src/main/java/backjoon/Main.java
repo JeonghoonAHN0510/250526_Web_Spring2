@@ -3,18 +3,13 @@ package backjoon;
 import java.io.*;
 import java.util.*;
 
-class Node implements Comparable<Node>{
+class Node{
     int node;
     int count;
 
     public Node(int node, int count){
         this.node = node;
         this.count = count;
-    } // func end
-
-    @Override
-    public int compareTo(Node o) {
-        return this.count - o.count;
     } // func end
 } // class end
 
@@ -33,7 +28,7 @@ public class Main {
         N = Integer.parseInt(st.nextToken());   // 시작 위치
         K = Integer.parseInt(st.nextToken());   // 도착 위치
 
-        dijkstra(N);
+        bfs(N);
 
         answer.append(result);
 
@@ -41,11 +36,11 @@ public class Main {
         bw.flush();
         bw.close();
     } // main end
-    static void dijkstra(int start){
-        PriorityQueue<Node> queue = new PriorityQueue<>();
+    static void bfs(int start){
+        Deque<Node> queue = new ArrayDeque<>();
         queue.add(new Node(start, 0));
         while (!queue.isEmpty()){
-            Node current = queue.poll();
+            Node current = queue.pollFirst();
             if (visited[current.node]) continue;
             visited[current.node] = true;
 
@@ -60,13 +55,17 @@ public class Main {
                 if (i == 2){
                     next = current.node * i;
                     count = current.count;
+                    if (next < 0 || next > 100000) continue;
+                    if (!visited[next]){
+                        queue.addFirst(new Node(next, count));
+                    } // if end
                 } else {
                     next = current.node + i;
                     count = current.count + 1;
-                } // if end
-                if (next < 0 || next > 100000) continue;
-                if (!visited[next]){
-                    queue.add(new Node(next, count));
+                    if (next < 0 || next > 100000) continue;
+                    if (!visited[next]){
+                        queue.addLast(new Node(next, count));
+                    } // if end
                 } // if end
             } // for end
         } // while end

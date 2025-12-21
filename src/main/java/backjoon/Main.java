@@ -11,36 +11,40 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());    // 수열의 크기 N
+        int N = Integer.parseInt(br.readLine());    // 용액의 수 N
         int[] array = new int[N];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++){
             array[i] = Integer.parseInt(st.nextToken());
         } // for end
-
-        int X = Integer.parseInt(br.readLine());
-
         Arrays.sort(array);
 
-        int count = 0;
         int start = 0;
         int end = N - 1;
+
+        int answer1 = 0;
+        int answer2 = 0;
+
+        int minAbs = Integer.MAX_VALUE;
         while (start < end){
             int sum = array[start] + array[end];
 
-            if (sum == X){
-                count++;
-                start++;
-                end--;
-            } else if (sum < X){
+            if (Math.abs(sum) < minAbs){
+                minAbs = Math.abs(sum);
+                answer1 = array[start];
+                answer2 = array[end];
+            } // if end
+            if (sum == 0){
+                break;
+            } else if (sum < 0){
                 start++;
             } else {
                 end--;
             } // if end
         } // while end
 
-        answer.append(count);
+        answer.append(answer1).append(" ").append(answer2);
 
         bw.write(answer.toString().trim());
         bw.flush();

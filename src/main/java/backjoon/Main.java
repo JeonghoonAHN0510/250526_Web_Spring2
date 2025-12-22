@@ -11,40 +11,48 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());    // 용액의 수 N
-        int[] array = new int[N];
+        st = new StringTokenizer(br.readLine());
+
+        int length = Integer.parseInt(st.nextToken());
+        int targetValue = Integer.parseInt(st.nextToken());
+
+        int[] array = new int[length];
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++){
-            array[i] = Integer.parseInt(st.nextToken());
+        array[0] = Integer.parseInt(st.nextToken());
+        for (int i = 1; i < length; i++){
+            int value = Integer.parseInt(st.nextToken());
+            array[i] = array[i-1] + value;
         } // for end
-        Arrays.sort(array);
 
-        int start = 0;
-        int end = N - 1;
+        int left = 0;
+        int right = 0;
 
-        int answer1 = 0;
-        int answer2 = 0;
-
-        int minAbs = Integer.MAX_VALUE;
-        while (start < end){
-            int sum = array[start] + array[end];
-
-            if (Math.abs(sum) < minAbs){
-                minAbs = Math.abs(sum);
-                answer1 = array[start];
-                answer2 = array[end];
-            } // if end
-            if (sum == 0){
-                break;
-            } else if (sum < 0){
-                start++;
+        int minLength = Integer.MAX_VALUE;
+        while (left <= right){
+            if (right >= length) break;
+            int sum;
+            if (left == 0){
+                sum = array[right];
             } else {
-                end--;
+                sum = array[right] - array[left - 1];
+            } // if end
+
+            if (sum < targetValue){
+                right++;
+            } else {
+                minLength = Math.min(minLength, right - left + 1);
+                left++;
             } // if end
         } // while end
 
-        answer.append(answer1).append(" ").append(answer2);
+        if (minLength == Integer.MAX_VALUE){
+            answer.append("0");
+        } else {
+            answer.append(minLength);
+        } // if end
+
+
 
         bw.write(answer.toString().trim());
         bw.flush();

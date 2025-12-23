@@ -11,51 +11,52 @@ public class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(br.readLine());
 
-        int length = Integer.parseInt(st.nextToken());
-        int targetValue = Integer.parseInt(st.nextToken());
+        int[] primeNumbers = new int[N];
 
-        int[] array = new int[length];
-
-        st = new StringTokenizer(br.readLine());
-        array[0] = Integer.parseInt(st.nextToken());
-        for (int i = 1; i < length; i++){
-            int value = Integer.parseInt(st.nextToken());
-            array[i] = array[i-1] + value;
-        } // for end
+        int number = 2;
+        int index = -1;
+        while (number <= N){
+            if (primeNum(number)){
+                primeNumbers[++index] = primeNumbers[Math.max(index - 1, 0)] + number;
+            } // if end
+            number++;
+        } // while end
 
         int left = 0;
         int right = 0;
-
-        int minLength = Integer.MAX_VALUE;
+        int count = 0;
         while (left <= right){
-            if (right >= length) break;
+            if (right > index) break;
             int sum;
             if (left == 0){
-                sum = array[right];
+                sum = primeNumbers[right];
             } else {
-                sum = array[right] - array[left - 1];
+                sum = primeNumbers[right] - primeNumbers[left - 1];
             } // if end
-
-            if (sum < targetValue){
-                right++;
-            } else {
-                minLength = Math.min(minLength, right - left + 1);
+            if (sum == N){
+                count++;
                 left++;
+            } else if (sum > N){
+                left++;
+            } else {
+                right++;
             } // if end
         } // while end
 
-        if (minLength == Integer.MAX_VALUE){
-            answer.append("0");
-        } else {
-            answer.append(minLength);
-        } // if end
-
-
+        answer.append(count);
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
+    public static boolean primeNum(int number){
+        if (number < 2) return false;
+        if (number == 2) return true;
+        for (int i = 2; i <= Math.floor(Math.sqrt(number)); i++ ){
+            if (number % i == 0) return false;
+        } // for end
+        return true;
+    } // func end
 } // class end

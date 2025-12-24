@@ -5,58 +5,43 @@ import java.util.*;
 
 public class Main {
     static StringBuilder answer = new StringBuilder();
+    static int[] files;
+    static int[][] dp;
+    static int K;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        int N = Integer.parseInt(br.readLine());
+        int T = Integer.parseInt(br.readLine());        // 테스트케이스 T
+        for (int i = 0; i < T; i++){
+            K = Integer.parseInt(br.readLine());    // 소설 장의 수 K
+            files = new int[K+1];
+            dp = new int[K+1][K+1];
+            st = new StringTokenizer(br.readLine());
+            files[1] = Integer.parseInt(st.nextToken());
+            for (int j = 2; j <= K; j++){
+                files[j] = Integer.parseInt(st.nextToken()) + files[j - 1];
+            } // for end
 
-        int[] primeNumbers = new int[N];
-
-        int number = 2;
-        int index = -1;
-        while (number <= N){
-            if (primeNum(number)){
-                primeNumbers[++index] = primeNumbers[Math.max(index - 1, 0)] + number;
-            } // if end
-            number++;
-        } // while end
-
-        int left = 0;
-        int right = 0;
-        int count = 0;
-        while (left <= right){
-            if (right > index) break;
-            int sum;
-            if (left == 0){
-                sum = primeNumbers[right];
-            } else {
-                sum = primeNumbers[right] - primeNumbers[left - 1];
-            } // if end
-            if (sum == N){
-                count++;
-                left++;
-            } else if (sum > N){
-                left++;
-            } else {
-                right++;
-            } // if end
-        } // while end
-
-        answer.append(count);
+            answer.append(getMinFileSize()).append("\n");
+        } // for end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    public static boolean primeNum(int number){
-        if (number < 2) return false;
-        if (number == 2) return true;
-        for (int i = 2; i <= Math.floor(Math.sqrt(number)); i++ ){
-            if (number % i == 0) return false;
+    public static int getMinFileSize(){
+        for (int gap = 1; gap < K; gap++){
+            for (int start = 1; start + gap <= K; start++){
+                int end = start + gap;
+                dp[start][end] = Integer.MAX_VALUE;
+                for (int mid = start; mid < end; mid++){
+                    dp[start][end] = Math.min(dp[start][end], dp[start][mid] + dp[mid + 1][end] + files[end] - files[start - 1]);
+                } // for end
+            } // for end
         } // for end
-        return true;
+        return dp[1][K];
     } // func end
 } // class end

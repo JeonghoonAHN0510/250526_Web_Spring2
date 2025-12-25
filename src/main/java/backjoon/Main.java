@@ -3,45 +3,76 @@ package backjoon;
 import java.io.*;
 import java.util.*;
 
+class Bus {
+    int start;
+    int end;
+    int time;
+    public Bus(int start, int end, int time){
+        this.start = start;
+        this.end = end;
+        this.time = time;
+    } // func end
+} // class end
+
 public class Main {
     static StringBuilder answer = new StringBuilder();
-    static int[] files;
-    static int[][] dp;
-    static int K;
+    static ArrayList<Bus> buses = new ArrayList<>();
+    static long[] dist;
+    static int N, M;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
-        int T = Integer.parseInt(br.readLine());        // 테스트케이스 T
-        for (int i = 0; i < T; i++){
-            K = Integer.parseInt(br.readLine());    // 소설 장의 수 K
-            files = new int[K+1];
-            dp = new int[K+1][K+1];
-            st = new StringTokenizer(br.readLine());
-            files[1] = Integer.parseInt(st.nextToken());
-            for (int j = 2; j <= K; j++){
-                files[j] = Integer.parseInt(st.nextToken()) + files[j - 1];
-            } // for end
+        st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());   // 도시의 개수 N
+        M = Integer.parseInt(st.nextToken());   // 버스 노선 개수 M
 
-            answer.append(getMinFileSize()).append("\n");
+
+        dist = new long[N + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        for (int i = 0; i < M; i++){
+            st = new StringTokenizer(br.readLine());
+            int startCity = Integer.parseInt(st.nextToken());
+            int endCity = Integer.parseInt(st.nextToken());
+            int time = Integer.parseInt(st.nextToken());
+
+            buses.add(new Bus(startCity, endCity, time));
         } // for end
+
+        if (bellmanFord()){
+            answer.append("-1");
+        } else {
+            for (int i = 2; i <= N; i++){
+                if (dist[i] == Integer.MAX_VALUE){
+                    // 도달할 수 없으면, -1 출력
+                    answer.append("-1\n");
+                } else {
+                    answer.append(dist[i]).append("\n");
+                } // if end
+            } // for end
+        } // if end
 
         bw.write(answer.toString().trim());
         bw.flush();
         bw.close();
     } // main end
-    public static int getMinFileSize(){
-        for (int gap = 1; gap < K; gap++){
-            for (int start = 1; start + gap <= K; start++){
-                int end = start + gap;
-                dp[start][end] = Integer.MAX_VALUE;
-                for (int mid = start; mid < end; mid++){
-                    dp[start][end] = Math.min(dp[start][end], dp[start][mid] + dp[mid + 1][end] + files[end] - files[start - 1]);
-                } // for end
+    static boolean bellmanFord(){
+        dist[1] = 0;
+
+        for (int i = 0; i < N; i++){
+            for (Bus bus : buses){
+                if (dist[bus.start] == Integer.MAX_VALUE) continue;
+
+                if (dist[bus.end] > dist[bus.start] + bus.time){
+                    dist[bus.end] = dist[bus.start] + bus.time;
+
+                    if (i == N - 1) return true;
+                } // if end
             } // for end
         } // for end
-        return dp[1][K];
+        return false;
     } // func end
 } // class end
